@@ -50,8 +50,7 @@ pid = os.fork()
 # The parent process 
 if pid > 0 :
     stdout, stderr = subprocess.Popen(f"ssh {master} python3 ~/DDPS2/helloworld.py", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()
-    output = stdout.read()
-    print(output)
+    print(stdout)
 # The created child process
 # else :
 #     client = paramiko.SSHClient()
