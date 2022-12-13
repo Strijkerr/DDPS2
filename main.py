@@ -88,6 +88,8 @@ def copyShards (host, file) :
     sftp.close()
     ssh.close()
 
+    return file_local, host
+
 # Get command line arguments
 args = command_line_arguments()
 
@@ -100,9 +102,16 @@ tempDir = createTempDir('temp')
 # Split input data
 file_splits = splitInput (args.input_file, int(args.splits))
 
-# # Copy split input files over cluster computers.
-# for worker, file in zip(workers,os.listdir(tempDir)):
-#     copyShards (worker, file)
+# Dict with file locations
+files = os.listdir(tempDir)
+dictionary = dict.fromkeys(files)
+
+# Copy split input files over cluster computers.
+for index, file in enumerate(files):
+    location, host = copyShards (workers[index % len(workers)], file)
+    dictionary[location] = host
+
+print(dictionary)
 
 # Fork process
 pid = os.fork()
