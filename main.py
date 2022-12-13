@@ -47,11 +47,22 @@ file_splits = splitInput (args.input_file, workers)
 
 pid = os.fork()
 
-# The parent process 
+# The parent process (master node)
 if pid > 0 :
     stdout, stderr = subprocess.Popen(f"ssh {master} python3 ~/DDPS2/helloworld.py", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()
     print(f"Parent: {stdout}")
-# The created child process
+
+# The created child process (worker nodes)
 else :
-    stdout, stderr = subprocess.Popen(f"ssh {workers[0]} python3 ~/DDPS2/helloworld.py", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()
-    print(f"Child: {stdout}")
+    children = []
+    for worker in workers:
+        pid = os.fork()
+        if pid:
+            stdout, stderr = subprocess.Popen(f"ssh {worker} python3 ~/DDPS2/helloworld.py", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()
+            print(f"Child: {stdout}")
+        else:
+            os._exit(0)
+
+# Wait till everything is finished
+for child in children:
+    os.waitpid(child, 0)
