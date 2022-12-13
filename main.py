@@ -85,11 +85,11 @@ def copyShards (host, file) :
     sftp.put(file_local,file_remote)
 
     # ##############################################################
-    sftp.chdir(folder_remote) 
-    filesInRemoteArtifacts = sftp.listdir(path=folder_remote)
-    # Empty temp directory beforehand,
-    for file in filesInRemoteArtifacts:
-        sftp.remove(folder_remote+file)
+    # sftp.chdir(folder_remote) 
+    # filesInRemoteArtifacts = sftp.listdir(path=folder_remote)
+    # # Empty temp directory beforehand,
+    # for file in filesInRemoteArtifacts:
+    #     sftp.remove(folder_remote+file)
     #############################################################
     # Close connections
     sftp.close()
@@ -115,6 +115,7 @@ dictionary = dict.fromkeys(files)
 
 # Copy split input files over cluster computers.
 for index, file in enumerate(files):
+    print()
     location, host = copyShards (workers[index % len(workers)], file)
     dictionary[location] = host
 
