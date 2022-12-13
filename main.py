@@ -46,6 +46,7 @@ master, workers = check_node_input(args.nodes)
 file_splits = splitInput (args.input_file, workers)
 
 pid = os.fork()
+children = []
 
 # The parent process (master node)
 if pid > 0 :
@@ -57,11 +58,12 @@ else :
     for worker in workers:
         pid = os.fork()
         if pid:
+            children.append(pid)
             stdout, stderr = subprocess.Popen(f"ssh {worker} python3 ~/DDPS2/helloworld.py", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()
             print(f"Child: {stdout}")
         else:
             os._exit(0)
 
-# # Wait till everything is finished
-# for child in children:
-#     os.waitpid(child, 0)
+# Wait till everything is finished
+for child in children:
+    os.waitpid(child, 0)
