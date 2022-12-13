@@ -112,7 +112,7 @@ file_splits = splitInput (args.input_file, int(args.splits))
 
 # Dict with file locations
 files = os.listdir(tempDir)
-dictionary = collections.defaultdict(lambda: collections.defaultdict(int))
+dictionary = collections.defaultdict(lambda: collections.defaultdict(str))
 
 # Copy split input files over cluster computers.
 for index, file in enumerate(files):
