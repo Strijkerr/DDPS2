@@ -27,4 +27,4 @@ def client_program(master):
     client_socket.close()
 
 master = command_line_arguments()
-client_program()
+client_program(master)
