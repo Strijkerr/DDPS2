@@ -2,12 +2,13 @@ import os
 import numpy as np
 import argparse
 import socket
+import paramiko
 
 # Parsing command line arguments
 def command_line_arguments () :
     argparser = argparse.ArgumentParser()
-    argparser.add_argument("--nodes", help="E.g., node102,node103,node104 ")
-    argparser.add_argument("--input_file", default= 'sequence.npy', help="E.g., node102,node103,node104 ")
+    argparser.add_argument("--nodes", help="E.g., node102,node103,node104")
+    argparser.add_argument("--input_file", default= 'sequence.npy', help="E.g., sequence.npy")
     return argparser.parse_args()
 
 # Test connection of nodes
@@ -29,7 +30,7 @@ def check_node_input (arguments) :
     for node in nodes :
         if not check_ssh(node) :
             raise ValueError(f"Can't connect to: {node}.")
-    return nodes
+    return nodes[0], nodes[1:]
 
 # Split input file into different parts
 def splitInput (filename, workers) :
@@ -38,29 +39,30 @@ def splitInput (filename, workers) :
     if worker_count == 0 :
         raise ValueError('Not enough workers.')
     sequence = np.load(os.path.join(path, filename))
-    splits = np.split(sequence,worker_count)
-    return splits[0], splits[1:]
+    return np.split(sequence,worker_count)
 
 args = command_line_arguments()
 master, workers = check_node_input(args.nodes)
 file_splits = splitInput (args.input_file, workers)
 
-
-# scp /path/to/file username@a:/path/to/destination
-
-
 pid = os.fork()
 
-# pid greater than 0 represents
-# the parent process 
+# The parent process 
 if pid > 0 :
-    print("I am parent process:")
-    print("Process ID:", os.getpid())
-    print("Child's process ID:", pid)
+    client = paramiko.SSHClient()
+    client.load_system_host_keys()
+    client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+    client.connect(master,22)
+    
+    stdin, stdout, stderr = client.exec_command(f"python3 ~/DDPS2/master.py --workers {print(*workers, sep=',')}") 
+    client.close()
   
-# pid equal to 0 represents
-# the created child process
+# The created child process
 else :
-    print("\nI am child process:")
-    print("Process ID:", os.getpid())
-    print("Parent's process ID:", os.getppid())
+    client = paramiko.SSHClient()
+    client.load_system_host_keys()
+    client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+    client.connect(workers[0],22) # only 1 worker atm
+    
+    stdin, stdout, stderr = client.exec_command(f"python3 ~/DDPS2/worker.py --master {master}") 
+    client.close()
