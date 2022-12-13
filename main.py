@@ -113,10 +113,10 @@ file_splits = splitInput (args.input_file, int(args.splits))
 files = os.listdir(tempDir)
 dictionary = dict.fromkeys(files)
 
-# Copy split input files over cluster computers.
-for index, file in enumerate(files):
-    location, host = copyShards (workers[index % len(workers)], file)
-    dictionary[location] = host
+# # Copy split input files over cluster computers.
+# for index, file in enumerate(files):
+#     location, host = copyShards (workers[index % len(workers)], file)
+#     dictionary[location] = host
 
 print(dictionary)
 
