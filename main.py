@@ -83,9 +83,9 @@ os.makedirs(dirName)
 for i, split in enumerate(file_splits) :
     np.save(f"temp/shard{i}", split)
 
-# Copy files over cluster computers
-for worker, file in zip(workers,os.listdir(dirName)):
-    copyShards (worker, file)
+# # Copy files over cluster computers
+# for worker, file in zip(workers,os.listdir(dirName)):
+#     copyShards (worker, file)
 
 
 # pid = os.fork()
