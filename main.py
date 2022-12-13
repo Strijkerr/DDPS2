@@ -65,7 +65,7 @@ else :
             os._exit(0)
 
 stdout, stder = process.communicate()
-print(stdout)
+print(pid,stdout)
 # # Wait till everything is finished
 # for child in children:
 #     os.waitpid(child, 0)
