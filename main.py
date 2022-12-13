@@ -52,14 +52,6 @@ if pid > 0 :
     stdout, stderr = subprocess.Popen(f"ssh {master} python3 ~/DDPS2/helloworld.py", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()
     print(stdout)
 # The created child process
-# else :
-#     client = paramiko.SSHClient()
-#     client.load_system_host_keys()
-#     client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-#     client.connect(workers[0],22) # only 1 worker atm
-    
-#     #stdin, stdout, stderr = client.exec_command(f"python3 ~/DDPS2/worker.py --master {master}") 
-#     stdin, stdout, stderr = client.exec_command(f"python3 ~/DDPS2/helloworld.py") 
-#     output = stdout.read()
-#     print(output)
-#     client.close()
+else :
+    stdout, stderr = subprocess.Popen(f"ssh {master} python3 ~/DDPS2/helloworld.py", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()
+    print(stdout)
