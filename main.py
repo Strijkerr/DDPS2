@@ -26,9 +26,9 @@ def check_node_input (arguments) :
     if arguments is None:
         raise ValueError('No workers specified.')
     nodes = arguments.strip().split(',')
-    for n in nodes :
-        if not check_ssh(n) :
-            raise ValueError(f"Can't connect to: {n}.")
+    for node in nodes :
+        if not check_ssh(node) :
+            raise ValueError(f"Can't connect to: {node}.")
     return nodes
 
 # Split input file into different parts
