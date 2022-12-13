@@ -26,6 +26,8 @@ def checkInput (string) :
 def splitInput (filename, workers) :
     path = os.getcwd()
     worker_count = len(workers)
+    if worker_count == 0 :
+        raise ValueError('Not enough workers.')
     sequence = np.load(os.path.join(path, filename))
     return np.split(sequence,worker_count)
 
