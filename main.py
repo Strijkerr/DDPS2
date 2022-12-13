@@ -11,6 +11,9 @@ def command_line_arguments () :
     argparser = argparse.ArgumentParser()
     argparser.add_argument("--nodes", default= 'node102,node103,node104', help="E.g., node102,node103,node104") # Remove default afterwards
     argparser.add_argument("--input_file", default= 'sequence.npy', help="E.g., sequence.npy") # Remove default afterwards
+    argparser.add_argument("--partitions", default= '1', help="E.g., 2")
+    argparser.add_argument("--splits", default= '5', help="E.g., 5") # Remove default afterwards
+    argparser.add_argument("--data_copies", default= '2', help="E.g., 2")
     return argparser.parse_args()
 
 # Test connection of nodes
@@ -29,18 +32,29 @@ def check_node_input (arguments) :
     if arguments is None:
         raise ValueError('No nodes specified.')
     nodes = arguments.strip().split(',')
-    # for node in nodes :
-    #     if not check_ssh(node) :
-    #         raise ValueError(f"Can't connect to: {node}.")
+    for node in nodes :
+        if not check_ssh(node) :
+            raise ValueError(f"Can't connect to: {node}.")
+    if (len(nodes[1:]) == 0) :
+        raise ValueError('Not enough nodes.')
     return nodes[0], nodes[1:]
 
 # Split input file into different parts
-def splitInput (filename, worker_count) :
+def splitInput (filename, splits) :
     path = os.getcwd()
-    if worker_count == 0 :
-        raise ValueError('Not enough nodes.')
     sequence = np.load(os.path.join(path, filename))
-    return np.split(sequence,worker_count)
+
+    # Save splits
+    for i, split in enumerate(np.split(sequence,splits)) :
+        np.save(f"temp/shard{i}", split)
+    return True
+
+def createTempDir (dirName) :
+    # Create temp directory, empty if exists
+    if os.path.exists(dirName):
+        shutil.rmtree(dirName)
+    os.makedirs(dirName)
+    return dirName
 
 # Copy shards from front-end to local storage of each node.
 def copyShards (host, file) :
@@ -74,25 +88,23 @@ def copyShards (host, file) :
     sftp.close()
     ssh.close()
 
+# Get command line arguments
 args = command_line_arguments()
+
+# Get master & workers hostnames
 master, workers = check_node_input(args.nodes)
-worker_count = len(workers)
-file_splits = splitInput (args.input_file, worker_count)
 
-# Create temp directory, empty if exists
-dirName = 'temp'
-if os.path.exists(dirName):
-    shutil.rmtree(dirName)
-os.makedirs(dirName)
+# Create temporary directory.
+tempDir = createTempDir('temp')
 
-# Save splits
-for i, split in enumerate(file_splits) :
-    np.save(f"temp/shard{i}", split)
+# Split input data
+file_splits = splitInput (args.input_file, int(args.splits))
 
-# Copy files over cluster computers
-for worker, file in zip(workers,os.listdir(dirName)):
-    copyShards (worker, file)
+# # Copy split input files over cluster computers.
+# for worker, file in zip(workers,os.listdir(tempDir)):
+#     copyShards (worker, file)
 
+# Fork process
 pid = os.fork()
 
 # The parent process (master node)
