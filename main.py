@@ -5,6 +5,7 @@ import socket
 import subprocess
 import shutil
 import paramiko
+import collections
 
 # Parsing command line arguments
 def command_line_arguments () :
@@ -111,7 +112,7 @@ file_splits = splitInput (args.input_file, int(args.splits))
 
 # Dict with file locations
 files = os.listdir(tempDir)
-dictionary = dict.fromkeys(files)
+dictionary = collections.defaultdict(dict)
 
 # Copy split input files over cluster computers.
 for index, file in enumerate(files):
