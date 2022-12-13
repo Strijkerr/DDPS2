@@ -54,7 +54,6 @@ if pid > 0 :
 
 # The created child process (worker nodes)
 else :
-    children = []
     for worker in workers:
         pid = os.fork()
         if pid:
@@ -63,6 +62,6 @@ else :
         else:
             os._exit(0)
 
-# Wait till everything is finished
-for child in children:
-    os.waitpid(child, 0)
+# # Wait till everything is finished
+# for child in children:
+#     os.waitpid(child, 0)
