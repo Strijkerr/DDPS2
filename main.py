@@ -64,7 +64,9 @@ def copyShards (host, file) :
 
     file_remote = folder_remote + file
     file_local = '~/DDPS2/temp/' + file
-    sftp.put(file_local,file_remote)
+    print(file_local)
+    print(file_remote)
+    #sftp.put(file_local,file_remote)
     #sftp.get(file_remote, file_local)
     sftp.close()
     ssh.close()
