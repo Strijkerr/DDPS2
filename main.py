@@ -119,8 +119,8 @@ for index, file in enumerate(files):
     for copy in range(int(args.data_copies)) :
         print(workers[(index + copy) % len(workers)], file)
         location, host = copyShards (workers[(index + copy) % len(workers)], file)
-        dictionary[file][str(copy)]['host'] = host
-        dictionary[file][str(copy)]['location'] = location
+        dictionary[file][f"Copy{copy}"]['host'] = host
+        dictionary[file][f"Copy{copy}"]['location'] = location
 
 print(dictionary)
 
