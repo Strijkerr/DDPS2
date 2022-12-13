@@ -42,19 +42,22 @@ def splitInput (filename, worker_count) :
     sequence = np.load(os.path.join(path, filename))
     return np.split(sequence,worker_count)
 
+# Copy shards from front-end to local storage of each node.
 def copyShards (host, file) :
+
+    # Create client and connect.
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(
                 paramiko.AutoAddPolicy())
     ssh.connect(hostname=host, port=22)
     sftp = ssh.open_sftp()
-
+    
+    # Test if remote_path exists.
     folder_remote = '/local/ddps2202/'
-
-    # Test if remote_path exists
     try:
         sftp.chdir(folder_remote) 
         filesInRemoteArtifacts = sftp.listdir(path=folder_remote)
+        # Empty temp directory beforehand,
         for file in filesInRemoteArtifacts:
             sftp.remove(folder_remote+file)
     # Create directory if it doesn't yet exist
@@ -62,10 +65,12 @@ def copyShards (host, file) :
         sftp.mkdir(folder_remote) 
         sftp.chdir(folder_remote)
 
+    # Upload file.
     file_remote = folder_remote + file
     file_local = '/home/ddps2202/DDPS2/temp/' + file
     sftp.put(file_local,file_remote)
-    #sftp.get(file_remote, file_local)
+
+    # Close connections
     sftp.close()
     ssh.close()
 
