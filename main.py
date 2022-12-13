@@ -63,11 +63,13 @@ else :
             print(f"Child: {pid}")
         else:
             os._exit(0)
+    for process in processes :
+        stdout, stder = process.communicate()
+        print(pid,stdout)
+
 stdout, stder = process.communicate()
 print(pid,stdout)
-for i in processes :
-    stdout, stder = i.communicate()
-    print(pid,stdout)
+
 # # Wait till everything is finished
 # for child in children:
 #     os.waitpid(child, 0)
