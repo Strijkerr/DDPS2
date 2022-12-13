@@ -53,6 +53,5 @@ if pid > 0 :
     print(f"Parent: {stdout}")
 # The created child process
 else :
-    print(workers)
-    stdout, stderr = subprocess.Popen(f"ssh {workers} python3 ~/DDPS2/helloworld.py", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()
+    stdout, stderr = subprocess.Popen(f"ssh {workers[0]} python3 ~/DDPS2/helloworld.py", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()
     print(f"Child: {stdout}")
