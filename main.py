@@ -54,7 +54,10 @@ if pid > 0 :
     client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
     client.connect(master,22)
     
-    stdin, stdout, stderr = client.exec_command(f"python3 ~/DDPS2/master.py --workers {print(*workers, sep=',')}") 
+    #stdin, stdout, stderr = client.exec_command(f"python3 ~/DDPS2/master.py --workers {print(*workers, sep=',')}") 
+    stdin, stdout, stderr = client.exec_command(f"python3 ~/DDPS2/helloworld.py") 
+    output = stdout.read()
+    print(output)
     client.close()
   
 # The created child process
@@ -64,5 +67,8 @@ else :
     client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
     client.connect(workers[0],22) # only 1 worker atm
     
-    stdin, stdout, stderr = client.exec_command(f"python3 ~/DDPS2/worker.py --master {master}") 
+    #stdin, stdout, stderr = client.exec_command(f"python3 ~/DDPS2/worker.py --master {master}") 
+    stdin, stdout, stderr = client.exec_command(f"python3 ~/DDPS2/helloworld.py") 
+    output = stdout.read()
+    print(output)
     client.close()
