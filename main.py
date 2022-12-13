@@ -14,7 +14,7 @@ def command_line_arguments () :
     argparser.add_argument("--input_file", default= 'sequence.npy', help="E.g., sequence.npy") # Remove default afterwards
     argparser.add_argument("--partitions", default= '1', help="E.g., 2")
     argparser.add_argument("--splits", default= '5', help="E.g., 5") # Remove default afterwards
-    argparser.add_argument("--data_copies", default= '1', help="E.g., 2")
+    argparser.add_argument("--data_copies", default= '2', help="E.g., 2")
     return argparser.parse_args()
 
 # Test connection of nodes
@@ -117,9 +117,10 @@ dictionary = collections.defaultdict(dict)
 # Copy split input files over cluster computers.
 for index, file in enumerate(files):
     print(workers[index % len(workers)], file)
-    location, host = copyShards (workers[index % len(workers)], file)
-    dictionary[file]['host'] = host
-    dictionary[file]['location'] = location
+    for copy in range(int(args.data_copies)) :
+        location, host = copyShards (workers[(index + copy) % len(workers)], file)
+        dictionary[file][copy]['host'] = host
+        dictionary[file][copy]['location'] = location
 
 print(dictionary)
 
