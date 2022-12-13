@@ -63,7 +63,7 @@ else :
             print(f"Child: {pid}")
         else:
             os._exit(0)
-
+    print(children)
 stdout, stder = process.communicate()
 print(pid,stdout)
 # # Wait till everything is finished
