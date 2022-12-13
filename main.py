@@ -18,9 +18,9 @@ def check_ssh(server_ip, port=22):
 
 def checkInput (string) :
     nodes = args.workers.strip().split(',')
-    # TODO implement regex
-    # pattern
-    # matches_format = all()
+    for n in nodes :
+        if not check_ssh(n) :
+            raise ValueError(f"Can't connect to: {n}.")
     return nodes
     
 def splitInput (filename, workers) :
