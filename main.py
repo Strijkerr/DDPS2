@@ -85,13 +85,13 @@ def copyShards (host, file) :
     file_local = '/home/ddps2202/DDPS2/temp/' + file
     sftp.put(file_local,file_remote)
 
-    # ##############################################################
-    # sftp.chdir(folder_remote) 
-    # filesInRemoteArtifacts = sftp.listdir(path=folder_remote)
-    # # Empty temp directory beforehand,
-    # for file in filesInRemoteArtifacts:
-    #     sftp.remove(folder_remote+file)
-    #############################################################
+    ################################This removes shit again as we do not want to fill the local storage of every node##############################
+    sftp.chdir(folder_remote) 
+    filesInRemoteArtifacts = sftp.listdir(path=folder_remote)
+    # Empty temp directory beforehand,
+    for file in filesInRemoteArtifacts:
+        sftp.remove(folder_remote+file)
+    ############################################################
     # Close connections
     sftp.close()
     ssh.close()
