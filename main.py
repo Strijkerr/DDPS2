@@ -50,8 +50,8 @@ children = []
 
 # The parent process (master node)
 if pid > 0 :
-    stdout, stderr = subprocess.Popen(f"ssh {master} python3 ~/DDPS2/helloworld.py", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()
-    print(f"Parent: {stdout}")
+    process = subprocess.Popen(f"ssh {master} python3 ~/DDPS2/helloworld.py", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    print(f"Parent: {pid}")
 
 # The created child process (worker nodes)
 else :
@@ -59,11 +59,13 @@ else :
         pid = os.fork()
         if pid:
             children.append(pid)
-            stdout, stderr = subprocess.Popen(f"ssh {worker} python3 ~/DDPS2/helloworld.py", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()
-            print(f"Child: {stdout}")
+            process = subprocess.Popen(f"ssh {worker} python3 ~/DDPS2/helloworld.py", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            print(f"Child: {pid}")
         else:
             os._exit(0)
 
-# Wait till everything is finished
-for child in children:
-    os.waitpid(child, 0)
+stdout, stder = process.communicate()
+print(stdout)
+# # Wait till everything is finished
+# for child in children:
+#     os.waitpid(child, 0)
