@@ -116,11 +116,11 @@ dictionary = collections.defaultdict(dict)
 
 # Copy split input files over cluster computers.
 for index, file in enumerate(files):
-    print(workers[index % len(workers)], file)
     for copy in range(int(args.data_copies)) :
+        print(workers[(index + copy) % len(workers)], file)
         location, host = copyShards (workers[(index + copy) % len(workers)], file)
-        dictionary[file][copy]['host'] = host
-        dictionary[file][copy]['location'] = location
+        dictionary[file][str(copy)]['host'] = host
+        dictionary[file][str(copy)]['location'] = location
 
 print(dictionary)
 
