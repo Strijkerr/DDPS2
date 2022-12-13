@@ -58,7 +58,7 @@ def createTempDir (dirName) :
     return dirName
 
 # Copy shards from front-end to local storage of each node.
-def copyShards (host, file) :
+def copyShards (host, file, delete=True) : # Delete `delete' after we are done debugging.
 
     # Create client and connect.
     ssh = paramiko.SSHClient()
@@ -85,12 +85,13 @@ def copyShards (host, file) :
     file_local = '/home/ddps2202/DDPS2/temp/' + file
     sftp.put(file_local,file_remote)
 
-    ################################This removes shit again as we do not want to fill the local storage of every node##############################
-    sftp.chdir(folder_remote) 
-    filesInRemoteArtifacts = sftp.listdir(path=folder_remote)
-    # Empty temp directory beforehand,
-    for file in filesInRemoteArtifacts:
-        sftp.remove(folder_remote+file)
+    ################################ This removes shit again as we do not want to fill the local storage of every node.  ##############################
+    if delete :
+        sftp.chdir(folder_remote) 
+        filesInRemoteArtifacts = sftp.listdir(path=folder_remote)
+        # Empty temp directory beforehand,
+        for file in filesInRemoteArtifacts:
+            sftp.remove(folder_remote+file)
     ############################################################
     # Close connections
     sftp.close()
