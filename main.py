@@ -50,7 +50,7 @@ processes = []
 
 # The parent process (master node)
 if pid > 0 :
-    print(pid)
+    print(f"Parent: {pid}")
     process = subprocess.Popen(f"ssh {master} python3 ~/DDPS2/helloworld.py", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     stdout, stder = process.communicate()
     print(pid,stdout)
@@ -59,7 +59,7 @@ else :
     for worker in workers:
         pid = os.fork()
         if pid:
-            print(pid)
+            print(f"Child: {pid}")
             process = subprocess.Popen(f"ssh {worker} python3 ~/DDPS2/helloworld.py", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             stdout, stder = process.communicate()
             print(pid,stdout)
