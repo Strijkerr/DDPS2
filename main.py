@@ -58,7 +58,7 @@ def copyShards (host, file) :
         for file in filesInRemoteArtifacts:
             sftp.remove(folder_remote+file)
     # Create directory if it doesn't yet exist
-    except IOError:
+    except:
         sftp.mkdir(folder_remote) 
         sftp.chdir(folder_remote)
 
