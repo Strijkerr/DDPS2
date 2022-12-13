@@ -115,7 +115,7 @@ dictionary = dict.fromkeys(files)
 
 # Copy split input files over cluster computers.
 for index, file in enumerate(files):
-    print()
+    print(workers[index % len(workers)], file)
     location, host = copyShards (workers[index % len(workers)], file)
     dictionary[location] = host
 
