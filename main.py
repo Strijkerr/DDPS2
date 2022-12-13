@@ -54,9 +54,9 @@ def copyShards (host, file) :
     # Test if remote_path exists
     try:
         sftp.chdir(folder_remote) 
-        filesInRemoteArtifacts = sftp.listdir(path=folder_remote)
-        for file in filesInRemoteArtifacts:
-            sftp.remove(folder_remote+file)
+        # filesInRemoteArtifacts = sftp.listdir(path=folder_remote)
+        # for file in filesInRemoteArtifacts:
+        #     sftp.remove(folder_remote+file)
     # Create directory if it doesn't yet exist
     except:
         sftp.mkdir(folder_remote) 
@@ -64,7 +64,10 @@ def copyShards (host, file) :
 
     file_remote = folder_remote + file
     file_local = 'temp/' + file
-    sftp.get(file_remote, file_local)
+
+    print(file_remote)
+    print(file_local)
+    # sftp.get(file_remote, file_local)
     sftp.close()
     ssh.close()
 
