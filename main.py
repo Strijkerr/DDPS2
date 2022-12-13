@@ -2,7 +2,7 @@ import os
 import numpy as np
 import argparse
 import socket
-import paramiko
+import subprocess
 
 # Parsing command line arguments
 def command_line_arguments () :
@@ -49,26 +49,18 @@ pid = os.fork()
 
 # The parent process 
 if pid > 0 :
-    client = paramiko.SSHClient()
-    client.load_system_host_keys()
-    client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    client.connect(master,22)
-    
-    #stdin, stdout, stderr = client.exec_command(f"python3 ~/DDPS2/master.py --workers {print(*workers, sep=',')}") 
-    stdin, stdout, stderr = client.exec_command(f"python3 ~/DDPS2/helloworld.py") 
+    stdout, stderr = subprocess.Popen(f"ssh {master} python3 ~/DDPS2/helloworld.py", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()
     output = stdout.read()
     print(output)
-    client.close()
-  
 # The created child process
-else :
-    client = paramiko.SSHClient()
-    client.load_system_host_keys()
-    client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    client.connect(workers[0],22) # only 1 worker atm
+# else :
+#     client = paramiko.SSHClient()
+#     client.load_system_host_keys()
+#     client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+#     client.connect(workers[0],22) # only 1 worker atm
     
-    #stdin, stdout, stderr = client.exec_command(f"python3 ~/DDPS2/worker.py --master {master}") 
-    stdin, stdout, stderr = client.exec_command(f"python3 ~/DDPS2/helloworld.py") 
-    output = stdout.read()
-    print(output)
-    client.close()
+#     #stdin, stdout, stderr = client.exec_command(f"python3 ~/DDPS2/worker.py --master {master}") 
+#     stdin, stdout, stderr = client.exec_command(f"python3 ~/DDPS2/helloworld.py") 
+#     output = stdout.read()
+#     print(output)
+#     client.close()
