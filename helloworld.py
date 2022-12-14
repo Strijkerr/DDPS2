@@ -19,4 +19,4 @@ for p in range(partitions) :
     tasks[f"Reduce{p}"] = {'status': None, 'worker': None}
 
 print(tasks)
-print(workers[0])
+print(workers)
