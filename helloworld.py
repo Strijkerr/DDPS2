@@ -3,7 +3,6 @@ import sys
 import json
 
 json_dictionary = sys.argv[1:]
-print(''.join(json_dictionary))
-# data = json.loads(str(json_dictionary))
-# #print(json_dictionary)
-# print("Type:", data)
+json_dictionary = ''.join(json_dictionary)
+data = json.loads(json_dictionary)
+print("Type:", data)
