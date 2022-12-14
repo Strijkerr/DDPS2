@@ -131,7 +131,7 @@ for index, file in enumerate(files):
 
 print("(Complete) Data has been split and distributed over cluster.")
 
-json_dictionary = json.dumps(dictionary)
+json_dictionary = json.dumps(dictionary).replace('"', '\"')
 print(f"Main: \"{json_dictionary}\"")
 
 # Fork process
