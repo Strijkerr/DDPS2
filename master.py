@@ -14,7 +14,7 @@ def server_program(clients):
     port = 22
 
     server_socket = socket.socket()
-    server_socket.bind((host, port)) 
+    server_socket.bind((host, 0)) 
     server_socket.listen(clients)
     conn, address = server_socket.accept()
     print("Connection from: " + str(address))
