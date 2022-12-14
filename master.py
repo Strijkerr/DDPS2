@@ -1,27 +1,24 @@
 import socket
-import argparse
+import sys
+import pickle
 
-def command_line_arguments () :
-    argparser = argparse.ArgumentParser()
-    argparser.add_argument("--workers", help="E.g., node102,node103")
-    return argparser.parse_args()
+def returnDict (filename) :
+    infile = open(filename,'rb')
+    dictionary = pickle.load(infile)
+    infile.close()
+    return dictionary
 
-# https://www.digitalocean.com/community/tutorials/python-socket-programming-server-client
-def server_program():
-    # get the hostname
+    # https://www.digitalocean.com/community/tutorials/python-socket-programming-server-client
+def server_program(clients):
     host = socket.gethostname()
-    port = 22
-
-    server_socket = socket.socket()  # get instance
-    # look closely. The bind() function takes tuple as argument
-    server_socket.bind((host, port))  # bind host address and port together
-
-    # configure how many client the server can listen simultaneously
-    server_socket.listen(2)
-    conn, address = server_socket.accept()  # accept new connection
+    port = 23
+    
+    server_socket = socket.socket()
+    server_socket.bind((host, port)) 
+    server_socket.listen(clients)
+    conn, address = server_socket.accept()
     print("Connection from: " + str(address))
     while True:
-        # receive data stream. it won't accept data packet greater than 1024 bytes
         data = conn.recv(1024).decode()
         if not data:
             # if data is not received break
@@ -31,3 +28,9 @@ def server_program():
         conn.send(data.encode())  # send data to the client
 
     conn.close()  # close the connection
+
+shard_dict = returnDict(sys.argv[1])
+task_dict = returnDict(sys.argv[2])
+worker_dict = returnDict(sys.argv[3])
+
+server_program(len(worker_dict))

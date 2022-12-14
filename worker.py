@@ -1,15 +1,10 @@
 import socket
-import argparse
-
-def command_line_arguments () :
-    argparser = argparse.ArgumentParser()
-    argparser.add_argument("--master", help="E.g., node102")
-    return argparser.parse_args()
+import sys
 
 # https://www.digitalocean.com/community/tutorials/python-socket-programming-server-client
 def client_program(master):
     host = master
-    port = 22 
+    port = 23 
 
     client_socket = socket.socket()  # instantiate
     client_socket.connect((host, port))  # connect to the server
@@ -26,5 +21,4 @@ def client_program(master):
 
     client_socket.close()
 
-master = command_line_arguments()
-client_program(master)
+client_program(sys.argv[1])

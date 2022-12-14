@@ -190,7 +190,7 @@ pid = os.fork()
 
 # The parent process (master node)
 if pid > 0 :
-    process = subprocess.Popen(f"ssh {master} python3 ~/DDPS2/helloworld.py {location1} {location2} {location3}", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    process = subprocess.Popen(f"ssh {master} python3 ~/DDPS2/master.py {location1} {location2} {location3}", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     stdout, stder = process.communicate() # Blocking
     print("Stdout:",stdout.decode('ASCII'))
     print("Stderr:",stder)
@@ -204,6 +204,6 @@ if pid > 0 :
 #         pid = os.fork()
 #         if pid:
 #             print(f"Child: {pid}")
-#             process = subprocess.Popen(f"ssh {worker} python3 ~/DDPS2/helloworld.py", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+#             process = subprocess.Popen(f"ssh {worker} python3 ~/DDPS2/helloworld.py {master}", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 #         else:
 #             os._exit(0)
