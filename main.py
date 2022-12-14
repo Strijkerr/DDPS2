@@ -14,7 +14,7 @@ def command_line_arguments () :
     argparser.add_argument("--input", default= 'sequence.npy', type=str, help="E.g., sequence.npy") # Remove default afterwards
     argparser.add_argument("--partitions", default= '1', type=int, help="E.g., 2")
     argparser.add_argument("--splits", default= '5', type=int, help="E.g., 5")
-    argparser.add_argument("--copies", default= '2', type=int, help="E.g., 2")
+    argparser.add_argument("--copies", default= '2', type=int, help="E.g., 0")
     return argparser.parse_args()
 
 # Test connection of nodes
@@ -105,9 +105,11 @@ args = command_line_arguments()
 # Get master & workers hostnames
 master, workers = check_node_input(args.nodes)
 
-# Limit copies < workers, don't want to store more than 1 copy per worker
+# Limit copies < workers, don't want to store more than 1 copy per worker.
+print(args.copies, len(workers))
 if (args.copies > len(workers)) :
     args.copies = len(workers)
+    
 
 # Create temporary directory.
 tempDir = createTempDir('temp')
@@ -121,9 +123,7 @@ dictionary = collections.defaultdict(lambda: collections.defaultdict(dict))
 
 # Copy split input files over cluster computers.
 for index, file in enumerate(files):
-    
     for copy in range(args.copies) :
-        print(workers[(index + copy) % len(workers)], file)
         location, host = copyShards (workers[(index + copy) % len(workers)], file)
         dictionary[file][f"Copy{copy}"]['host'] = host
         dictionary[file][f"Copy{copy}"]['location'] = location
