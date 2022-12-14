@@ -170,7 +170,7 @@ pid = os.fork()
 
 # The parent process (master node)
 if pid > 0 :
-    process = subprocess.Popen(f"ssh {master} python3 ~/DDPS2/helloworld.py {location}", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    process = subprocess.Popen(f"ssh {master} python3 ~/DDPS2/helloworld.py {location} {args.partitions} {workers}", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     stdout, stder = process.communicate() # Blocking
     print("Stdout:",stdout.decode('ASCII'))
     print("Stderr:",stder)
