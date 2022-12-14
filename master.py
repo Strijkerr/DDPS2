@@ -12,8 +12,8 @@ def returnDict (filename) :
 def server_program(client_count):
     host = socket.gethostname()
     server_socket = socket.socket()
+    server_socket.bind((host, 0)) 
     print("test1")
-    # server_socket.bind((host, 0)) 
     # print("test2")
     # print(server_socket.getsockname())
     # server_socket.listen(client_count)
