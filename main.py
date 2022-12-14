@@ -59,8 +59,14 @@ def createTempDir (dirName) :
     os.makedirs(dirName)
     return dirName
 
+def deleteTempDir (dirName) :
+    # Remove temp dir
+    if os.path.exists(dirName):
+        shutil.rmtree(dirName)
+    return True
+
 # Copy shards from front-end to local storage of each node.
-def copyShards (host, file, delete=True) : # Delete `delete' after we are done debugging.
+def copyShards (host, file) : # Delete `delete' after we are done debugging.
 
     # Create client and connect.
     ssh = paramiko.SSHClient()
@@ -87,19 +93,39 @@ def copyShards (host, file, delete=True) : # Delete `delete' after we are done d
     file_local = '/home/ddps2202/DDPS2/temp/' + file
     sftp.put(file_local,file_remote)
 
-    ################################ This removes shit again as we do not want to fill the local storage of every node.  ##############################
-    if delete :
-        sftp.chdir(folder_remote) 
-        filesInRemoteArtifacts = sftp.listdir(path=folder_remote)
-        # Empty temp directory beforehand,
-        for file in filesInRemoteArtifacts:
-            sftp.remove(folder_remote+file)
-    ############################################################
     # Close connections
     sftp.close()
     ssh.close()
 
     return file_local, host
+
+def removeTempRemote (hosts) :
+    # Loop over hosts
+    for host in hosts :
+        # Create client and connect.
+        ssh = paramiko.SSHClient()
+        ssh.set_missing_host_key_policy(
+                    paramiko.AutoAddPolicy())
+        ssh.connect(hostname=host, port=22)
+        sftp = ssh.open_sftp()
+        
+        # Test if remote_path exists, then empty and remove folder.
+        folder_remote = '/local/ddps2202/'
+        try:
+            sftp.chdir(folder_remote) 
+            filesInRemoteArtifacts = sftp.listdir(path=folder_remote)
+            # Empty temp directory beforehand,
+            for file in filesInRemoteArtifacts:
+                sftp.remove(folder_remote+file)
+            sftp.rmdir(folder_remote)
+        except:
+            print(f"Folder: {folder_remote} doesn't exist on host: {host}.")
+        
+        # Close connections
+        sftp.close()
+        ssh.close()
+
+    return True
 
 # Get command line arguments
 args = command_line_arguments()
@@ -133,6 +159,11 @@ for index, file in enumerate(files):
 print("(Complete) Data has been split and distributed over cluster.")
 
 print(tempDir)
+
+# deleteTempDir (tempDir)
+# removeTempRemote (workers)
+# removeTempRemote (master)
+
 # with open(tempDir + 'filename.pickle', 'wb') as handle:
 #     pickle.dump(dictionary, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
