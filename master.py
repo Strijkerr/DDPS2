@@ -11,8 +11,8 @@ def returnDict (filename) :
     # https://www.digitalocean.com/community/tutorials/python-socket-programming-server-client
 def server_program(clients):
     host = socket.gethostname()
-    port = 23
-    
+    port = 22
+
     server_socket = socket.socket()
     server_socket.bind((host, port)) 
     server_socket.listen(clients)
