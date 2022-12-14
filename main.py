@@ -160,7 +160,7 @@ print("(Complete) Data has been split and distributed over cluster.")
 
 # Save dict of shard locations and send to master node local storage.
 with open(tempDir + '/master_dict.pickle', 'wb') as handle:
-    pickle.dump(dictionary, handle, protocol=pickle.HIGHEST_PROTOCOL)
+    pickle.dump(dict(dictionary), handle, protocol=pickle.HIGHEST_PROTOCOL)
 
 copyShards (master, 'master_dict.pickle')
 
