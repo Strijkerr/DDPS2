@@ -9,13 +9,14 @@ def returnDict (filename) :
     return dictionary
 
     # https://www.digitalocean.com/community/tutorials/python-socket-programming-server-client
-def server_program(clients):
+def server_program(client_count):
     host = socket.gethostname()
-
     server_socket = socket.socket()
+    print("test1")
     server_socket.bind((host, 0)) 
+    print("test2")
     print(server_socket.getsockname())
-    server_socket.listen(clients)
+    server_socket.listen(client_count)
     conn, address = server_socket.accept()
     print("Connection from: " + str(address))
     # while True:
@@ -33,4 +34,4 @@ shard_dict = returnDict(sys.argv[1])
 task_dict = returnDict(sys.argv[2])
 worker_dict = returnDict(sys.argv[3])
 
-#server_program(len(worker_dict))
+server_program(len(worker_dict))
