@@ -132,7 +132,7 @@ for index, file in enumerate(files):
 print("(Complete) Data has been split and distributed over cluster.")
 
 json_dictionary = json.dumps(dictionary)
-print("Main:",json_dictionary)
+print(f"Main: \"{json_dictionary}\"")
 
 # Fork process
 pid = os.fork()
