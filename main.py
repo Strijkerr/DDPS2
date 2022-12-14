@@ -66,7 +66,7 @@ def deleteTempDir (dirName) :
     return True
 
 # Copy shards from front-end to local storage of each node.
-def copyShards (host, file) : # Delete `delete' after we are done debugging.
+def copyFiles (host, file) : # Delete `delete' after we are done debugging.
 
     # Create client and connect.
     ssh = paramiko.SSHClient()
@@ -152,7 +152,7 @@ dictionary = collections.defaultdict(lambda: collections.defaultdict(dict))
 # Copy split input files over cluster computers.
 for index, file in enumerate(files):
     for copy in range(args.copies) :
-        location, host = copyShards (workers[(index + copy) % len(workers)], file)
+        location, host = copyFiles (workers[(index + copy) % len(workers)], file)
         dictionary[file][f"Copy{copy}"]['host'] = host
         dictionary[file][f"Copy{copy}"]['location'] = location
 
@@ -161,9 +161,9 @@ print("(Complete) Data has been split and distributed over cluster.")
 # Save dict of shard locations and send to master node local storage.
 with open(tempDir + '/master_dict.pickle', 'wb') as handle:
     pickle.dump(json.loads(json.dumps(dictionary)), handle, protocol=pickle.HIGHEST_PROTOCOL)
+copyFiles (master, 'master_dict.pickle')
 
-copyShards (master, 'master_dict.pickle')
-
+# Clean up all temporary files after we are done.
 deleteTempDir (tempDir)
 removeTempRemote (workers)
 removeTempRemote ([master])
