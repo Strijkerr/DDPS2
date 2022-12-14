@@ -165,11 +165,6 @@ with open(tempDir + '/master_dict.pickle', 'wb') as handle:
     pickle.dump(json.loads(json.dumps(dictionary)), handle, protocol=pickle.HIGHEST_PROTOCOL)
 location, host = copyFiles (master, 'master_dict.pickle')
 
-# Clean up all temporary files (locally and remote) after we are done.
-deleteTempDir (tempDir)
-removeTempRemote (workers)
-removeTempRemote ([master])
-
 # Fork process
 pid = os.fork()
 
@@ -179,6 +174,10 @@ if pid > 0 :
     stdout, stder = process.communicate() # Blocking
     print("Stdout:",stdout.decode('ASCII'))
     print("Stderr:",stder)
+    # Clean up all temporary files (locally and remote) after we are done.
+    deleteTempDir (tempDir)
+    removeTempRemote (workers)
+    removeTempRemote ([master])
 # # The created child process (worker nodes)
 # else :
 #     for worker in workers:
