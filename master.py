@@ -14,10 +14,9 @@ def server_program(client_count):
     port = 56598
     server_socket = socket.socket()
     server_socket.bind((host, port)) 
-    print(server_socket.getsockname())
-    # server_socket.listen(client_count)
-    # conn, address = server_socket.accept()
-    # print("Connection from: " + str(address))
+    server_socket.listen(client_count)
+    conn, address = server_socket.accept()
+    print("Connection from: " + str(address))
     # while True:
     #     data = conn.recv(1024).decode()
     #     if not data:
@@ -27,7 +26,7 @@ def server_program(client_count):
     #     data = input(' -> ')
     #     conn.send(data.encode())  # send data to the client
 
-    #conn.close()  # close the connection
+    conn.close()  # close the connection
 
 shard_dict = returnDict(sys.argv[1])
 task_dict = returnDict(sys.argv[2])
