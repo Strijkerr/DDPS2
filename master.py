@@ -11,10 +11,10 @@ def returnDict (filename) :
     # https://www.digitalocean.com/community/tutorials/python-socket-programming-server-client
 def server_program(clients):
     host = socket.gethostname()
-    port = 22
 
     server_socket = socket.socket()
     server_socket.bind((host, 0)) 
+    print(server_socket.getsockname())
     server_socket.listen(clients)
     conn, address = server_socket.accept()
     print("Connection from: " + str(address))
