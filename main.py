@@ -160,7 +160,7 @@ print("(Complete) Data has been split and distributed over cluster.")
 
 deleteTempDir (tempDir)
 removeTempRemote (workers)
-removeTempRemote (master)
+removeTempRemote ([master])
 
 # with open(tempDir + 'filename.pickle', 'wb') as handle:
 #     pickle.dump(dictionary, handle, protocol=pickle.HIGHEST_PROTOCOL)
