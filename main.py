@@ -132,6 +132,7 @@ for index, file in enumerate(files):
 print("(Complete) Data has been split and distributed over cluster.")
 
 json_dictionary = json.dumps(dictionary)
+print(json_dictionary)
 test_dictionary = json.loads(json_dictionary)
 print(test_dictionary)
 
