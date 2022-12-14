@@ -81,8 +81,8 @@ def copyShards (host, file) : # Delete `delete' after we are done debugging.
         sftp.chdir(folder_remote) 
         filesInRemoteArtifacts = sftp.listdir(path=folder_remote)
         # Empty temp directory beforehand,
-        for file in filesInRemoteArtifacts:
-            sftp.remove(folder_remote+file)
+        for f in filesInRemoteArtifacts:
+            sftp.remove(folder_remote+f)
     # Create directory if it doesn't yet exist
     except:
         sftp.mkdir(folder_remote) 
@@ -158,12 +158,17 @@ for index, file in enumerate(files):
 
 print("(Complete) Data has been split and distributed over cluster.")
 
+# Save dict of shard locations and send to master node local storage.
+with open(tempDir + '/master_dict.pickle', 'wb') as handle:
+    pickle.dump(dictionary, handle, protocol=pickle.HIGHEST_PROTOCOL)
+
+copyShards (master, 'master_dict.pickle')
+
 deleteTempDir (tempDir)
 removeTempRemote (workers)
 removeTempRemote ([master])
 
-# with open(tempDir + 'filename.pickle', 'wb') as handle:
-#     pickle.dump(dictionary, handle, protocol=pickle.HIGHEST_PROTOCOL)
+
 
 # # Fork process
 # pid = os.fork()
