@@ -13,12 +13,12 @@ def server_program(client_count):
     host = socket.gethostname()
     server_socket = socket.socket()
     print("test1")
-    server_socket.bind((host, 0)) 
-    print("test2")
-    print(server_socket.getsockname())
-    server_socket.listen(client_count)
-    conn, address = server_socket.accept()
-    print("Connection from: " + str(address))
+    # server_socket.bind((host, 0)) 
+    # print("test2")
+    # print(server_socket.getsockname())
+    # server_socket.listen(client_count)
+    # conn, address = server_socket.accept()
+    # print("Connection from: " + str(address))
     # while True:
     #     data = conn.recv(1024).decode()
     #     if not data:
