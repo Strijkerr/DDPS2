@@ -163,24 +163,22 @@ print("(Complete) Split data has been distributed over cluster.")
 # Save the shard locations to disk, then copy over to master node storage.
 with open(tempDir + '/master_dict.pickle', 'wb') as handle:
     pickle.dump(json.loads(json.dumps(dictionary)), handle, protocol=pickle.HIGHEST_PROTOCOL)
-copyFiles (master, 'master_dict.pickle')
+location, host = copyFiles (master, 'master_dict.pickle')
 
 # Clean up all temporary files (locally and remote) after we are done.
 deleteTempDir (tempDir)
 removeTempRemote (workers)
 removeTempRemote ([master])
 
+# Fork process
+pid = os.fork()
 
-
-# # Fork process
-# pid = os.fork()
-
-# # The parent process (master node)
-# if pid > 0 :
-#     process = subprocess.Popen(f"ssh {master} python3 ~/DDPS2/helloworld.py '{json_dictionary}'", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-#     stdout, stder = process.communicate() # Blocking
-#     print("Stdout:",stdout.decode('ASCII'))
-#     print("Stderr:",stder)
+# The parent process (master node)
+if pid > 0 :
+    process = subprocess.Popen(f"ssh {master} python3 ~/DDPS2/helloworld.py location", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    stdout, stder = process.communicate() # Blocking
+    print("Stdout:",stdout.decode('ASCII'))
+    print("Stderr:",stder)
 # # The created child process (worker nodes)
 # else :
 #     for worker in workers:
