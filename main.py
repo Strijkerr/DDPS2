@@ -143,7 +143,7 @@ pid = os.fork()
 if pid > 0 :
     process = subprocess.Popen(f"ssh {master} python3 ~/DDPS2/helloworld.py {json_dictionary}", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     stdout, stder = process.communicate() # Blocking
-    print("Stdout:",stdout)
+    print("Stdout:",stdout.decode('ASCII'))
     print("Stderr:",stder)
 # # The created child process (worker nodes)
 # else :
