@@ -1,7 +1,7 @@
 import socket
 import sys
 import pickle
-import threading
+from threading import thread
 
 def returnDict (filename) :
     infile = open(filename,'rb')
@@ -31,7 +31,7 @@ def server_program(client_count):
     while True:
         conn, address = server_socket.accept()
         print("Connection from: " + str(address))
-        threading.start_new_thread(on_new_client,(conn, ))
+        thread.start_new_thread(on_new_client,(conn, ))
         # data = conn.recv(1024).decode()
         # if not data:
         #     # if data is not received break
