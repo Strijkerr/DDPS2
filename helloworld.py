@@ -9,12 +9,14 @@ infile = open(filename,'rb')
 shard_locations = pickle.load(infile)
 infile.close()
 
-# Dictionary with tasks
+# Dictionary with map tasks
 tasks = dict.fromkeys(shard_locations.keys(),None)
 for i in tasks.keys() :
     tasks[i] = {'status': None, 'worker': None}
 
-# for p in range(partitions) :
+# Extend dictionary with reduce tasks
+for p in range(partitions) :
+    tasks[f"Reduce{p}"] = {'status': None, 'worker': None}
 
-print(workers)
-print(partitions)
+print(tasks)
+print(workers[0])
