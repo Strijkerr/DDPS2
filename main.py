@@ -129,7 +129,8 @@ for index, file in enumerate(files):
         dictionary[file][f"Copy{copy}"]['host'] = host
         dictionary[file][f"Copy{copy}"]['location'] = location
 
-print(dictionary)
+print("(Complete) Data has been split and distributed over cluster.")
+
 json_dictionary = json.dumps(dictionary)
 
 # Fork process
