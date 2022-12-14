@@ -28,7 +28,7 @@ def server_program(client_count):
     #     data = input(' -> ')
     #     conn.send(data.encode())  # send data to the client
 
-    conn.close()  # close the connection
+    #conn.close()  # close the connection
 
 shard_dict = returnDict(sys.argv[1])
 task_dict = returnDict(sys.argv[2])
