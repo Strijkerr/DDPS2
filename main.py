@@ -7,6 +7,7 @@ import shutil
 import paramiko
 import collections
 import json
+import pickle
 
 # Parsing command line arguments
 def command_line_arguments () :
@@ -131,18 +132,19 @@ for index, file in enumerate(files):
 
 print("(Complete) Data has been split and distributed over cluster.")
 
-json_dictionary = json.dumps(dictionary).replace('"', '\"')
-print(f"Main: \"{json_dictionary}\"")
+print(tempDir)
+# with open(tempDir + 'filename.pickle', 'wb') as handle:
+#     pickle.dump(dictionary, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
-# Fork process
-pid = os.fork()
+# # Fork process
+# pid = os.fork()
 
-# The parent process (master node)
-if pid > 0 :
-    process = subprocess.Popen(f"ssh {master} python3 ~/DDPS2/helloworld.py '{json_dictionary}'", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    stdout, stder = process.communicate() # Blocking
-    print("Stdout:",stdout.decode('ASCII'))
-    print("Stderr:",stder)
+# # The parent process (master node)
+# if pid > 0 :
+#     process = subprocess.Popen(f"ssh {master} python3 ~/DDPS2/helloworld.py '{json_dictionary}'", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+#     stdout, stder = process.communicate() # Blocking
+#     print("Stdout:",stdout.decode('ASCII'))
+#     print("Stderr:",stder)
 # # The created child process (worker nodes)
 # else :
 #     for worker in workers:
