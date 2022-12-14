@@ -6,6 +6,7 @@ import subprocess
 import shutil
 import paramiko
 import collections
+import json
 
 # Parsing command line arguments
 def command_line_arguments () :
@@ -110,7 +111,6 @@ if (args.copies+1 > len(workers)) :
     args.copies = len(workers)
 else :
     args.copies +=1
-    
 
 # Create temporary directory.
 tempDir = createTempDir('temp')
@@ -130,16 +130,17 @@ for index, file in enumerate(files):
         dictionary[file][f"Copy{copy}"]['location'] = location
 
 print(dictionary)
+json_dictionary = json.dumps(dictionary)
 
-# # Fork process
-# pid = os.fork()
+# Fork process
+pid = os.fork()
 
-# # The parent process (master node)
-# if pid > 0 :
-#     print(f"Parent: {pid}")
-#     process = subprocess.Popen(f"ssh {master} python3 ~/DDPS2/helloworld.py", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-#     stdout, stder = process.communicate() # Blocking
-#     print(pid,stdout)
+# The parent process (master node)
+if pid > 0 :
+    print(f"Parent: {pid}")
+    process = subprocess.Popen(f"ssh {master} python3 ~/DDPS2/helloworld.py {json_dictionary}", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    stdout, stder = process.communicate() # Blocking
+    print(pid,stdout)
 # # The created child process (worker nodes)
 # else :
 #     for worker in workers:
