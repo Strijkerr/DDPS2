@@ -1,10 +1,10 @@
 import sys
 import pickle
-import collections
+from main import check_ssh, check_node_input
 
 filename = sys.argv[1]
 partitions = int(sys.argv[2])
-workers = sys.argv[3:]
+workers = sys.argv[3]
 infile = open(filename,'rb')
 shard_locations = pickle.load(infile)
 infile.close()
