@@ -145,7 +145,7 @@ tempDir = createTempDir('temp')
 # Split input data and store locally on frontend.
 file_splits = splitInput (args.input, args.splits)
 
-print("(Complete) Input has been split and stored temporary on disk.")
+print("(Complete) Input has been split and stored temporarily on disk.")
 
 # Create nested default dict, and get filenames from the temporary directory.
 files = os.listdir(tempDir)
@@ -170,7 +170,7 @@ pid = os.fork()
 
 # The parent process (master node)
 if pid > 0 :
-    process = subprocess.Popen(f"ssh {master} python3 ~/DDPS2/helloworld.py location", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    process = subprocess.Popen(f"ssh {master} python3 ~/DDPS2/helloworld.py {location}", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     stdout, stder = process.communicate() # Blocking
     print("Stdout:",stdout.decode('ASCII'))
     print("Stderr:",stder)
