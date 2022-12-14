@@ -10,11 +10,11 @@ import collections
 # Parsing command line arguments
 def command_line_arguments () :
     argparser = argparse.ArgumentParser()
-    argparser.add_argument("--nodes", default= 'node102,node103,node104', help="E.g., node102,node103,node104") # Remove default afterwards
-    argparser.add_argument("--input", default= 'sequence.npy', help="E.g., sequence.npy") # Remove default afterwards
-    argparser.add_argument("--partitions", default= '1', help="E.g., 2")
-    argparser.add_argument("--splits", default= '5', help="E.g., 5")
-    argparser.add_argument("--copies", default= '2', help="E.g., 2")
+    argparser.add_argument("--nodes", default= 'node102,node103,node104', type=str, help="E.g., node102,node103,node104") # Remove default afterwards
+    argparser.add_argument("--input", default= 'sequence.npy', type=str, help="E.g., sequence.npy") # Remove default afterwards
+    argparser.add_argument("--partitions", default= '1', type=int, help="E.g., 2")
+    argparser.add_argument("--splits", default= '5', type=int, help="E.g., 5")
+    argparser.add_argument("--copies", default= '2', type=int, help="E.g., 2")
     return argparser.parse_args()
 
 # Test connection of nodes
@@ -113,7 +113,7 @@ if (args.copies > len(workers)) :
 tempDir = createTempDir('temp')
 
 # Split input data
-file_splits = splitInput (args.input, int(args.splits))
+file_splits = splitInput (args.input, args.splits)
 
 # Dict with file locations
 files = os.listdir(tempDir)
@@ -122,7 +122,7 @@ dictionary = collections.defaultdict(lambda: collections.defaultdict(dict))
 # Copy split input files over cluster computers.
 for index, file in enumerate(files):
     
-    for copy in range(int(args.copies)) :
+    for copy in range(args.copies) :
         print(workers[(index + copy) % len(workers)], file)
         location, host = copyShards (workers[(index + copy) % len(workers)], file)
         dictionary[file][f"Copy{copy}"]['host'] = host
