@@ -33,4 +33,4 @@ shard_dict = returnDict(sys.argv[1])
 task_dict = returnDict(sys.argv[2])
 worker_dict = returnDict(sys.argv[3])
 
-server_program(len(worker_dict))
+#server_program(len(worker_dict))
