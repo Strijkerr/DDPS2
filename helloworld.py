@@ -1,22 +1,16 @@
 import sys
 import pickle
-from main import check_ssh, check_node_input
 
-filename = sys.argv[1]
-partitions = int(sys.argv[2])
-workers = sys.argv[3]
-infile = open(filename,'rb')
-shard_locations = pickle.load(infile)
-infile.close()
+def returnDict (filename) :
+    infile = open(filename,'rb')
+    dictionary = pickle.load(infile)
+    infile.close()
+    return dictionary
 
-# Dictionary with map tasks
-tasks = dict.fromkeys(shard_locations.keys(),None)
-for i in tasks.keys() :
-    tasks[i] = {'status': None, 'worker': None}
+shard_dict = returnDict(sys.argv[1])
+task_dict = returnDict(sys.argv[2])
+worker_dict = returnDict(sys.argv[3])
 
-# Extend dictionary with reduce tasks
-for p in range(partitions) :
-    tasks[f"Reduce{p}"] = {'status': None, 'worker': None}
-
-print(tasks)
-print(workers)
+print(shard_dict)
+print(task_dict)
+print(worker_dict)
