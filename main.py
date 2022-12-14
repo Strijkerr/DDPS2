@@ -132,13 +132,11 @@ for index, file in enumerate(files):
 print("(Complete) Data has been split and distributed over cluster.")
 
 json_dictionary = json.dumps(dictionary)
-# print(json_dictionary)
-# test_dictionary = json.loads(json_dictionary)
-# print(test_dictionary)
+print("Main:",json_dictionary)
 
 # Fork process
 pid = os.fork()
-print("Main:",json_dictionary)
+
 # The parent process (master node)
 if pid > 0 :
     process = subprocess.Popen(f"ssh {master} python3 ~/DDPS2/helloworld.py {json_dictionary}", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
