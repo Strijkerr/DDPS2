@@ -133,37 +133,39 @@ args = command_line_arguments()
 # Get master & workers hostnames
 master, workers = check_node_input(args.nodes)
 
-# Limit copies < workers, don't want to store more than 1 copy per worker.
+# Limit copies < workers, don't want to store more than 1 identical shard per worker.
 if (args.copies+1 > len(workers)) :
     args.copies = len(workers)
 else :
     args.copies +=1
 
-# Create temporary directory.
+# Create temporary directory locally on frontend.
 tempDir = createTempDir('temp')
 
-# Split input data
+# Split input data and store locally on frontend.
 file_splits = splitInput (args.input, args.splits)
 
-# Dict with file locations
+print("(Complete) Input has been split and stored temporary on disk.")
+
+# Create nested default dict, and get filenames from the temporary directory.
 files = os.listdir(tempDir)
 dictionary = collections.defaultdict(lambda: collections.defaultdict(dict))
 
-# Copy split input files over cluster computers.
+# Copy and distribute split input files over computers in cluster.
 for index, file in enumerate(files):
     for copy in range(args.copies) :
         location, host = copyFiles (workers[(index + copy) % len(workers)], file)
         dictionary[file][f"Copy{copy}"]['host'] = host
         dictionary[file][f"Copy{copy}"]['location'] = location
 
-print("(Complete) Data has been split and distributed over cluster.")
+print("(Complete) Split data has been distributed over cluster.")
 
-# Save dict of shard locations and send to master node local storage.
+# Save the shard locations to disk, then copy over to master node storage.
 with open(tempDir + '/master_dict.pickle', 'wb') as handle:
     pickle.dump(json.loads(json.dumps(dictionary)), handle, protocol=pickle.HIGHEST_PROTOCOL)
 copyFiles (master, 'master_dict.pickle')
 
-# Clean up all temporary files after we are done.
+# Clean up all temporary files (locally and remote) after we are done.
 deleteTempDir (tempDir)
 removeTempRemote (workers)
 removeTempRemote ([master])
