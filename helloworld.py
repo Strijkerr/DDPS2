@@ -3,6 +3,7 @@ import pickle
 
 filename = sys.argv[1]
 infile = open(filename,'rb')
-dictionary = pickle.load(infile)
+shard_locations = pickle.load(infile)
+shards = shard_locations.keys()
 infile.close()
-print(dictionary)
+print(shards)
