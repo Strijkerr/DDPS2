@@ -4,7 +4,7 @@ import sys
 # https://www.digitalocean.com/community/tutorials/python-socket-programming-server-client
 def client_program(master):
     host = master
-    port = 56601
+    port = 56602
 
     client_socket = socket.socket()  # instantiate
     client_socket.connect((host, port))  # connect to the server
