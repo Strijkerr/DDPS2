@@ -79,14 +79,19 @@ def server_program(client_count):
     server_socket.bind((host, port)) 
     server_socket.listen(client_count)
     list_of_clients = []
+    threads = []
     while True and len(list_of_clients) != client_count:
         conn, address = server_socket.accept()
         list_of_clients.append(conn)
         t = threading.Thread(target=on_new_client, args=(conn,))
         #t.daemon = True
         t.start()
+        threads.append(t)
     # At this point the daemons for every client have been created.
     print("All clients connected. Program exit")
+
+    for t in threads :
+        t.join()
 
 shard_dict = returnDict(sys.argv[1])
 map_task_dict = returnDict(sys.argv[2])
