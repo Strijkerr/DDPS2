@@ -35,7 +35,7 @@ def reduce () :
     #         pickle_dict = pickle.load(inputfile)
     #         total_dict+=pickle_dict
 
-def client_program(master):
+def client_program(master, worker):
     while True :
         host = master
         port = 56609
@@ -43,6 +43,10 @@ def client_program(master):
         try :
             client_socket.connect((host, port))
             count = 0
+            try : 
+                client_socket.send(worker.encode())
+            except Exception as e:
+                    print(f"[!] Error: {e}")
             while True :
                 try:
                     msg = client_socket.recv(1024).decode()
@@ -61,4 +65,4 @@ def client_program(master):
             continue
         
 
-client_program(sys.argv[1])
+client_program(sys.argv[1], sys.argv[2])

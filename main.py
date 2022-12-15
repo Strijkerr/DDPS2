@@ -206,6 +206,6 @@ else :
     for worker in workers:
         pid = os.fork()
         if pid:
-            process = subprocess.Popen(f"ssh {worker} python3 ~/DDPS2/worker.py {master}", shell=True, stdout=sys.stdout, stderr=sys.stderr)
+            process = subprocess.Popen(f"ssh {worker} python3 ~/DDPS2/worker.py {master} {worker}", shell=True, stdout=sys.stdout, stderr=sys.stderr)
         else:
             os._exit(0)
