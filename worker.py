@@ -55,7 +55,8 @@ def client_program(master, worker):
                 except Exception as e:
                     print(f"[!] Error: {e}")
                 else:
-                    reply = mapper(msg)
+                    reply = msg
+                    #reply = mapper(msg)
                     print(f"Worker reply {reply}")
                 count+=1
                 time.sleep(1) # Slight delay, delete later
