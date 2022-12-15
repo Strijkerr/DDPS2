@@ -200,6 +200,7 @@ if pid > 0 :
     print("Stdout:",stdout.decode('ASCII'))
     print("Stderr:",stder.decode('ASCII'))
     
+    os.wait()
     # Clean up all temporary files (locally and remote) after we are done.
     deleteTempDir (tempDir)
     removeTempRemote (workers)
