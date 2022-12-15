@@ -57,8 +57,8 @@ def client_program(master, worker):
                 except Exception as e:
                     print(f"[!] Error: {e}")
                 else:
-                    reply = mapper(msg)
-
+                    #reply = mapper(msg)
+                    reply = "result_location"
                     # Send result location of task
                     client_socket.send(reply.encode())
                 count+=1
