@@ -36,13 +36,12 @@ def reduce () :
     #         total_dict+=pickle_dict
 
 def client_program(master, worker):
+    host = master
+    port = 56609
+    client_socket = socket.socket()
     while True :
-        host = master
-        port = 56609
-        client_socket = socket.socket()
         try :
             client_socket.connect((host, port))
-            count = 0
 
             # Send identity
             try : 
@@ -50,16 +49,14 @@ def client_program(master, worker):
             except Exception as e:
                     print(f"[!] Error: {e}")
             # Main while loop
+            count = 0
             while count < 10:
-                # try:
-                #     msg = client_socket.recv(1024).decode()
-                # except Exception as e:
-                #     print(f"[!] Error: {e}")
-                #     client_socket.remove(client_socket)
-                # else:
-                #     if (msg == "map") :
-                #         client_socket.send(msg.encode())
-                print(f"Count {count}")
+                try:
+                    msg = client_socket.recv(1024).decode()
+                except Exception as e:
+                    print(f"[!] Error: {e}")
+                else:
+                    print(msg)
                 count+=1
                 time.sleep(1) # Slight delay, delete later
             client_socket.close()
@@ -67,6 +64,6 @@ def client_program(master, worker):
         except :
             # If can't connect yet, wait 5 seconds and try again.
             time.sleep(5)
-            continue
-print("worker.py test")        
+            continue      
+
 client_program(sys.argv[1], sys.argv[2])

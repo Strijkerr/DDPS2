@@ -17,33 +17,32 @@ def checkMapTaskComplete () :
             return False
     return True
 
-def findFreeMapTask () :
+def findFreeMapTask (worker) :
     for task in map_task_dict.keys() :
         if (map_task_dict[task]['status'] == None) :
-            worker, location = findWorker(map_task_dict[task])
+            for i in shard_dict[task].keys() :
+                if (shard_dict[task][i]['host'] == worker) :
+                    map_task_dict[task]['status'] = 'in-progress'
+                    map_task_dict[task]['worker'] = worker
+                    worker_dict[worker] = 'busy'
+                    return shard_dict[task][i]['location']
+    # False if all map tasks have a status of not None (in-progress or done)
+    # Also false if worker does not have map task data locally.
+    return False
 
-            # Skip to next task if no worker available atm.
-            if not worker :
-                continue
-            map_task_dict[task]['status'] = 'in-progress'
-            map_task_dict[task]['worker'] = worker
-            worker_dict[worker] = 'busy'
-            return map_task_dict[task], worker, location
-    return False, False, False
+# def findWorker (task) :
+#     worker_location = []
 
-def findWorker (task) :
-    worker_location = []
+#     # Only get workers where file is stored.
+#     for copy in shard_dict[task].keys() :
+#         worker_location.append([shard_dict[task][copy]['host'], shard_dict[task][copy]['location']])
 
-    # Only get workers where file is stored.
-    for copy in shard_dict[task].keys() :
-        worker_location.append([shard_dict[task][copy]['host'], shard_dict[task][copy]['location']])
-
-    # Try to get worker
-    for worker in worker_location :
-        if (worker_dict[worker[0]]== None) :
-            return worker
-    # If no idle worker found
-    return False,False
+#     # Try to get worker
+#     for worker in worker_location :
+#         if (worker_dict[worker[0]]== None) :
+#             return worker
+#     # If no idle worker found
+#     return False,False
 
 def on_new_client(conn):
     count = 0
@@ -57,18 +56,19 @@ def on_new_client(conn):
 
     # Main while loop
     while not checkMapTaskComplete() and count < 10:
-        #print(f"master.py {worker}: {count}")
-        # try:
-        #     msg = conn.recv(1024).decode()
-        # except Exception as e:
-        #     print(f"[!] Error: {e}")
-        #     conn.remove(conn)
-        # else:
-            # if msg == 
-            # print("Else reached")
-            # conn.send(str(checkMapTaskComplete()).encode())
+        task = findFreeMapTask(worker)
+        if not task :
+            break
+        try:
+            conn.send(task.encode())
+        except Exception as e:
+            print(f"[!] Error: {e}")
+        else:
+            print(f"Master.py: {task}")
         time.sleep(1) # Slight delay, delete later
         count+=1
+    
+    # While loop for reduce tasks.
     conn.close()
 
 def server_program(client_count):
@@ -84,12 +84,10 @@ def server_program(client_count):
         #t.daemon = True # If thread is daemon is can still run if main thread has ended. A non-daemon task blocks the main thread from ending.
         t.start()
         threads.append(t)
-    # At this point the threads for every client have been created.
 
     # Wait for threads to finish (~10s)
     for t in threads :
         t.join()
-
     print("Program exit")
 
 shard_dict = returnDict(sys.argv[1])
