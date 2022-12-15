@@ -62,7 +62,6 @@ def on_new_client(conn):
 
         # Send task
         try:
-            print(f"Master.py {worker} has sent")
             conn.send(task.encode())
         except Exception as e:
             print(f"[!] Error: {e}")
