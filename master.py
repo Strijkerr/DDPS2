@@ -3,12 +3,7 @@ import sys
 import pickle
 import threading
 from _thread import *
-
-def returnDict (filename) :
-    infile = open(filename,'rb')
-    dictionary = pickle.load(infile)
-    infile.close()
-    return dictionary
+import time
 
 def checkMapTaskComplete () :
     for task in map_task_dict.keys() :
@@ -16,11 +11,11 @@ def checkMapTaskComplete () :
             return False
     return True
 
-def taskComplete (task, worker, result_location) :
-    worker_dict[worker] = None
-    map_task_dict[task]['status'] = 'done'
-    map_task_dict[task]['worker'] = worker
-    map_task_dict[task]['result_location'] = result_location
+def checkReduceTaskComplete () :
+    for task in reduce_task_dict.keys() :
+        if not (reduce_task_dict[task]['status'] == 'done') :
+            return False
+    return True
 
 def findFreeMapTask (worker) :
     for task in map_task_dict.keys() :
@@ -34,6 +29,19 @@ def findFreeMapTask (worker) :
     # False if all map tasks have a status of not None (in-progress or done)
     # Also false if worker does not have any available map task data locally.
     return False, False
+
+# def findFreeReduceTask () :
+#     for task in map_task_dict.keys() :
+#         if (map_task_dict[task]['status'] == None) :
+#             for i in shard_dict[task].keys() :
+#                 if (shard_dict[task][i]['host'] == worker) :
+#                     map_task_dict[task]['status'] = 'in-progress'
+#                     map_task_dict[task]['worker'] = worker
+#                     worker_dict[worker] = 'busy'
+#                     return task, shard_dict[task][i]['location']
+#     # False if all map tasks have a status of not None (in-progress or done)
+#     # Also false if worker does not have any available map task data locally.
+#     return False, False
 
 def on_new_client(conn):
     worker = ''
@@ -74,11 +82,22 @@ def on_new_client(conn):
     except Exception as e:
         print(f"[!] Error: {e}")
     
-    # Double check
-    print(checkMapTaskComplete())
+    # Lazy approach to sync threads
+    while not checkMapTaskComplete() :
+        time.sleep(1)
+
+    # # Reduce task loop
+    # while not checkReduceTaskComplete() :
+    #     task, tasklocation = findFreeMapTask(worker)
 
     # While loop for reduce tasks.
     conn.close()
+
+def returnDict (filename) :
+    infile = open(filename,'rb')
+    dictionary = pickle.load(infile)
+    infile.close()
+    return dictionary
 
 def server_program(client_count):
     host = socket.gethostname()
@@ -99,6 +118,12 @@ def server_program(client_count):
         t.join()
     server_socket.close()
     print("Master.py exit")
+
+def taskComplete (task, worker, result_location) :
+    worker_dict[worker] = None
+    map_task_dict[task]['status'] = 'done'
+    map_task_dict[task]['worker'] = worker
+    map_task_dict[task]['result_location'] = result_location
 
 shard_dict = returnDict(sys.argv[1])
 map_task_dict = returnDict(sys.argv[2])
