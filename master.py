@@ -38,11 +38,13 @@ def server_program(client_count):
     print("All clients connected. Program exit")
 
 shard_dict = returnDict(sys.argv[1])
-task_dict = returnDict(sys.argv[2])
-worker_dict = returnDict(sys.argv[3])
+map_task_dict = returnDict(sys.argv[2])
+reduce_task_dict = returnDict(sys.argv[3])
+worker_dict = returnDict(sys.argv[4])
 
 server_program(len(worker_dict))
 
 print(shard_dict)
-print(task_dict)
+print(map_task_dict)
+print(reduce_task_dict)
 print(worker_dict)

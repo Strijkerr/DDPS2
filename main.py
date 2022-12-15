@@ -173,7 +173,7 @@ with open(tempDir + '/map_task_dict.pickle', 'wb') as handle:
 location2, host = copyFiles (master, 'map_task_dict.pickle')
 
 reduce_task_dict = {}
-# Extend dictionary with reduce tasks
+# Dictionary with reduce tasks
 for p in range(args.partitions) :
     reduce_task_dict[f"Reduce{p}"] = {'status': None, 'worker': None, 'result_location': None, 'index' : p}
 with open(tempDir + '/reduce_task_dict.pickle', 'wb') as handle:
