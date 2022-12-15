@@ -98,7 +98,7 @@ def server_program(client_count):
     for t in threads :
         t.join()
     server_socket.close()
-    print("Program exit")
+    print("Master.py exit")
 
 shard_dict = returnDict(sys.argv[1])
 map_task_dict = returnDict(sys.argv[2])
