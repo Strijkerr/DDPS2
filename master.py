@@ -59,7 +59,7 @@ def on_new_client(conn):
             conn.remove(conn)
         else:
             print("Else reached")
-            conn.send(checkMapTaskComplete().encode())
+            conn.send(checkMapTaskComplete())
         print("End of while loop reached")
         time.sleep(1) # Slight delay, delete later
         count+=1
