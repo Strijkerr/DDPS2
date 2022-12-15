@@ -54,13 +54,13 @@ def on_new_client(conn):
             msg = conn.recv(1024).decode()
             print("Message from client:",msg)
         except Exception as e:
-            print("57")
+            print("Exception reached")
             print(f"[!] Error: {e}")
             conn.remove(conn)
         else:
-            print("61")
+            print("Else reached")
             conn.send(checkMapTaskComplete().encode())
-        print("63")
+        print("End of while loop reached")
         time.sleep(1) # Slight delay, delete later
         count+=1
     conn.close()

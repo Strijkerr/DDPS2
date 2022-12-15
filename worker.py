@@ -47,7 +47,7 @@ def client_program(master, worker):
                 client_socket.send(worker.encode())
             except Exception as e:
                     print(f"[!] Error: {e}")
-            while True :
+            while True and count < 15:
                 try:
                     msg = client_socket.recv(1024).decode()
                 except Exception as e:
