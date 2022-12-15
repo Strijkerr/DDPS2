@@ -46,7 +46,8 @@ def findWorker (task) :
     return False,False
 
 def on_new_client(conn):
-    while True :
+    count = 0
+    while True and count < 15:
         try:
             msg = conn.recv(1024).decode()
         except Exception as e:
@@ -55,6 +56,7 @@ def on_new_client(conn):
         else:
             conn.send(checkMapTaskComplete().encode())
         time.sleep(1) # Slight delay, delete later
+        count+=1
 
 def server_program(client_count):
     host = socket.gethostname()
@@ -71,12 +73,6 @@ def server_program(client_count):
         t.start()
     # At this point the daemons for every client have been created.
     print("All clients connected. Program exit")
-    # while True :
-    #     time.sleep(1)
-
-    # Force close
-    for client in list_of_clients :
-        client.close()
 
 shard_dict = returnDict(sys.argv[1])
 map_task_dict = returnDict(sys.argv[2])
