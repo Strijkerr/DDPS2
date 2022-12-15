@@ -68,7 +68,7 @@ def on_new_client(conn):
         else :
             print(f"Master.py {worker} reply: {msg}")
             taskComplete (task, worker, msg)
-        time.sleep(1) # Without this delay, all tasks go to 1 node??
+        #time.sleep(1) # Without this delay, all tasks go to 1 node??
     
     # Send 'done signal'
     try:
