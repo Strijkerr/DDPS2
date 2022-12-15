@@ -29,23 +29,10 @@ def server_program(client_count):
     list_of_clients = []
     while True:
         conn, address = server_socket.accept()
-        #print("Connection from: " + str(address))
         list_of_clients.append(conn)
-        #conn.send(data.decode())
-        # data = conn.recv(1024).decode()
-        # if not data:
-        #     break
-        # if data == 'bye' :
-        #     break
-        # print("from connected user: " + str(data))
-        # data = "ok"
-        # conn.send(data.encode())
         t = threading.Thread(target=on_new_client, args=(conn,))
         t.daemon = True
         t.start()
-    # server_socket.close()
-    # for conn in list_of_clients :
-    #     conn.close()
 
 shard_dict = returnDict(sys.argv[1])
 task_dict = returnDict(sys.argv[2])
