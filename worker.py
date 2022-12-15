@@ -64,6 +64,7 @@ def client_program(master, worker):
                     print(f"{worker}: reply")
                     #reply = mapper(msg)
                     client_socket.send(reply.encode())
+                break
                 count+=1
                 time.sleep(1)
             client_socket.close()
