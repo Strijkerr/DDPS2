@@ -20,8 +20,8 @@ def checkMapTaskComplete () :
 def taskComplete (task, worker, result_location) :
     worker_dict[worker] = None
     map_task_dict[task]['status'] = 'done'
-    map_task_dict[task]['status']['worker'] = worker
-    map_task_dict[task]['status']['result_location'] = result_location
+    map_task_dict[task]['worker'] = worker
+    map_task_dict[task]['result_location'] = result_location
 
 def findFreeMapTask (worker) :
     for task in map_task_dict.keys() :
