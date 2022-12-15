@@ -59,6 +59,7 @@ def client_program(master, worker):
                     #reply = mapper(msg)
                     print(f"Worker reply {reply}")
                 count+=1
+                time.sleep(1)
             client_socket.close()
             break
         except :
