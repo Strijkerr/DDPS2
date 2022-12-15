@@ -14,18 +14,12 @@ def returnDict (filename) :
     return dictionary
 
 def mapper (location) :
-    # try :
-    #     test =  np.load(location)
-    # except :
-    #     print("errorrr")
-    print(os.path.exists(location))
-    return location
-    count = collections.Counter(test)
-    return "test"#count
-    # filename = location.split('/')[-1].split('.')[0]
-    # with open(f'temp/{filename}.pickle', 'wb') as outputfile:
-    #     pickle.dump(count, outputfile)
-    # return f'/home/ddps2202/DDPS2/temp/{filename}.pickle'
+    file =  np.load(location)
+    count = collections.Counter(file)
+    filename = location.split('/')[-1].split('.')[0]
+    with open(f'/local/ddps2202/{filename}.pickle', 'wb') as outputfile:
+        pickle.dump(count, outputfile)
+    return f'/local/ddps2202/{filename}.pickle'
 
 def shuffle (task, workers, locations) :
     #TODO
@@ -57,11 +51,9 @@ def client_program(master, worker):
             # Main while loop
             count = 0
             while count < 10:
-                print(count)
                 # Get task
                 try:
                     msg = client_socket.recv(1024).decode()
-                    print(f"Task {msg}")
                 except Exception as e:
                     print(f"[!] Error: {e}")
                 else:
