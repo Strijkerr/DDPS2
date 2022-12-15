@@ -52,6 +52,7 @@ def client_program(master, worker):
 
             # Main while loop
             while count < 10:
+                print(f"Worker.py: {worker}: {count}")
                 # try:
                 #     msg = client_socket.recv(1024).decode()
                 # except Exception as e:

@@ -57,7 +57,7 @@ def on_new_client(conn):
 
     # Main while loop
     while not checkMapTaskComplete() and count < 10:
-        print(f"{worker}: {count}")
+        print(f"master.py {worker}: {count}")
         # try:
         #     msg = conn.recv(1024).decode()
         #     print("Worker connected:",msg)
