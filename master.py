@@ -4,12 +4,6 @@ import pickle
 import threading
 from _thread import *
 
-def checkMapTasksComplete () :
-    for task in map_task_dict.keys() :
-        if not (map_task_dict[task]['status'] == 'done') :
-            return False
-    return True
-
 def returnDict (filename) :
     infile = open(filename,'rb')
     dictionary = pickle.load(infile)
@@ -81,7 +75,7 @@ def on_new_client(conn):
         print(f"[!] Error: {e}")
     
     # Double check
-    print(checkMapTasksComplete())
+    print(checkMapTaskComplete())
 
     # While loop for reduce tasks.
     conn.close()
