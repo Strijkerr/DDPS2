@@ -50,12 +50,16 @@ def client_program(master, worker):
             # Main while loop
             count = 0
             while count < 10:
+
+                # Get task
                 try:
                     msg = client_socket.recv(1024).decode()
                 except Exception as e:
                     print(f"[!] Error: {e}")
                 else:
                     reply = mapper(msg)
+
+                    # Send result location of task
                     client_socket.send(reply.encode())
                 count+=1
                 time.sleep(1)

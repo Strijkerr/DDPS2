@@ -59,12 +59,16 @@ def on_new_client(conn):
         if not task :
             print("Exit")
             break
+
+        # Send task
         try:
             conn.send(task.encode())
         except Exception as e:
             print(f"[!] Error: {e}")
         else:
             print(f"Master.py: {task}")
+        
+        # Get task response
         try : 
             msg = conn.recv(1024).decode()
         except Exception as e:
