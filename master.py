@@ -49,6 +49,7 @@ def on_new_client(conn):
     count = 0
     print("Daemon started")
     while True and count < 15:
+        print("Daemon while loop")
         try:
             msg = conn.recv(1024).decode()
         except Exception as e:
@@ -75,7 +76,7 @@ def server_program(client_count):
     # At this point the daemons for every client have been created.
     print("All clients connected. Program exit")
 
-time.sleep(10)
+time.sleep(2)
 
 shard_dict = returnDict(sys.argv[1])
 map_task_dict = returnDict(sys.argv[2])
