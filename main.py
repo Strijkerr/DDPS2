@@ -191,13 +191,10 @@ pid = os.fork()
 # The parent process (master node)
 if pid > 0 :
     process = subprocess.Popen(f"ssh {master} python3 ~/DDPS2/master.py {location1} {location2} {location3}", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, bufsize=1)
-    with process.stdout:
-        for line in iter(process.stdout.readline, b''):
-            print(line)
-    process.wait()
-    # stdout, stder = process.communicate() # Blocking
-    # print("Stdout:",stdout.decode('ASCII'))
-    # print("Stderr:",stder.decode('ASCII'))
+    while True :
+        stdout, stder = process.communicate() # Blocking
+        print("Stdout:",stdout.decode('ASCII'))
+        print("Stderr:",stder.decode('ASCII'))
     # Clean up all temporary files (locally and remote) after we are done.
     deleteTempDir (tempDir)
     removeTempRemote (workers)
