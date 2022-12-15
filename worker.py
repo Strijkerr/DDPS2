@@ -69,6 +69,7 @@ def client_program(master, worker):
                     reply = mapper(msg)
                     client_socket.send(reply.encode())
                 count+=1
+                break
             client_socket.close()
             break
         except :
@@ -77,4 +78,4 @@ def client_program(master, worker):
             continue      
 
 client_program(sys.argv[1], sys.argv[2])
-print("this closes")
+print("Worker closes")
