@@ -43,7 +43,7 @@ def client_program(master, worker):
         try :
             client_socket.connect((host, port))
             count = 0
-
+            print("worker.py 46")
             # Send identity
             try : 
                 client_socket.send(worker.encode())
