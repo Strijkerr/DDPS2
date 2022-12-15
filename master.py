@@ -10,7 +10,6 @@ def returnDict (filename) :
     infile.close()
     return dictionary
 
-# https://stackoverflow.com/questions/10810249/python-socket-multiple-clients
 def on_new_client(conn):
     conn.send("Welcome")
     while True:
@@ -21,7 +20,6 @@ def on_new_client(conn):
         conn.send(reply.decode())
     conn.close()
 
-# https://www.digitalocean.com/community/tutorials/python-socket-programming-server-client
 def server_program(client_count):
     host = socket.gethostname()
     port = 56609
@@ -42,7 +40,9 @@ def server_program(client_count):
         # print("from connected user: " + str(data))
         # data = "ok"
         # conn.send(data.encode())
-        start_new_thread(on_new_client,(conn, ))
+        t = threading.Thread(target=on_new_client, args=(conn,))
+        t.daemon = True
+        t.start()
     # server_socket.close()
     # for conn in list_of_clients :
     #     conn.close()
