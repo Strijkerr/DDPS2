@@ -15,7 +15,7 @@ def returnDict (filename) :
 def mapper (location) :
     test =  np.load(location)
     count = collections.Counter(test)
-    return count
+    return "test"#count
     # filename = location.split('/')[-1].split('.')[0]
     # with open(f'temp/{filename}.pickle', 'wb') as outputfile:
     #     pickle.dump(count, outputfile)
