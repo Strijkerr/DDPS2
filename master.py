@@ -12,7 +12,6 @@ def returnDict (filename) :
 
 # https://stackoverflow.com/questions/10810249/python-socket-multiple-clients
 def on_new_client(conn):
-    conn.send("Welcome to the Server. Type messages and press enter to send.\n")
     while True:
         data = conn.recv(1024).decode()
         if not data:
@@ -32,6 +31,8 @@ def server_program(client_count):
     while True:
         conn, address = server_socket.accept()
         print("Connection from: " + str(address))
+        data = "Welcome to the Server. Type messages and press enter to send.\n"
+        conn.send(data.decode())
         # data = conn.recv(1024).decode()
         # if not data:
         #     break
