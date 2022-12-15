@@ -3,6 +3,7 @@ import sys
 import pickle
 import threading
 from _thread import *
+import time
 
 def returnDict (filename) :
     infile = open(filename,'rb')
@@ -10,9 +11,43 @@ def returnDict (filename) :
     infile.close()
     return dictionary
 
+def checkMapTaskComplete () :
+    for task in map_task_dict.keys() :
+        if not (map_task_dict[task]['status'] == 'Done') :
+            return False
+    return True
+
+def findFreeMapTask () :
+    for task in map_task_dict.keys() :
+        if (map_task_dict[task]['status'] == None) :
+            worker, location = findWorker(map_task_dict[task])
+
+            # Skip to next task if no worker available atm.
+            if not worker :
+                continue
+            map_task_dict[task]['status'] = 'in-progress'
+            map_task_dict[task]['worker'] = worker
+            worker_dict[worker] = 'busy'
+            return map_task_dict[task], worker, location
+    return False, False, False
+
+def findWorker (task) :
+    worker_location = []
+
+    # Only get workers where file is stored.
+    for copy in shard_dict[task].keys() :
+        worker_location.append([shard_dict[task][copy]['host'], shard_dict[task][copy]['location']])
+
+    # Try to get worker
+    for worker in worker_location :
+        if (worker_dict[worker[0]]== None) :
+            return worker
+    # If no idle worker found
+    return False,False
+
 def on_new_client(conn):
-    # TODO: Change this from this chat functionality into something useful
     while True :
+        print(checkMapTaskComplete())
         try:
             msg = conn.recv(1024).decode()
         except Exception as e:
@@ -20,6 +55,7 @@ def on_new_client(conn):
             conn.remove(conn)
         else:
             conn.send(msg.encode())
+        time.sleep(1) # Slight delay, delete later
 
 def server_program(client_count):
     host = socket.gethostname()
@@ -43,8 +79,3 @@ reduce_task_dict = returnDict(sys.argv[3])
 worker_dict = returnDict(sys.argv[4])
 
 server_program(len(worker_dict))
-
-print(shard_dict)
-print(map_task_dict)
-print(reduce_task_dict)
-print(worker_dict)
