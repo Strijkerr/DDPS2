@@ -68,5 +68,5 @@ def client_program(master, worker):
             # If can't connect yet, wait 5 seconds and try again.
             time.sleep(5)
             continue
-        
+print("worker.py test")        
 client_program(sys.argv[1], sys.argv[2])
