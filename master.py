@@ -31,10 +31,10 @@ def findFreeMapTask (worker) :
                     map_task_dict[task]['status'] = 'in-progress'
                     map_task_dict[task]['worker'] = worker
                     worker_dict[worker] = 'busy'
-                    return shard_dict[task][i]['location']
+                    return task, shard_dict[task][i]['location']
     # False if all map tasks have a status of not None (in-progress or done)
     # Also false if worker does not have map task data locally.
-    return False
+    return False, False
 
 def on_new_client(conn):
     worker = ''
@@ -47,14 +47,14 @@ def on_new_client(conn):
 
     # Main while loop
     while not checkMapTaskComplete() :
-        task = findFreeMapTask(worker)
+        task, tasklocation = findFreeMapTask(worker)
         if not task :
             print(f"Exit: {worker} thread.")
             break
 
         # Send task
         try:
-            conn.send(task.encode())
+            conn.send(tasklocation.encode())
         except Exception as e:
             print(f"[!] Error: {e}")
         else:
