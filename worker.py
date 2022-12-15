@@ -42,6 +42,7 @@ def client_program(master):
         client_socket = socket.socket()
         try :
             client_socket.connect((host, port))
+            count = 0
             while True :
                 try:
                     msg = client_socket.recv(1024).decode()
@@ -50,12 +51,14 @@ def client_program(master):
                     client_socket.remove(client_socket)
                 else:
                     client_socket.send(msg.encode())
+                print(f"Count {count}")
+                count+=1
                 time.sleep(1) # Slight delay, delete later
-
+            client_socket.close()
         except :
             # If can't connect yet, wait 5 seconds and try again.
             time.sleep(5)
             continue
-        client_socket.close()
+        
 
 client_program(sys.argv[1])
