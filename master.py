@@ -23,7 +23,7 @@ def on_new_client(conn):
 # https://www.digitalocean.com/community/tutorials/python-socket-programming-server-client
 def server_program(client_count):
     host = socket.gethostname()
-    port = 56605
+    port = 56606
     server_socket = socket.socket()
     server_socket.bind((host, port)) 
     server_socket.listen(client_count)

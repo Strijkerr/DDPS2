@@ -8,6 +8,7 @@ import paramiko
 import collections
 import json
 import pickle
+import sys
 
 # Parsing command line arguments
 def command_line_arguments () :
@@ -190,10 +191,10 @@ pid = os.fork()
 
 # The parent process (master node)
 if pid > 0 :
-    process = subprocess.Popen(f"ssh {master} python3 ~/DDPS2/master.py {location1} {location2} {location3}", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, bufsize=1)
-    stdout, stder = process.communicate() # Blocking
-    print("Stdout:",stdout.decode('ASCII'))
-    print("Stderr:",stder.decode('ASCII'))
+    process = subprocess.Popen(f"ssh {master} python3 ~/DDPS2/master.py {location1} {location2} {location3}", shell=True, stdout=sys.stdout, stderr=subprocess.PIPE, bufsize=1)
+    # stdout, stder = process.communicate() # Blocking
+    # print("Stdout:",stdout.decode('ASCII'))
+    # print("Stderr:",stder.decode('ASCII'))
     # Clean up all temporary files (locally and remote) after we are done.
     deleteTempDir (tempDir)
     removeTempRemote (workers)
