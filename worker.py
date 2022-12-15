@@ -18,8 +18,8 @@ def mapper (location) :
     #     test =  np.load(location)
     # except :
     #     print("errorrr")
-
-    return os.path.exists(location)
+    print(os.path.exists(location))
+    return location
     count = collections.Counter(test)
     return "test"#count
     # filename = location.split('/')[-1].split('.')[0]
