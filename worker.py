@@ -61,6 +61,7 @@ def client_program(master, worker):
                 # Get task
                 try:
                     msg = client_socket.recv(1024).decode()
+                    print(msg)
                 except Exception as e:
                     print(f"[!] Error: {e}")
                 else:
