@@ -45,7 +45,6 @@ def findFreeMapTask (worker) :
 #     return False,False
 
 def on_new_client(conn):
-    count = 0
     worker = ''
     # Receive client identity
     try : 
@@ -55,7 +54,7 @@ def on_new_client(conn):
         print(f"[!] Error: {e}")
 
     # Main while loop
-    while not checkMapTaskComplete() and count < 10:
+    while not checkMapTaskComplete() :
         task = findFreeMapTask(worker)
         if not task :
             print("Exit")
@@ -67,7 +66,6 @@ def on_new_client(conn):
         else:
             print(f"Master.py: {task}")
         time.sleep(1) # Slight delay, delete later
-        count+=1
     
     # While loop for reduce tasks.
     conn.close()
