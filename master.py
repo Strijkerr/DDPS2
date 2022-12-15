@@ -57,7 +57,7 @@ def on_new_client(conn):
     while not checkMapTaskComplete() :
         task = findFreeMapTask(worker)
         if not task :
-            print("Exit")
+            print(f"Exit: {worker} thread.")
             break
 
         # Send task
