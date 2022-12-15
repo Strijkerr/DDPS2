@@ -51,14 +51,14 @@ def client_program(master, worker):
                     print(f"[!] Error: {e}")
             # Main while loop
             while count < 10:
-                try:
-                    msg = client_socket.recv(1024).decode()
-                except Exception as e:
-                    print(f"[!] Error: {e}")
-                    client_socket.remove(client_socket)
-                else:
-                    if (msg == "map") :
-                        client_socket.send(msg.encode())
+                # try:
+                #     msg = client_socket.recv(1024).decode()
+                # except Exception as e:
+                #     print(f"[!] Error: {e}")
+                #     client_socket.remove(client_socket)
+                # else:
+                #     if (msg == "map") :
+                #         client_socket.send(msg.encode())
                 print(f"Count {count}")
                 count+=1
                 time.sleep(1) # Slight delay, delete later
@@ -68,4 +68,4 @@ def client_program(master, worker):
             time.sleep(5)
             continue
 print("worker.py test")        
-#client_program(sys.argv[1], sys.argv[2])
+client_program(sys.argv[1], sys.argv[2])
