@@ -12,14 +12,13 @@ def returnDict (filename) :
     infile.close()
     return dictionary
 
-def mapper (task, worker, location) :
-    shard = location
-    test =  np.load(shard)
+def mapper (location) :
+    test =  np.load(location)
     count = collections.Counter(test)
-    filename = shard.split('/')[-1].split('.')[0]
+    filename = location.split('/')[-1].split('.')[0]
     with open(f'temp/{filename}.pickle', 'wb') as outputfile:
         pickle.dump(count, outputfile)
-    return task, worker, f'/home/ddps2202/DDPS2/temp/{filename}.pickle'
+    return f'/home/ddps2202/DDPS2/temp/{filename}.pickle'
 
 def shuffle (task, workers, locations) :
     #TODO
@@ -56,7 +55,8 @@ def client_program(master, worker):
                 except Exception as e:
                     print(f"[!] Error: {e}")
                 else:
-                    print(f"Worker {msg}")
+                    reply = mapper(msg)
+                    print(f"Worker reply {reply}")
                 count+=1
                 time.sleep(1) # Slight delay, delete later
             client_socket.close()
