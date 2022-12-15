@@ -17,6 +17,12 @@ def checkMapTaskComplete () :
             return False
     return True
 
+def taskComplete (task, worker, result_location) :
+    worker_dict[worker] = None
+    map_task_dict[task]['status'] = 'done'
+    map_task_dict[task]['status']['worker'] = worker
+    map_task_dict[task]['status']['result_location'] = result_location
+
 def findFreeMapTask (worker) :
     for task in map_task_dict.keys() :
         if (map_task_dict[task]['status'] == None) :
@@ -29,20 +35,6 @@ def findFreeMapTask (worker) :
     # False if all map tasks have a status of not None (in-progress or done)
     # Also false if worker does not have map task data locally.
     return False
-
-# def findWorker (task) :
-#     worker_location = []
-
-#     # Only get workers where file is stored.
-#     for copy in shard_dict[task].keys() :
-#         worker_location.append([shard_dict[task][copy]['host'], shard_dict[task][copy]['location']])
-
-#     # Try to get worker
-#     for worker in worker_location :
-#         if (worker_dict[worker[0]]== None) :
-#             return worker
-#     # If no idle worker found
-#     return False,False
 
 def on_new_client(conn):
     worker = ''
@@ -75,8 +67,14 @@ def on_new_client(conn):
             print(f"[!] Error: {e}")
         else :
             print(f"Master.py {worker} reply: {msg}")
-        break # delete later
+            taskComplete (task, worker, msg)
         time.sleep(1) # Without this delay, all tasks go to 1 node??
+    
+    # Send 'done signal'
+    try:
+        conn.send('done'.encode())
+    except Exception as e:
+        print(f"[!] Error: {e}")
     
     # While loop for reduce tasks.
     conn.close()

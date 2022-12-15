@@ -49,19 +49,18 @@ def client_program(master, worker):
             except Exception as e:
                     print(f"[!] Error: {e}")
             # Main while loop
-            count = 0
-            while count < 10:
+            while True:
                 # Get task
                 try:
                     msg = client_socket.recv(1024).decode()
                 except Exception as e:
                     print(f"[!] Error: {e}")
                 else:
+                    if (msg == 'done') :
+                        break
                     # Get result of mapping operation and send result location to master node.
                     reply = mapper(msg)
                     client_socket.send(reply.encode())
-                count+=1
-                break
             client_socket.close()
             break
         except :
