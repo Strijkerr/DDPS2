@@ -51,7 +51,7 @@ def client_program(master, worker):
             # Main while loop
             count = 0
             while count < 10:
-
+                print("worker test")
                 # Get task
                 try:
                     msg = client_socket.recv(1024).decode()
