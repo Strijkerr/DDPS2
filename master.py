@@ -53,7 +53,7 @@ def on_new_client(conn):
         try:
             print("54")
             msg = conn.recv(1024).decode()
-            print(msg)
+            print("testt:",msg)
         except Exception as e:
             print("57")
             print(f"[!] Error: {e}")
