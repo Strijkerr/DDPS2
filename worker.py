@@ -18,7 +18,7 @@ def mapper (location) :
     #     test =  np.load(location)
     # except :
     #     print("errorrr")
-    #print(os.path.exists(location))
+    print(os.path.exists(location))
     return location
     count = collections.Counter(test)
     return "test"#count
