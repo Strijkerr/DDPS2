@@ -74,6 +74,9 @@ def server_program(client_count):
     # At this point the daemons for every client have been created.
     print("All clients connected. Program exit")
 
+    for thread in threading.enumerate() :
+        thread.join()
+
 shard_dict = returnDict(sys.argv[1])
 map_task_dict = returnDict(sys.argv[2])
 reduce_task_dict = returnDict(sys.argv[3])
