@@ -48,6 +48,8 @@ def client_program(master):
                 except Exception as e:
                     print(f"[!] Error: {e}")
                     client_socket.remove(client_socket)
+                else:
+                    client_socket.send(msg.encode())
                 time.sleep(1) # Slight delay, delete later
 
         except :
