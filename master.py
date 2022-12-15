@@ -51,7 +51,7 @@ def on_new_client(conn):
     while True and count < 15:
         print("Daemon while loop")
         try:
-            print("54")
+            conn.send(checkMapTaskComplete().encode())
             msg = conn.recv(1024).decode()
             print("testt:",msg)
         except Exception as e:
