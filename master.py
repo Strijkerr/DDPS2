@@ -50,7 +50,7 @@ def on_new_client(conn):
     # Receive client identity
     try : 
         worker = conn.recv(1024).decode()
-        print("Worker connected:",worker)
+        #print("Worker connected:",worker)
     except Exception as e:
         print(f"[!] Error: {e}")
 

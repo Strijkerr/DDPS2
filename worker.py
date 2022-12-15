@@ -56,7 +56,7 @@ def client_program(master, worker):
                 except Exception as e:
                     print(f"[!] Error: {e}")
                 else:
-                    print(msg)
+                    print(f"Worker {msg}")
                 count+=1
                 time.sleep(1) # Slight delay, delete later
             client_socket.close()
