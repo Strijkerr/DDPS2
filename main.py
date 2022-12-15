@@ -193,7 +193,8 @@ if pid > 0 :
     process = subprocess.Popen(f"ssh {master} python3 ~/DDPS2/master.py {location1} {location2} {location3}", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, bufsize=1)
     with process.stdout:
         for line in iter(process.stdout.readline, b''):
-            print(line), process.wait()
+            print(line)
+    process.wait()
     # stdout, stder = process.communicate() # Blocking
     # print("Stdout:",stdout.decode('ASCII'))
     # print("Stderr:",stder.decode('ASCII'))
