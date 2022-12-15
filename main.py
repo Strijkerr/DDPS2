@@ -17,7 +17,7 @@ def command_line_arguments () :
     argparser.add_argument("--input", default= 'sequence.npy', type=str, help="E.g., sequence.npy") # Remove default afterwards
     argparser.add_argument("--partitions", default= '1', type=int, help="E.g., 2")
     argparser.add_argument("--splits", default= '5', type=int, help="E.g., 5")
-    argparser.add_argument("--copies", default= '1', type=int, help="E.g., 0")
+    argparser.add_argument("--copies", default= '2', type=int, help="E.g., 2")
     return argparser.parse_args()
 
 # Test connection of nodes
@@ -135,10 +135,8 @@ args = command_line_arguments()
 master, workers = check_node_input(args.nodes)
 
 # Limit copies < workers, don't want to store more than 1 identical shard per worker.
-if (args.copies+1 > len(workers)) :
+if (args.copies > len(workers)) :
     args.copies = len(workers)
-else :
-    args.copies +=1
 
 # Create temporary directory locally on frontend.
 tempDir = createTempDir('temp')
@@ -204,7 +202,6 @@ else :
     for worker in workers:
         pid = os.fork()
         if pid:
-            print(pid, worker, master)
             process = subprocess.Popen(f"ssh {worker} python3 ~/DDPS2/worker.py {master}", shell=True, stdout=sys.stdout, stderr=sys.stderr)
         else:
             os._exit(0)
