@@ -32,16 +32,14 @@ def server_program(client_count):
     while True:
         conn, address = server_socket.accept()
         print("Connection from: " + str(address))
-        start_new_thread(on_new_client,(conn, ))
-        #threading.Thread(target = on_new_client,(conn, ))
-        # data = conn.recv(1024).decode()
-        # if not data:
-        #     # if data is not received break
-        #     break
-        # print("from connected user: " + str(data))
-        # data = input(' -> ')
-        # conn.send(data.encode())  # send data to the client
-
+        #start_new_thread(on_new_client,(conn, ))
+        data = conn.recv(1024).decode()
+        if not data:
+            # if data is not received break
+            break
+        print("from connected user: " + str(data))
+        data = "ok"
+        conn.send(data.encode())  # send data to the client
         conn.close()  # close the connection
 
 shard_dict = returnDict(sys.argv[1])
