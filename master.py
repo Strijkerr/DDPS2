@@ -27,12 +27,13 @@ def server_program(client_count):
     server_socket.bind((host, port)) 
     server_socket.listen(client_count)
     list_of_clients = []
-    while True:
+    while True and len(list_of_clients) != client_count:
         conn, address = server_socket.accept()
         list_of_clients.append(conn)
         t = threading.Thread(target=on_new_client, args=(conn,))
         t.daemon = True
         t.start()
+    print("Test")
 
 shard_dict = returnDict(sys.argv[1])
 task_dict = returnDict(sys.argv[2])
