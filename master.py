@@ -11,6 +11,7 @@ def returnDict (filename) :
     return dictionary
 
 def on_new_client(conn):
+    # TODO: Change this from this chat functionality into something useful
     while True :
         try:
             msg = conn.recv(1024).decode()
