@@ -15,10 +15,11 @@ def returnDict (filename) :
 def mapper (location) :
     test =  np.load(location)
     count = collections.Counter(test)
-    filename = location.split('/')[-1].split('.')[0]
-    with open(f'temp/{filename}.pickle', 'wb') as outputfile:
-        pickle.dump(count, outputfile)
-    return f'/home/ddps2202/DDPS2/temp/{filename}.pickle'
+    return count
+    # filename = location.split('/')[-1].split('.')[0]
+    # with open(f'temp/{filename}.pickle', 'wb') as outputfile:
+    #     pickle.dump(count, outputfile)
+    # return f'/home/ddps2202/DDPS2/temp/{filename}.pickle'
 
 def shuffle (task, workers, locations) :
     #TODO
