@@ -13,10 +13,12 @@ def returnDict (filename) :
     return dictionary
 
 def mapper (location) :
-    
-    test =  np.load(location)
-    print(test)
-    return "test"
+    # try :
+    #     test =  np.load(location)
+    # except :
+    #     print("errorrr")
+
+    return str(location)
     count = collections.Counter(test)
     return "test"#count
     # filename = location.split('/')[-1].split('.')[0]
