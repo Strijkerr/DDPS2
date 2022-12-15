@@ -27,12 +27,12 @@ def server_program(client_count):
     server_socket = socket.socket()
     server_socket.bind((host, port)) 
     server_socket.listen(client_count)
-
+    list_of_clients = []
     while True:
         conn, address = server_socket.accept()
         print("Connection from: " + str(address))
-        data = "Welcome to the Server. Type messages and press enter to send.\n"
-        conn.send(data.decode())
+        
+        #conn.send(data.decode())
         # data = conn.recv(1024).decode()
         # if not data:
         #     break
@@ -41,8 +41,8 @@ def server_program(client_count):
         # print("from connected user: " + str(data))
         # data = "ok"
         # conn.send(data.encode())
-        start_new_thread(on_new_client,(conn, ))
-    conn.close()
+        #start_new_thread(on_new_client,(conn, ))
+        conn.close()
 
 shard_dict = returnDict(sys.argv[1])
 task_dict = returnDict(sys.argv[2])
