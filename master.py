@@ -3,7 +3,12 @@ import sys
 import pickle
 import threading
 from _thread import *
-import time
+
+def checkMapTasksComplete () :
+    for task in map_task_dict.keys() :
+        if not (map_task_dict[task]['status'] == 'Done') :
+            return False
+    return True
 
 def returnDict (filename) :
     infile = open(filename,'rb')
@@ -33,7 +38,7 @@ def findFreeMapTask (worker) :
                     worker_dict[worker] = 'busy'
                     return task, shard_dict[task][i]['location']
     # False if all map tasks have a status of not None (in-progress or done)
-    # Also false if worker does not have map task data locally.
+    # Also false if worker does not have any available map task data locally.
     return False, False
 
 def on_new_client(conn):
@@ -68,14 +73,16 @@ def on_new_client(conn):
         else :
             print(f"Master.py {worker} reply: {msg}")
             taskComplete (task, worker, msg)
-        #time.sleep(1) # Without this delay, all tasks go to 1 node??
     
-    # Send 'done signal'
+    # Send 'done' signal, this indicates all map tasks are completed.
     try:
         conn.send('done'.encode())
     except Exception as e:
         print(f"[!] Error: {e}")
     
+    # Double check
+    print(checkMapTasksComplete())
+
     # While loop for reduce tasks.
     conn.close()
 
