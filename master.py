@@ -75,7 +75,7 @@ def on_new_client(conn):
             print(f"[!] Error: {e}")
         else :
             print(f"Master.py {worker} reply: {msg}")
-        #time.sleep(1) # Slight delay, delete later
+        time.sleep(1) # Slight delay, delete later
     
     # While loop for reduce tasks.
     conn.close()
