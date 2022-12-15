@@ -49,7 +49,7 @@ def client_program(master, worker):
                 client_socket.send(worker.encode())
             except Exception as e:
                     print(f"[!] Error: {e}")
-
+            print("worker.py 52")
             # Main while loop
             while count < 10:
                 print(f"Worker.py: {worker}: {count}")
