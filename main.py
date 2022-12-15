@@ -176,7 +176,7 @@ reduce_task_dict = {}
 # Extend dictionary with reduce tasks
 for p in range(args.partitions) :
     reduce_task_dict[f"Reduce{p}"] = {'status': None, 'worker': None, 'result_location': None, 'index' : p}
-with open(tempDir + '/task_dict.pickle', 'wb') as handle:
+with open(tempDir + '/reduce_task_dict.pickle', 'wb') as handle:
     pickle.dump(json.loads(json.dumps(reduce_task_dict)), handle, protocol=pickle.HIGHEST_PROTOCOL)
 location3, host = copyFiles (master, 'reduce_task_dict.pickle')
 
