@@ -47,18 +47,27 @@ def findWorker (task) :
 
 def on_new_client(conn):
     count = 0
+
+    # Receive client identity
+    try : 
+        msg = conn.recv(1024).decode()
+        print("Worker connected:",msg)
+    except Exception as e:
+        print(f"[!] Error: {e}")
+
+    # Main while loop
     while True and count < 15:
-        try:
-            msg = conn.recv(1024).decode()
-            print("Worker connected:",msg)
-        except Exception as e:
-            print("Exception reached")
-            print(f"[!] Error: {e}")
-            conn.remove(conn)
-        else:
-            print("Else reached")
-            conn.send(str(checkMapTaskComplete()).encode())
-        print("End of while loop reached")
+        # try:
+        #     msg = conn.recv(1024).decode()
+        #     print("Worker connected:",msg)
+        # except Exception as e:
+        #     print("Exception reached")
+        #     print(f"[!] Error: {e}")
+        #     conn.remove(conn)
+        # else:
+        #     print("Else reached")
+        #     conn.send(str(checkMapTaskComplete()).encode())
+        # print("End of while loop reached")
         time.sleep(1) # Slight delay, delete later
         count+=1
     conn.close()

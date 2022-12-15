@@ -43,19 +43,23 @@ def client_program(master, worker):
         try :
             client_socket.connect((host, port))
             count = 0
+
+            # Send identity
             try : 
                 client_socket.send(worker.encode())
             except Exception as e:
                     print(f"[!] Error: {e}")
+
+            # Main while loop
             while True and count < 15:
-                try:
-                    msg = client_socket.recv(1024).decode()
-                except Exception as e:
-                    print(f"[!] Error: {e}")
-                    client_socket.remove(client_socket)
-                else:
-                    client_socket.send(msg.encode())
-                print(f"Count {count}")
+                # try:
+                #     msg = client_socket.recv(1024).decode()
+                # except Exception as e:
+                #     print(f"[!] Error: {e}")
+                #     client_socket.remove(client_socket)
+                # else:
+                #     client_socket.send(msg.encode())
+                # print(f"Count {count}")
                 count+=1
                 time.sleep(1) # Slight delay, delete later
             client_socket.close()
