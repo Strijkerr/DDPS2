@@ -66,7 +66,6 @@ def client_program(master, worker):
                     reply = mapper(msg)
                     client_socket.send(reply.encode())
                 count+=1
-                time.sleep(1)
             client_socket.close()
             break
         except :
