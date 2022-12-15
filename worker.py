@@ -3,6 +3,7 @@ import sys
 
 # https://www.digitalocean.com/community/tutorials/python-socket-programming-server-client
 def client_program(master):
+    print("test_worker.py")
     host = master
     port = 56609
 
