@@ -4,10 +4,10 @@ import sys
 # https://www.digitalocean.com/community/tutorials/python-socket-programming-server-client
 def client_program(master):
     host = master
-    port = 56603
+    port = 56604
 
-    client_socket = socket.socket()  # instantiate
-    client_socket.connect((host, port))  # connect to the server
+    client_socket = socket.socket()
+    client_socket.connect((host, port))
 
     data = client_socket.recv(1024).decode()
     print('Received from server: ' + data)
