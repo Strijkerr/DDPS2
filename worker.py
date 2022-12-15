@@ -13,6 +13,7 @@ def returnDict (filename) :
     return dictionary
 
 def mapper (location) :
+    return "test"
     test =  np.load(location)
     count = collections.Counter(test)
     return "test"#count
@@ -59,8 +60,7 @@ def client_program(master, worker):
                 else:
                     # Get result of mapping operation and send result location to master node.
                     reply = mapper(msg)
-                    print(reply)
-                    #client_socket.send(reply.encode())
+                    client_socket.send(reply.encode())
                 break
                 count+=1
                 time.sleep(1)
