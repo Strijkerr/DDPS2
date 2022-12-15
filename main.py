@@ -165,31 +165,35 @@ with open(tempDir + '/shard_dict.pickle', 'wb') as handle:
 location1, host = copyFiles (master, 'shard_dict.pickle')
 
 # Dictionary with map tasks
-task_dict = dict.fromkeys(dictionary.keys(),None)
-for i in task_dict.keys() :
-    task_dict[i] = {'status': None, 'worker': None}
+map_task_dict = dict.fromkeys(dictionary.keys(),None)
+for index, task in enumerate(map_task_dict.keys()) :
+    map_task_dict[task] = {'status': None, 'worker': None, 'result_location': None, 'partition' : (index % args.partitions)}
+with open(tempDir + '/map_task_dict.pickle', 'wb') as handle:
+    pickle.dump(json.loads(json.dumps(map_task_dict)), handle, protocol=pickle.HIGHEST_PROTOCOL)
+location2, host = copyFiles (master, 'map_task_dict.pickle')
 
+reduce_task_dict = {}
 # Extend dictionary with reduce tasks
 for p in range(args.partitions) :
-    task_dict[f"Reduce{p}"] = {'status': None, 'worker': None, 'result_location': None}
+    reduce_task_dict[f"Reduce{p}"] = {'status': None, 'worker': None, 'result_location': None, 'index' : p}
 with open(tempDir + '/task_dict.pickle', 'wb') as handle:
-    pickle.dump(json.loads(json.dumps(task_dict)), handle, protocol=pickle.HIGHEST_PROTOCOL)
-location2, host = copyFiles (master, 'task_dict.pickle')
+    pickle.dump(json.loads(json.dumps(reduce_task_dict)), handle, protocol=pickle.HIGHEST_PROTOCOL)
+location3, host = copyFiles (master, 'reduce_task_dict.pickle')
 
 # Dict with workers
 worker_dict = dict.fromkeys(workers,None)
 for d in worker_dict.keys() :
-    worker_dict[d] = {'status': None}
+    worker_dict[d] = None
 with open(tempDir + '/worker_dict.pickle', 'wb') as handle:
     pickle.dump(json.loads(json.dumps(worker_dict)), handle, protocol=pickle.HIGHEST_PROTOCOL)
-location3, host = copyFiles (master, 'worker_dict.pickle')
+location4, host = copyFiles (master, 'worker_dict.pickle')
 
 # Fork process
 pid = os.fork()
 
 # The parent process (master node)
 if pid > 0 :
-    process = subprocess.Popen(f"ssh {master} python3 ~/DDPS2/master.py {location1} {location2} {location3}", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, bufsize=1)
+    process = subprocess.Popen(f"ssh {master} python3 ~/DDPS2/master.py {location1} {location2} {location3} {location4}", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, bufsize=1)
     stdout, stder = process.communicate() # Blocking
     print("Stdout:",stdout.decode('ASCII'))
     print("Stderr:",stder.decode('ASCII'))
