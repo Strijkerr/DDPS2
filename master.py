@@ -57,6 +57,7 @@ def on_new_client(conn):
             conn.send(checkMapTaskComplete().encode())
         time.sleep(1) # Slight delay, delete later
         count+=1
+    print("Daemon ended")
 
 def server_program(client_count):
     host = socket.gethostname()
