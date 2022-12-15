@@ -51,18 +51,14 @@ def client_program(master, worker):
             # Main while loop
             count = 0
             while count < 10:
-                print("worker test")
                 # Get task
                 try:
                     msg = client_socket.recv(1024).decode()
                 except Exception as e:
                     print(f"[!] Error: {e}")
-                
                 else:
                     # Get result of mapping operation and send result location to master node.
-                    reply = "Only string works?"
-                    print(f"{worker}: reply")
-                    #reply = mapper(msg)
+                    reply = mapper(msg)
                     client_socket.send(reply.encode())
                 break
                 count+=1
@@ -73,6 +69,6 @@ def client_program(master, worker):
             # If can't connect yet, wait 5 seconds and try again.
             time.sleep(5)
             continue      
-print("worker test")
+
 client_program(sys.argv[1], sys.argv[2])
 print("this closes")
