@@ -6,7 +6,7 @@ from _thread import *
 
 def checkMapTasksComplete () :
     for task in map_task_dict.keys() :
-        if not (map_task_dict[task]['status'] == 'Done') :
+        if not (map_task_dict[task]['status'] == 'done') :
             return False
     return True
 
@@ -81,7 +81,6 @@ def on_new_client(conn):
         print(f"[!] Error: {e}")
     
     # Double check
-    print(map_task_dict)
     print(checkMapTasksComplete())
 
     # While loop for reduce tasks.
