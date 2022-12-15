@@ -61,6 +61,7 @@ def client_program(master, worker):
                 else:
                     # Get result of mapping operation and send result location to master node.
                     reply = "Only string works?"
+                    print(f"{worker}: reply")
                     #reply = mapper(msg)
                     client_socket.send(reply.encode())
                 count+=1
