@@ -65,6 +65,12 @@ def on_new_client(conn):
             print(f"[!] Error: {e}")
         else:
             print(f"Master.py: {task}")
+        try : 
+            msg = conn.recv(1024).decode()
+        except Exception as e:
+            print(f"[!] Error: {e}")
+        else :
+            print(f"Master.py: {msg}")
         time.sleep(1) # Slight delay, delete later
     
     # While loop for reduce tasks.

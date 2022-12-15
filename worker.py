@@ -55,9 +55,8 @@ def client_program(master, worker):
                 except Exception as e:
                     print(f"[!] Error: {e}")
                 else:
-                    reply = msg
-                    #reply = mapper(msg)
-                    print(f"Worker reply {reply}")
+                    reply = mapper(msg)
+                    client_socket.send(reply.encode())
                 count+=1
                 time.sleep(1)
             client_socket.close()
