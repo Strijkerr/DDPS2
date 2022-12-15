@@ -98,5 +98,5 @@ shard_dict = returnDict(sys.argv[1])
 map_task_dict = returnDict(sys.argv[2])
 reduce_task_dict = returnDict(sys.argv[3])
 worker_dict = returnDict(sys.argv[4])
-
+print(shard_dict)
 server_program(len(worker_dict))
