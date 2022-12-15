@@ -80,10 +80,6 @@ def copyFiles (host, file, return_local = True) : # Delete `delete' after we are
     folder_remote = '/local/ddps2202/'
     try:
         sftp.chdir(folder_remote) 
-        filesInRemoteArtifacts = sftp.listdir(path=folder_remote)
-        # Empty temp directory beforehand,
-        for f in filesInRemoteArtifacts:
-            sftp.remove(folder_remote+f)
     # Create directory if it doesn't yet exist
     except:
         sftp.mkdir(folder_remote) 
@@ -202,9 +198,9 @@ if pid > 0 :
     
     os.wait()
     # Clean up all temporary files (locally and remote) after we are done.
-    # deleteTempDir (tempDir)
-    # removeTempRemote (workers)
-    # removeTempRemote ([master])
+    deleteTempDir (tempDir)
+    removeTempRemote (workers)
+    removeTempRemote ([master])
 # The created child process (worker nodes)
 else :
     for worker in workers:
