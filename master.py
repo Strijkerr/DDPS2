@@ -81,6 +81,7 @@ def on_new_client(conn):
         print(f"[!] Error: {e}")
     
     # Double check
+    print(map_task_dict)
     print(checkMapTasksComplete())
 
     # While loop for reduce tasks.
