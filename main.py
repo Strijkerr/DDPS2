@@ -98,7 +98,7 @@ def copyFiles (host, file) : # Delete `delete' after we are done debugging.
     sftp.close()
     ssh.close()
 
-    return file_remote, host
+    return file_local, host
 
 def removeTempRemote (hosts) :
     # Loop over hosts
