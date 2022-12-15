@@ -11,14 +11,14 @@ def returnDict (filename) :
     return dictionary
 
 def on_new_client(conn):
-    conn.send("Welcome")
-    while True:
-        data = conn.recv(1024).decode()
-        if not data:
-            break
-        reply = "OK . . " + data
-        conn.send(reply.decode())
-    conn.close()
+    while True :
+        try:
+            msg = conn.recv(1024).decode()
+        except Exception as e:
+            print(f"[!] Error: {e}")
+            conn.remove(conn)
+        else:
+            conn.send(msg.encode())
 
 def server_program(client_count):
     host = socket.gethostname()
