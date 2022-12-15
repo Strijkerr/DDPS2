@@ -13,6 +13,7 @@ def returnDict (filename) :
     return dictionary
 
 def mapper (location) :
+    time.sleep(3)
     return "test"
     test =  np.load(location)
     count = collections.Counter(test)
