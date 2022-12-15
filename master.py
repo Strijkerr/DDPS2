@@ -68,7 +68,7 @@ def server_program(client_count):
         conn, address = server_socket.accept()
         list_of_clients.append(conn)
         t = threading.Thread(target=on_new_client, args=(conn,))
-        t.daemon = True
+        #t.daemon = True
         t.start()
     # At this point the daemons for every client have been created.
     print("All clients connected. Program exit")
