@@ -56,7 +56,7 @@ def on_new_client(conn):
         print(f"[!] Error: {e}")
 
     # Main while loop
-    while True and count < 15:
+    while True and count < 10:
         # try:
         #     msg = conn.recv(1024).decode()
         #     print("Worker connected:",msg)
@@ -87,9 +87,10 @@ def server_program(client_count):
         #t.daemon = True
         t.start()
         threads.append(t)
-    # At this point the daemons for every client have been created.
+    # At this point the threads for every client have been created.
     print("All clients connected. Program exit")
 
+    # Wait for threads to finish (~10s)
     for t in threads :
         t.join()
 
