@@ -67,7 +67,7 @@ def deleteTempDir (dirName) :
     return True
 
 # Copy shards from front-end to local storage of each node.
-def copyFiles (host, file) : # Delete `delete' after we are done debugging.
+def copyFiles (host, file, return_local = True) : # Delete `delete' after we are done debugging.
 
     # Create client and connect.
     ssh = paramiko.SSHClient()
@@ -97,8 +97,10 @@ def copyFiles (host, file) : # Delete `delete' after we are done debugging.
     # Close connections
     sftp.close()
     ssh.close()
-
-    return file_local, host
+    if (return_local) :
+        return file_local, host
+    else :
+        return file_remote, host
 
 def removeTempRemote (hosts) :
     # Loop over hosts
@@ -153,7 +155,7 @@ dictionary = collections.defaultdict(lambda: collections.defaultdict(dict))
 # Copy and distribute split input files over computers in cluster.
 for index, file in enumerate(files):
     for copy in range(args.copies) :
-        location, host = copyFiles (workers[(index + copy) % len(workers)], file)
+        location, host = copyFiles (workers[(index + copy) % len(workers)], file, False)
         dictionary[file][f"Copy{copy}"]['host'] = host
         dictionary[file][f"Copy{copy}"]['location'] = location
 
