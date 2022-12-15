@@ -65,7 +65,6 @@ def client_program(master, worker):
                     # Get result of mapping operation and send result location to master node.
                     reply = mapper(msg)
                     client_socket.send(reply.encode())
-                break
                 count+=1
                 time.sleep(1)
             client_socket.close()
