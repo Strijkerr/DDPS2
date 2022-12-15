@@ -83,7 +83,7 @@ def server_program(client_count):
     while True and len(threads) != client_count:
         conn, address = server_socket.accept()
         t = threading.Thread(target=on_new_client, args=(conn,))
-        #t.daemon = True
+        #t.daemon = True # If thread is daemon is can still run if main thread has ended. A non-daemon task blocks the main thread from ending.
         t.start()
         threads.append(t)
     # At this point the threads for every client have been created.

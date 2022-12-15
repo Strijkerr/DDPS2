@@ -68,5 +68,4 @@ def client_program(master, worker):
             time.sleep(5)
             continue
         
-
 client_program(sys.argv[1], sys.argv[2])
