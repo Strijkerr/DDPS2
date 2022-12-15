@@ -5,6 +5,7 @@ import numpy as np
 import collections
 import sys
 import pickle
+import os.path
 
 def returnDict (filename) :
     infile = open(filename,'rb')
@@ -18,7 +19,7 @@ def mapper (location) :
     # except :
     #     print("errorrr")
 
-    return str(location)
+    return os.path.exists(location)
     count = collections.Counter(test)
     return "test"#count
     # filename = location.split('/')[-1].split('.')[0]
