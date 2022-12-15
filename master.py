@@ -58,6 +58,7 @@ def on_new_client(conn):
     while not checkMapTaskComplete() and count < 10:
         task = findFreeMapTask(worker)
         if not task :
+            print("Exit")
             break
         try:
             conn.send(task.encode())
