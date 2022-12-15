@@ -47,12 +47,10 @@ def findWorker (task) :
 
 def on_new_client(conn):
     count = 0
-    print("Daemon started")
     while True and count < 15:
-        print("Daemon while loop started")
         try:
             msg = conn.recv(1024).decode()
-            print("Message from client:",msg)
+            print("Worker connected:",msg)
         except Exception as e:
             print("Exception reached")
             print(f"[!] Error: {e}")
