@@ -12,6 +12,7 @@ def returnDict (filename) :
 
 # https://stackoverflow.com/questions/10810249/python-socket-multiple-clients
 def on_new_client(conn):
+    conn.send("Welcome")
     while True:
         data = conn.recv(1024).decode()
         if not data:
@@ -23,15 +24,15 @@ def on_new_client(conn):
 # https://www.digitalocean.com/community/tutorials/python-socket-programming-server-client
 def server_program(client_count):
     host = socket.gethostname()
-    port = 56607
+    port = 56608
     server_socket = socket.socket()
     server_socket.bind((host, port)) 
     server_socket.listen(client_count)
     list_of_clients = []
     while True:
         conn, address = server_socket.accept()
-        print("Connection from: " + str(address))
-        
+        #print("Connection from: " + str(address))
+        list_of_clients.append(conn)
         #conn.send(data.decode())
         # data = conn.recv(1024).decode()
         # if not data:
@@ -41,8 +42,10 @@ def server_program(client_count):
         # print("from connected user: " + str(data))
         # data = "ok"
         # conn.send(data.encode())
-        #start_new_thread(on_new_client,(conn, ))
-        conn.close()
+        start_new_thread(on_new_client,(conn, ))
+    # server_socket.close()
+    # for conn in list_of_clients :
+    #     conn.close()
 
 shard_dict = returnDict(sys.argv[1])
 task_dict = returnDict(sys.argv[2])
