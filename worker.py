@@ -42,12 +42,13 @@ def client_program(master):
         client_socket = socket.socket()
         try :
             client_socket.connect((host, port))
-            try:
-                msg = client_socket.recv(1024).decode()
-            except Exception as e:
-                print(f"[!] Error: {e}")
-                client_socket.remove(client_socket)
-            time.sleep(1) # Slight delay, delete later
+            while True :
+                try:
+                    msg = client_socket.recv(1024).decode()
+                except Exception as e:
+                    print(f"[!] Error: {e}")
+                    client_socket.remove(client_socket)
+                time.sleep(1) # Slight delay, delete later
 
         except :
             # If can't connect yet, wait 5 seconds and try again.
