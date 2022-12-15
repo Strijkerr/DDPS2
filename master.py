@@ -60,15 +60,13 @@ def on_new_client(conn):
         print(f"master.py {worker}: {count}")
         # try:
         #     msg = conn.recv(1024).decode()
-        #     print("Worker connected:",msg)
         # except Exception as e:
-        #     print("Exception reached")
         #     print(f"[!] Error: {e}")
         #     conn.remove(conn)
         # else:
-        #     print("Else reached")
-        #     conn.send(str(checkMapTaskComplete()).encode())
-        # print("End of while loop reached")
+            # if msg == 
+            # print("Else reached")
+            # conn.send(str(checkMapTaskComplete()).encode())
         time.sleep(1) # Slight delay, delete later
         count+=1
     conn.close()

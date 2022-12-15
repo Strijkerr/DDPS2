@@ -43,24 +43,23 @@ def client_program(master, worker):
         try :
             client_socket.connect((host, port))
             count = 0
-            print("worker.py 46")
+
             # Send identity
             try : 
                 client_socket.send(worker.encode())
             except Exception as e:
                     print(f"[!] Error: {e}")
-            print("worker.py 52")
             # Main while loop
             while count < 10:
-                print(f"Worker.py: {worker}: {count}")
-                # try:
-                #     msg = client_socket.recv(1024).decode()
-                # except Exception as e:
-                #     print(f"[!] Error: {e}")
-                #     client_socket.remove(client_socket)
-                # else:
-                #     client_socket.send(msg.encode())
-                # print(f"Count {count}")
+                try:
+                    msg = client_socket.recv(1024).decode()
+                except Exception as e:
+                    print(f"[!] Error: {e}")
+                    client_socket.remove(client_socket)
+                else:
+                    if (msg == "map") :
+                        client_socket.send(msg.encode())
+                print(f"Count {count}")
                 count+=1
                 time.sleep(1) # Slight delay, delete later
             client_socket.close()
@@ -69,4 +68,4 @@ def client_program(master, worker):
             time.sleep(5)
             continue
 print("worker.py test")        
-client_program(sys.argv[1], sys.argv[2])
+#client_program(sys.argv[1], sys.argv[2])
