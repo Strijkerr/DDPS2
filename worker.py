@@ -42,14 +42,13 @@ def client_program(master):
         client_socket = socket.socket()
         try :
             client_socket.connect((host, port))
+            try:
+                msg = client_socket.recv(1024).decode()
+            except Exception as e:
+                print(f"[!] Error: {e}")
+                client_socket.remove(client_socket)
+            time.sleep(1) # Slight delay, delete later
 
-            # TODO: Change this from this chat functionality into something useful
-            message = input(" -> ")
-            while message.lower().strip() != 'bye':
-                client_socket.send(message.encode())
-                data = client_socket.recv(1024).decode()
-                print('Received from server: ' + data)
-                message = input(" -> ")
         except :
             # If can't connect yet, wait 5 seconds and try again.
             time.sleep(5)

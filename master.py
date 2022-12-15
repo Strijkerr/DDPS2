@@ -47,14 +47,13 @@ def findWorker (task) :
 
 def on_new_client(conn):
     while True :
-        print(checkMapTaskComplete())
         try:
             msg = conn.recv(1024).decode()
         except Exception as e:
             print(f"[!] Error: {e}")
             conn.remove(conn)
         else:
-            conn.send(msg.encode())
+            conn.send(checkMapTaskComplete().encode())
         time.sleep(1) # Slight delay, delete later
 
 def server_program(client_count):
