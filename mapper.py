@@ -3,7 +3,7 @@ import collections
 import sys
 import pickle
 
-shard = sys.argv[1] # First argument
+shard = sys.argv[1]
 test =  np.load(shard)
 count = collections.Counter(test)
 filename = shard.split('/')[-1].split('.')[0]
