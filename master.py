@@ -14,11 +14,11 @@ def returnDict (filename) :
 def on_new_client(conn):
     conn.send("Welcome to the Server. Type messages and press enter to send.\n")
     while True:
-        data = conn.recv(1024)
+        data = conn.recv(1024).decode()
         if not data:
             break
         reply = "OK . . " + data
-        conn.sendall(reply)
+        conn.send(reply.decode())
     conn.close()
 
 # https://www.digitalocean.com/community/tutorials/python-socket-programming-server-client
@@ -29,19 +29,18 @@ def server_program(client_count):
     server_socket.bind((host, port)) 
     server_socket.listen(client_count)
 
-    # Only works for 1 client now
-    conn, address = server_socket.accept()
-    print("Connection from: " + str(address))
     while True:
-        data = conn.recv(1024).decode()
-        if not data:
-            break
-        if data == 'bye' :
-            break
-        print("from connected user: " + str(data))
-        data = "ok"
-        conn.send(data.encode())
-        #start_new_thread(on_new_client,(conn, ))
+        conn, address = server_socket.accept()
+        print("Connection from: " + str(address))
+        # data = conn.recv(1024).decode()
+        # if not data:
+        #     break
+        # if data == 'bye' :
+        #     break
+        # print("from connected user: " + str(data))
+        # data = "ok"
+        # conn.send(data.encode())
+        start_new_thread(on_new_client,(conn, ))
     conn.close()
 
 shard_dict = returnDict(sys.argv[1])
