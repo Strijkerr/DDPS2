@@ -51,7 +51,7 @@ def client_program(master, worker):
                     print(f"[!] Error: {e}")
 
             # Main while loop
-            while True and count < 10:
+            while count < 10:
                 # try:
                 #     msg = client_socket.recv(1024).decode()
                 # except Exception as e:

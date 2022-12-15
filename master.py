@@ -13,7 +13,7 @@ def returnDict (filename) :
 
 def checkMapTaskComplete () :
     for task in map_task_dict.keys() :
-        if not (map_task_dict[task]['status'] == 'Done') :
+        if not (map_task_dict[task]['status'] == 'done') :
             return False
     return True
 
@@ -47,16 +47,17 @@ def findWorker (task) :
 
 def on_new_client(conn):
     count = 0
-
+    worker = ''
     # Receive client identity
     try : 
-        msg = conn.recv(1024).decode()
-        print("Worker connected:",msg)
+        worker = conn.recv(1024).decode()
+        print("Worker connected:",worker)
     except Exception as e:
         print(f"[!] Error: {e}")
 
     # Main while loop
-    while True and count < 10:
+    while not checkMapTaskComplete() and count < 10:
+        print(f"{worker}: {count}")
         # try:
         #     msg = conn.recv(1024).decode()
         #     print("Worker connected:",msg)
