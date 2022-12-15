@@ -51,7 +51,7 @@ def on_new_client(conn):
     # Receive client identity
     try : 
         worker = conn.recv(1024).decode()
-        #print("Worker connected:",worker)
+        print("Worker connected:",worker)
     except Exception as e:
         print(f"[!] Error: {e}")
 
@@ -90,7 +90,7 @@ def server_program(client_count):
     for t in threads :
         t.join()
 
-    #print("Program exit")
+    print("Program exit")
 
 shard_dict = returnDict(sys.argv[1])
 map_task_dict = returnDict(sys.argv[2])

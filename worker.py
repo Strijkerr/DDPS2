@@ -68,4 +68,4 @@ def client_program(master, worker):
             time.sleep(5)
             continue
 print("worker.py test")        
-client_program(sys.argv[1], sys.argv[2])
+#client_program(sys.argv[1], sys.argv[2])
