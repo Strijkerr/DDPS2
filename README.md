@@ -1,5 +1,5 @@
 # DDPS2
-In case you get a port already in use error.
+In case you get a port already in use error. E.g., port 56609.
 1) "Find daemons that use ports:" lsof -i:56609
 2) "E.g., pid = 1110"
 3) Kill 1110
