@@ -97,6 +97,7 @@ def server_program(client_count):
     # Wait for threads to finish (~10s)
     for t in threads :
         t.join()
+    server_socket.close()
     print("Program exit")
 
 shard_dict = returnDict(sys.argv[1])
