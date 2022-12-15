@@ -42,3 +42,7 @@ task_dict = returnDict(sys.argv[2])
 worker_dict = returnDict(sys.argv[3])
 
 server_program(len(worker_dict))
+
+print(shard_dict)
+print(task_dict)
+print(worker_dict)
