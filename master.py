@@ -33,6 +33,7 @@ def server_program(client_count):
         t = threading.Thread(target=on_new_client, args=(conn,))
         t.daemon = True
         t.start()
+    # At this point the daemons for every client have been created.
     print("Test")
 
 shard_dict = returnDict(sys.argv[1])

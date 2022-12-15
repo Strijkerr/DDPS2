@@ -198,12 +198,12 @@ if pid > 0 :
     deleteTempDir (tempDir)
     removeTempRemote (workers)
     removeTempRemote ([master])
-# # The created child process (worker nodes)
-# else :
-#     for worker in workers:
-#         pid = os.fork()
-#         if pid:
-#             print(f"Child: {pid}")
-#             process = subprocess.Popen(f"ssh {worker} python3 ~/DDPS2/worker.py {master}", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-#         else:
-#             os._exit(0)
+# The created child process (worker nodes)
+else :
+    for worker in workers:
+        pid = os.fork()
+        if pid:
+            print(f"Child: {pid}")
+            process = subprocess.Popen(f"ssh {worker} python3 ~/DDPS2/worker.py {master}", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        else:
+            os._exit(0)
