@@ -63,6 +63,7 @@ def on_new_client(conn):
         print("63")
         time.sleep(1) # Slight delay, delete later
         count+=1
+    conn.close()
 
 def server_program(client_count):
     host = socket.gethostname()
