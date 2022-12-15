@@ -78,17 +78,14 @@ def server_program(client_count):
     server_socket = socket.socket()
     server_socket.bind((host, port)) 
     server_socket.listen(client_count)
-    list_of_clients = []
     threads = []
-    while True and len(list_of_clients) != client_count:
+    while True and len(threads) != client_count:
         conn, address = server_socket.accept()
-        list_of_clients.append(conn)
         t = threading.Thread(target=on_new_client, args=(conn,))
         #t.daemon = True
         t.start()
         threads.append(t)
     # At this point the threads for every client have been created.
-    
 
     # Wait for threads to finish (~10s)
     for t in threads :
