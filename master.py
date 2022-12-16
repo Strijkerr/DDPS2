@@ -34,7 +34,7 @@ def findFreeMapTask (worker) :
                     map_task_dict[task]['status'] = 'in-progress'
                     map_task_dict[task]['worker'] = worker
                     worker_dict[worker] = 'busy'
-                    return task, shard_dict[task][copy]['location']
+                    return task, shard_dict[task][copy]['location'], map_task_dict[task]['partition']
 
     # False if all map tasks have a status of not None (in-progress or done)
     # Also false if worker does not have any available map task data locally.
@@ -80,7 +80,7 @@ def on_new_client(conn):
 
     # Mapping stage loop.
     while not checkTaskComplete (map_task_dict) :
-        task, tasklocation = findFreeMapTask(worker)
+        task, tasklocation, partition = findFreeMapTask(worker)
         if not task :
             break
 
