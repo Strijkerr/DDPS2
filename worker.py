@@ -37,7 +37,7 @@ def shuffle (host, file) :
     ssh.close()
 
 # Reduce stage: loop over intermediate results and aggregate them into one.
-def reduce () :
+def reduce (index) :
     total_dict = collections.Counter()
     folderName = '/local/ddps2202/'
     for file in os.listdir(folderName) :
@@ -46,10 +46,9 @@ def reduce () :
                 count = pickle.load(input_file)
                 total_dict+=count
     print(total_dict)
-    # return total_dict
-    # with open(f'/local/ddps2202/{filename}.pickle', 'wb') as outputfile:
-    #     pickle.dump(count, outputfile)
-    # return f'/local/ddps2202/{filename}.pickle'
+    with open(f'/home/ddps2202/DDPS2/output/reduce_output_{index}.pickle', 'wb') as outputfile:
+        pickle.dump(total_dict, outputfile)
+    return f'/home/ddps2202/DDPS2/output/reduce_output_{index}.pickle'
 
 # Client.
 def client_program(master, worker):
@@ -106,16 +105,16 @@ def client_program(master, worker):
 
                     # Get dictionary with intermediate result locations.
                     locations = json.loads(str(msg))
-                    for loc in locations.keys() :
+                    index = locations['partition']
+                    for loc in locations['locations'].keys() :
 
                         # If intermediate results are also on the reduce worker, do not download.
-                        if (locations[loc] != worker) :
-                            shuffle(locations[loc],loc)
+                        if (locations['locations'][loc] != worker) :
+                            shuffle(locations['locations'][loc],loc)
                     
                     # Reduce results
-                    reduce()
-                    # reply = reduce()
-                    # print(reply)
+                    reply = reduce(index)
+                    print(reply)
                     #client_socket.send(reply.encode())
                     break # Remove later
             

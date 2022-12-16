@@ -54,10 +54,10 @@ def findFreeReduceTask (worker) :
 
 # After all map tasks are finished, get locations of intermediate results.
 def getMapResultLocations (index) :
-    locations = {}
+    locations = {'locations' : {}, 'partition' : index}
     for task in map_task_dict.keys() :
         if (map_task_dict[task]['partition'] == index) :
-            locations[map_task_dict[task]['result_location']] = map_task_dict[task]['worker']
+            locations['locations'][map_task_dict[task]['result_location']] = map_task_dict[task]['worker']
     return locations
 
 # Update dictionaries after task has been completed.
