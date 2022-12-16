@@ -17,20 +17,19 @@ def mapper (location) :
     return f'/local/ddps2202/{filename}.pickle'
 
 def shuffle (host, file) :
-    pass
-    # # Create client and connect.
-    # ssh = paramiko.SSHClient()
-    # ssh.set_missing_host_key_policy(
-    #             paramiko.AutoAddPolicy())
-    # ssh.connect(hostname=host, port=22)
-    # sftp = ssh.open_sftp()
+    # Create client and connect.
+    ssh = paramiko.SSHClient()
+    ssh.set_missing_host_key_policy(
+                paramiko.AutoAddPolicy())
+    ssh.connect(hostname=host, port=22)
+    sftp = ssh.open_sftp()
 
-    # # Upload file.
-    # sftp.put(file,file)
+    # Upload file.
+    sftp.put(file,file)
 
-    # # Close connections
-    # sftp.close()
-    # ssh.close()
+    # Close connections
+    sftp.close()
+    ssh.close()
 
 def reduce () :
     #TODO
