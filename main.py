@@ -134,12 +134,13 @@ def removeTempRemote (hosts) :
 def printOutput () :
     total_dict = collections.Counter()
     folderName = '/home/ddps2202/DDPS2/output/'
-    for index,file in enumerate(os.listdir(folderName)) :
+    files = os.listdir(folderName)
+    for file in files :
         with open(folderName + file, "rb") as input_file:
             count = pickle.load(input_file)
             total_dict+=count
     print('#############################################################')
-    print(f"Partitions merged: {index+1}")
+    print(f"Partitions merged: {len(files)}")
     print("Final output:\n")
     print(total_dict)
     print('\n#############################################################')
