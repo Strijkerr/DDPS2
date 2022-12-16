@@ -78,7 +78,8 @@ def client_program(master, worker):
                         break
                     locations = json.loads(str(msg))
                     for loc in locations.keys() :
-                        shuffle(locations[loc],loc)
+                        if (locations[loc] != worker) :
+                            shuffle(locations[loc],loc)
                     break # Remove later
                     # TODO:Shuffle
                     # TODO:Reduce
