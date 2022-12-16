@@ -117,6 +117,7 @@ def client_program(master, worker):
                     #client_socket.send(reply.encode())
                     break # Remove later
             
+            # Exit client
             client_socket.close()
             break
         except :
