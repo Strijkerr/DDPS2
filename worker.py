@@ -6,7 +6,7 @@ import collections
 import sys
 import pickle
 import json
-#import paramiko
+import paramiko
 
 def mapper (location) :
     file =  np.load(location)
