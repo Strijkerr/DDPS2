@@ -6,6 +6,7 @@ import collections
 import sys
 import pickle
 import json
+from main import copyFiles
 
 def mapper (location) :
     file =  np.load(location)
@@ -66,7 +67,11 @@ def client_program(master, worker):
                         break
                     locations = json.loads(str(msg))
                     for loc in locations :
-                        print(loc)
+                        file = loc[0].split('/')[-1]
+                        folder = loc[0].rsplit('/', 1)[0] + '/'
+                        print(file, folder)
+                        print(loc[1])
+                        # copyFiles(file, )
                     break # Remove later
                     # TODO:Shuffle
                     # TODO:Reduce

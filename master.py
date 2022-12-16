@@ -41,7 +41,7 @@ def getMapResultLocations (index) :
     locations = []
     for task in map_task_dict.keys() :
         if (map_task_dict[task]['partition'] == index) :
-            locations.append(map_task_dict[task]['result_location'])
+            locations.append([map_task_dict[task]['result_location'],map_task_dict[task]['worker']])
     return locations
 
 def on_new_client(conn):
