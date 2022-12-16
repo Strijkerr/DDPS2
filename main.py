@@ -200,9 +200,9 @@ if pid > 0 :
     
     os.wait()
     # Clean up all temporary files (locally and remote) after we are done.
-    # deleteTempDir (tempDir)
-    # removeTempRemote (workers)
-    # removeTempRemote ([master])
+    deleteTempDir (tempDir)
+    removeTempRemote (workers)
+    removeTempRemote ([master])
 # The created child process (worker nodes)
 else :
     for worker in workers:
