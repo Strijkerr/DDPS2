@@ -40,10 +40,13 @@ def findFreeReduceTask (worker) :
 def getMapResultLocations (index) :
     locations = []
     hosts = []
+    test = {}
     for task in map_task_dict.keys() :
         if (map_task_dict[task]['partition'] == index) :
             locations.append(map_task_dict[task]['result_location'])
             hosts.append(map_task_dict[task]['worker'])
+            test[map_task_dict[task]['result_location']] = map_task_dict[task]['worker']
+    print(test)
     return locations, hosts
 
 def on_new_client(conn):
