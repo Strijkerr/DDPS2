@@ -125,7 +125,7 @@ def client_program(master, worker):
             time.sleep(5)
             continue     
     
-    print("Client.py exit") 
+    print(f"{worker} exits.") 
 
 # Start client.
 client_program(sys.argv[1], sys.argv[2])

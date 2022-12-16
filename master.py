@@ -74,7 +74,7 @@ def on_new_client(conn):
     worker = ''
     try : 
         worker = conn.recv(1024).decode()
-        #print("Worker connected:",worker)
+        print("Worker connected:",worker)
     except Exception as e:
         print(f"[!] Error: {e}")
 
@@ -82,7 +82,6 @@ def on_new_client(conn):
     while not checkTaskComplete (map_task_dict) :
         task, tasklocation = findFreeMapTask(worker)
         if not task :
-            print(f"Exit: {worker} thread.")
             break
 
         # Send mapping task to worker.
@@ -91,7 +90,7 @@ def on_new_client(conn):
         except Exception as e:
             print(f"[!] Error: {e}")
         else:
-            print(f"Master.py {worker} task: {task}")
+            print(f"Mapping task sent to {worker}")
         
         # Get mapping task result location from worker. Update statuses in dictionaries after.
         try : 
@@ -99,7 +98,7 @@ def on_new_client(conn):
         except Exception as e:
             print(f"[!] Error: {e}")
         else :
-            print(f"Master.py {worker} reply: {msg}")
+            print(f"{worker} has completed mapping task.")
             taskComplete (task, worker, msg, map_task_dict)
     
     # Send 'done' signal, this indicates that all map tasks are completed.
@@ -118,11 +117,10 @@ def on_new_client(conn):
 
         # Exit if no free reduce tasks.
         if not task :
-            print(f"Exit: {worker} thread.")
             try : 
                 conn.send('done'.encode())
             except Exception as e:
-                    print(f"[!] Error: {e}")
+                print(f"[!] Error: {e}")
             break
 
         # Get mapping task result locations based on the partition index.
@@ -135,7 +133,7 @@ def on_new_client(conn):
         except Exception as e:
             print(f"[!] Error: {e}")
         else:
-            print(f"Master.py {worker} task: {task}")
+            print(f"Reduce task sent to {worker}")
         
         # Get task response
         try : 
@@ -143,7 +141,7 @@ def on_new_client(conn):
         except Exception as e:
             print(f"[!] Error: {e}")
         else :
-            print(f"Master.py {worker} reply: {msg}")
+            print(f"{worker} has completed mapping task.")
             taskComplete (task, worker, msg, reduce_task_dict)
         
     # Send 'done' signal, this indicates that all reduce tasks are completed.
@@ -184,7 +182,7 @@ def server_program(client_count):
 
     # Exit server program.
     server_socket.close()
-    print("Master.py exit")
+    print("Server exits.")
 
 # Get dictionaries with information about shard locations, mapping tasks, reduce tasks and workers.
 shard_dict = returnDict(sys.argv[1])
