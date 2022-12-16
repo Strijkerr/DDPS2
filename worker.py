@@ -114,7 +114,6 @@ def client_program(master, worker):
                     
                     # Reduce results, and send result location to master.
                     reply = reduce(index)
-                    print(reply)
                     client_socket.send(reply.encode())
             
             # Exit client.

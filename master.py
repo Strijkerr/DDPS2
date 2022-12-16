@@ -34,6 +34,8 @@ def findFreeMapTask (worker) :
                     map_task_dict[task]['status'] = 'in-progress'
                     map_task_dict[task]['worker'] = worker
                     worker_dict[worker] = 'busy'
+                    location = {'location' : shard_dict[task][copy]['location'], 'partition' : map_task_dict[task]['partition']}
+                    print(location)
                     return task, shard_dict[task][copy]['location']
 
     # False if all map tasks have a status of not None (in-progress or done)
