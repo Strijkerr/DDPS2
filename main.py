@@ -137,7 +137,9 @@ def printOutput () :
         with open(folderName + file, "rb") as input_file:
             count = pickle.load(input_file)
             total_dict+=count
-    print(f"Final output:\n {total_dict}")
+    print('#############################################################\n')
+    print(f"Final output: {total_dict}")
+    print('\n#############################################################')
 
 # Get command line arguments.
 args = command_line_arguments()
