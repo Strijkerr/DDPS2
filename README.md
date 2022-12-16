@@ -1,21 +1,21 @@
 # DDPS2
 
 This repository was made for assignment 2 of the course: Distributed Data Processing Systems at Leiden University, LIACS.
-It is a toy project that simulates MapReduce for a simple map and reduce job.
+The project involves a toy distributed system that simulates MapReduce for a simple task: given a sequence of digits, count the occurence per digit in the sequence. It is made to work with the DAS-V cluster (https://www.cs.vu.nl/das5/).
 
-Given a sequence of digits, it can count the occurence per digit in the sequence in a distributed processing fashion.
-
-It is made to work with the DAS-V cluster (https://www.cs.vu.nl/das5/).
-
-Before you can run the script. You can generate a sequence of digits by running create_data.py first.
+1. Before you can run the script. You must generate a sequence of digits by running create_data.py first, e.g.:
 
 ```console
-e.g.: python3 create_data.py
+python3 create_data.py
 ```
+
 The sequence is stored as 'sequence.npy'
 
-You can run the main script from the command line by e.g.,: python3 main.py --nodes node115,node116,node117 --partitions 2 --copies 3
+2. You can then run the main script from the command line by e.g.,: 
 
+```console
+python3 main.py --nodes node115,node116,node117 --partitions 2 --copies 3
+```
 You can give it the following arguments:
 
 List of nodes,  e.g.: --nodes node102,node103,node104
