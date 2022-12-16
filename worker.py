@@ -129,7 +129,7 @@ def client_program(master, worker):
     print(f"{worker} exits.") 
 
 # Filter warning this warning: "CryptographyDeprecationWarning: Python 3.6 is no longer supported by the Python core team."
-warnings.filterwarnings('ignore', category=DeprecationWarning)
+warnings.filterwarnings("ignore")
 
 # Start client.
 client_program(sys.argv[1], sys.argv[2])
