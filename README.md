@@ -3,10 +3,12 @@
 This repository was made for assignment 2 of the course: Distributed Data Processing Systems at Leiden University, LIACS.
 The project involves a toy distributed system that simulates MapReduce for a simple task: given a sequence of digits, count the occurence per digit in the sequence. It is made to work with the DAS-V cluster (https://www.cs.vu.nl/das5/).
 
-1. Before you can run the script. You must generate a sequence of digits by running create_data.py first, e.g.:
+1. Before you can run the script. You must generate a sequence of digits by running create_data.py first.
+
+Example (arguments are default values):
 
 ```console
-python3 create_data.py
+python3 create_data.py --seed 0 --filename sequence --sequence_length 1000000
 ```
 
 The sequence is stored as 'sequence.npy'
