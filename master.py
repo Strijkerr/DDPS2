@@ -38,13 +38,13 @@ def findFreeReduceTask (worker) :
     return False, False
 
 def getMapResultLocations (index) :
-    locations = {}
+    locations = []
+    hosts = []
     for task in map_task_dict.keys() :
         if (map_task_dict[task]['partition'] == index) :
-            locations[map_task_dict[task]['result_location']] = map_task_dict[task]['worker']
-            # locations.append(map_task_dict[task]['result_location'])
-            # hosts.append(map_task_dict[task]['worker'])
-    return locations
+            locations.append(map_task_dict[task]['result_location'])
+            hosts.append(map_task_dict[task]['worker'])
+    return locations, hosts
 
 def on_new_client(conn):
     worker = ''
@@ -100,7 +100,7 @@ def on_new_client(conn):
                     print(f"[!] Error: {e}")
             break
         # Get mapper result locations with index
-        locations = getMapResultLocations(index)
+        locations, hosts = getMapResultLocations(index)
         locations = json.dumps(locations)
          # Send reduce task
         try:

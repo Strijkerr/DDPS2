@@ -66,12 +66,11 @@ def client_program(master, worker):
                     if (msg == 'done') :
                         break
                     locations = json.loads(str(msg))
-                    print(locations)
-                    # for loc in locations :
-                    #     file = loc[0].split('/')[-1]
-                    #     folder = loc[0].rsplit('/', 1)[0] + '/'
-                    #     print(file, folder)
-                    #     print(loc[1])
+                    for loc in locations :
+                        file = loc[0].split('/')[-1]
+                        folder = loc[0].rsplit('/', 1)[0] + '/'
+                        print(file, folder)
+                        print(loc[1])
                         # copyFiles(file, )
                     break # Remove later
                     # TODO:Shuffle
