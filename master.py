@@ -98,7 +98,7 @@ def on_new_client(conn):
         except Exception as e:
             print(f"[!] Error: {e}")
         else :
-            print(f"{worker} has completed mapping task.")
+            print(f"Mapping task completed by {worker}")
             taskComplete (task, worker, msg, map_task_dict)
     
     # Send 'done' signal, this indicates that all map tasks are completed.
@@ -141,7 +141,7 @@ def on_new_client(conn):
         except Exception as e:
             print(f"[!] Error: {e}")
         else :
-            print(f"{worker} has completed mapping task.")
+            print(f"Reduce completed by {worker}")
             taskComplete (task, worker, msg, reduce_task_dict)
         
     # Send 'done' signal, this indicates that all reduce tasks are completed.
