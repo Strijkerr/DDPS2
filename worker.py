@@ -7,6 +7,7 @@ import sys
 import pickle
 import os.path
 import json
+import paramiko
 
 def returnDict (filename) :
     infile = open(filename,'rb')
@@ -74,9 +75,10 @@ def client_program(master, worker):
                     locations = json.loads(str(msg))
                     for loc in locations :
                         print(loc)
-                    break
-                    # Shuffle
-                    # Reduce
+                    break # Remove later
+                    # TODO:Shuffle
+                    # TODO:Reduce
+                    # TODO:Send message back with result location
             
             client_socket.close()
             break
