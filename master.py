@@ -109,14 +109,14 @@ def on_new_client(conn):
         else:
             print(f"Master.py {worker} task: {task}")
         
-        # Get task response
-        try : 
-            msg = conn.recv(1024).decode()
-        except Exception as e:
-            print(f"[!] Error: {e}")
-        else :
-            print(f"Master.py {worker} reply: {msg}")
-            taskComplete (task, worker, msg, reduce_task_dict)
+        # # Get task response
+        # try : 
+        #     msg = conn.recv(1024).decode()
+        # except Exception as e:
+        #     print(f"[!] Error: {e}")
+        # else :
+        #     print(f"Master.py {worker} reply: {msg}")
+        #     taskComplete (task, worker, msg, reduce_task_dict)
         
         break # delete later
         
