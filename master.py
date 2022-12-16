@@ -35,8 +35,7 @@ def findFreeMapTask (worker) :
                     map_task_dict[task]['worker'] = worker
                     worker_dict[worker] = 'busy'
                     location = {'location' : shard_dict[task][copy]['location'], 'partition' : map_task_dict[task]['partition']}
-                    print(location)
-                    return task, shard_dict[task][copy]['location']
+                    return task, location #shard_dict[task][copy]['location']
 
     # False if all map tasks have a status of not None (in-progress or done)
     # Also false if worker does not have any available map task data locally.
@@ -85,6 +84,9 @@ def on_new_client(conn):
         task, tasklocation = findFreeMapTask(worker)
         if not task :
             break
+        
+        # Turn to json
+        tasklocation = json.dumps(tasklocation)
 
         # Send mapping task to worker.
         try:

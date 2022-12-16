@@ -86,7 +86,10 @@ def client_program(master, worker):
                         break
                     
                     # Get result of mapping operation and send result location to master node.
-                    reply = mapper(msg)
+                    shard_location = json.loads(str(msg))
+                    index = shard_location['partition']
+                    print(shard_location)
+                    reply = mapper(shard_location['location'])
                     client_socket.send(reply.encode())
             
             # Shuffle and reduce stage loop.
