@@ -75,7 +75,7 @@ def on_new_client(conn):
             print(f"[!] Error: {e}")
         else :
             print(f"Master.py {worker} reply: {msg}")
-            taskComplete (task, worker, msg)
+            taskComplete (task, worker, msg, map_task_dict)
     
     # Send 'done' signal, this indicates all map tasks are completed.
     try:
@@ -100,6 +100,7 @@ def on_new_client(conn):
         # Get mapper result locations with index
         locations = getMapResultLocations(index)
         locations = json.dumps(locations)
+
          # Send reduce task
         try:
             conn.send(locations.encode())
@@ -107,6 +108,16 @@ def on_new_client(conn):
             print(f"[!] Error: {e}")
         else:
             print(f"Master.py {worker} task: {task}")
+        
+        # Get task response
+        try : 
+            msg = conn.recv(1024).decode()
+        except Exception as e:
+            print(f"[!] Error: {e}")
+        else :
+            print(f"Master.py {worker} reply: {msg}")
+            taskComplete (task, worker, msg, reduce_task_dict)
+        
         break # delete later
         
     # While loop for reduce tasks.
@@ -138,11 +149,11 @@ def server_program(client_count):
     server_socket.close()
     print("Master.py exit")
 
-def taskComplete (task, worker, result_location) :
+def taskComplete (task, worker, result_location, dictionary) :
     worker_dict[worker] = None
-    map_task_dict[task]['status'] = 'done'
-    map_task_dict[task]['worker'] = worker
-    map_task_dict[task]['result_location'] = result_location
+    dictionary[task]['status'] = 'done'
+    dictionary[task]['worker'] = worker
+    dictionary[task]['result_location'] = result_location
 
 shard_dict = returnDict(sys.argv[1])
 map_task_dict = returnDict(sys.argv[2])

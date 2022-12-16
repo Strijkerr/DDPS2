@@ -7,6 +7,7 @@ import sys
 import pickle
 import json
 import paramiko
+import os
 
 def mapper (location) :
     file =  np.load(location)
@@ -32,14 +33,17 @@ def shuffle (host, file) :
     ssh.close()
 
 def reduce () :
-    #TODO
-    pass
-    #total_dict = collections.Counter()
-    
-    # for pickle_file in pickle_files :
-    #     with open(pickle_file, 'rb') as inputfile:
-    #         pickle_dict = pickle.load(inputfile)
-    #         total_dict+=pickle_dict
+    total_dict = collections.Counter()
+    folderName = '/local/ddps2202/'
+    for file in os.listdir(folderName) :
+        if file.endswith(".pickle"):
+            sequence = pickle.load(folderName + file)
+            total_dict+=sequence
+    return total_dict
+    # with open(f'/local/ddps2202/{filename}.pickle', 'wb') as outputfile:
+    #     pickle.dump(count, outputfile)
+    # return f'/local/ddps2202/{filename}.pickle'
+
 
 def client_program(master, worker):
     host = master
@@ -80,9 +84,10 @@ def client_program(master, worker):
                     for loc in locations.keys() :
                         if (locations[loc] != worker) :
                             shuffle(locations[loc],loc)
+                    reply = reduce()
+                    print(reply)
+                    #client_socket.send(reply.encode())
                     break # Remove later
-                    # TODO:Reduce
-                    # TODO:Send message back with result location
             
             client_socket.close()
             break
