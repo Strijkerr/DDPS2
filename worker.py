@@ -41,6 +41,7 @@ def reduce (index) :
     total_dict = collections.Counter()
     folderName = '/local/ddps2202/'
     for file in os.listdir(folderName) :
+        print(index,file)
         if file.endswith(".pickle"):
             with open(folderName + file, "rb") as input_file:
                 count = pickle.load(input_file)
@@ -106,7 +107,6 @@ def client_program(master, worker):
                     # Get dictionary with intermediate result locations.
                     locations = json.loads(str(msg))
                     index = locations['partition']
-                    print(index)
                     for loc in locations['locations'].keys() :
 
                         # If intermediate results are also on the reduce worker, do not download.
@@ -115,7 +115,6 @@ def client_program(master, worker):
                     
                     # Reduce results, and send result location to master.
                     reply = reduce(index)
-                    print(reply)
                     client_socket.send(reply.encode())
             
             # Exit client.
