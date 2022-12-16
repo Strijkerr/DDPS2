@@ -27,6 +27,7 @@ def findFreeMapTask (worker) :
     # Also false if worker does not have any available map task data locally.
     return False, False
 
+# Find a free reduce task, based on `first come first serve` principle. Update statuses in dictionaries after.
 def findFreeReduceTask (worker) :
     for task in reduce_task_dict.keys() :
         if (reduce_task_dict[task]['status'] == None) :
