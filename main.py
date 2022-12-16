@@ -10,7 +10,7 @@ import json
 import pickle
 import sys
 
-# Parsing command line arguments
+# Parsing command line arguments.
 def command_line_arguments () :
     argparser = argparse.ArgumentParser()
     argparser.add_argument("--nodes", default= 'node102,node103,node104', type=str, help="E.g., node102,node103,node104") # Remove default afterwards
@@ -58,14 +58,14 @@ def createDir (dirName) :
     os.makedirs(dirName)
     return dirName
 
-# Remove temporary directory
+# Remove temporary directory.
 def deleteTempDir (dirName) :
     if os.path.exists(dirName):
         shutil.rmtree(dirName)
     return True
 
 # Copy shards from front-end to local storage of each node.
-def copyFiles (host, file, return_local = True) : # Delete `delete' after we are done debugging.
+def copyFiles (host, file, return_local = True) :
 
     # Create client and connect.
     ssh = paramiko.SSHClient()
@@ -90,7 +90,7 @@ def copyFiles (host, file, return_local = True) : # Delete `delete' after we are
     file_local = folder_local + file
     sftp.put(file_local,file_remote)
 
-    # Close connections
+    # Close connections.
     sftp.close()
     ssh.close()
 
@@ -129,10 +129,10 @@ def removeTempRemote (hosts) :
         ssh.close()
     return True
 
-# Get command line arguments
+# Get command line arguments.
 args = command_line_arguments()
 
-# Get master & workers hostnames
+# Get master & workers hostnames.
 master, workers = check_node_input(args.nodes)
 
 # Limit copies < workers, don't want to store more than 1 identical shard per worker.
@@ -163,12 +163,12 @@ for index, file in enumerate(files):
 
 print("(Complete) Split data has been distributed over cluster.")
 
-# Save the shard locations to disk, then copy over to master node storage.
+# Save the shard locations to disk, then copy over this information to master node later.
 with open(tempDir + '/shard_dict.pickle', 'wb') as handle:
     pickle.dump(json.loads(json.dumps(dictionary)), handle, protocol=pickle.HIGHEST_PROTOCOL)
 location1, host = copyFiles (master, 'shard_dict.pickle')
 
-# Dictionary with map tasks
+# Create dictionary with map tasks to send to master later.
 map_task_dict = dict.fromkeys(dictionary.keys(),None)
 for index, task in enumerate(map_task_dict.keys()) :
     map_task_dict[task] = {'status': None, 'worker': None, 'result_location': None, 'partition' : (index % args.partitions)}
@@ -176,7 +176,7 @@ with open(tempDir + '/map_task_dict.pickle', 'wb') as handle:
     pickle.dump(json.loads(json.dumps(map_task_dict)), handle, protocol=pickle.HIGHEST_PROTOCOL)
 location2, host = copyFiles (master, 'map_task_dict.pickle')
 
-# Dictionary with reduce tasks
+# Create dictionary with reduce tasks to send to master later.
 reduce_task_dict = {}
 for p in range(args.partitions) :
     reduce_task_dict[f"Reduce{p}"] = {'status': None, 'worker': None, 'result_location': None, 'index' : p}
@@ -184,7 +184,7 @@ with open(tempDir + '/reduce_task_dict.pickle', 'wb') as handle:
     pickle.dump(json.loads(json.dumps(reduce_task_dict)), handle, protocol=pickle.HIGHEST_PROTOCOL)
 location3, host = copyFiles (master, 'reduce_task_dict.pickle')
 
-# Dict with workers
+# Create dictionary with workers to send to master later.
 worker_dict = dict.fromkeys(workers,None)
 for d in worker_dict.keys() :
     worker_dict[d] = None
@@ -192,10 +192,10 @@ with open(tempDir + '/worker_dict.pickle', 'wb') as handle:
     pickle.dump(json.loads(json.dumps(worker_dict)), handle, protocol=pickle.HIGHEST_PROTOCOL)
 location4, host = copyFiles (master, 'worker_dict.pickle')
 
-# Fork process
+# Fork process.
 pid = os.fork()
 
-# Start master node
+# Start master node.
 if pid > 0 :
     process = subprocess.Popen(f"ssh {master} python3 ~/DDPS2/master.py {location1} {location2} {location3} {location4}", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, bufsize=1)
     stdout, stder = process.communicate() # Blocking
@@ -210,7 +210,7 @@ if pid > 0 :
     removeTempRemote (workers)
     removeTempRemote ([master])
 
-# Start worker nodes
+# Start worker nodes.
 else :
     for worker in workers:
         pid = os.fork()
