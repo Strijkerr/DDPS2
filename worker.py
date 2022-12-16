@@ -17,19 +17,20 @@ def mapper (location) :
     return f'/local/ddps2202/{filename}.pickle'
 
 def shuffle (host, file) :
-    # Create client and connect.
-    ssh = paramiko.SSHClient()
-    ssh.set_missing_host_key_policy(
-                paramiko.AutoAddPolicy())
-    ssh.connect(hostname=host, port=22)
-    sftp = ssh.open_sftp()
+    pass
+    # # Create client and connect.
+    # ssh = paramiko.SSHClient()
+    # ssh.set_missing_host_key_policy(
+    #             paramiko.AutoAddPolicy())
+    # ssh.connect(hostname=host, port=22)
+    # sftp = ssh.open_sftp()
 
-    # Upload file.
-    sftp.put(file,file)
+    # # Upload file.
+    # sftp.put(file,file)
 
-    # Close connections
-    sftp.close()
-    ssh.close()
+    # # Close connections
+    # sftp.close()
+    # ssh.close()
 
 def reduce () :
     #TODO
@@ -76,12 +77,10 @@ def client_program(master, worker):
                 else:
                     if (msg == 'done') :
                         break
-                    #locations = json.loads(str(msg))
-                    #print(locations)
-                    #for loc in locations.keys() :
-                        #print(locations[loc],loc)
-                        # if (locations[loc] != worker) :
-                        #     print(locations[loc],loc)
+                    locations = json.loads(str(msg))
+                    for loc in locations.keys() :
+                        if (locations[loc] != worker) :
+                            print(locations[loc],loc)
                             #shuffle(locations[loc],loc)
                     break # Remove later
                     # TODO:Shuffle
