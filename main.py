@@ -141,7 +141,7 @@ def printOutput () :
     print(f"Final output:\n {total_dict}")
 
 # Filter warning this warning: "CryptographyDeprecationWarning: Python 3.6 is no longer supported by the Python core team."
-warnings.filterwarnings("ignore")
+warnings.filterwarnings(action='ignore',message='Python 3.6 is no longer supported')
 
 # Get command line arguments.
 args = command_line_arguments()
