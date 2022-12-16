@@ -43,8 +43,6 @@ def reduce () :
                 count = pickle.load(input_file)
                 total_dict+=count
     print(total_dict)
-    # return 'test'
-    #print(total_dict)
     # return total_dict
     # with open(f'/local/ddps2202/{filename}.pickle', 'wb') as outputfile:
     #     pickle.dump(count, outputfile)

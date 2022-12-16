@@ -20,7 +20,7 @@ def command_line_arguments () :
     argparser.add_argument("--copies", default= '2', type=int, help="E.g., 2")
     return argparser.parse_args()
 
-# Test connection of nodes
+# Test connection of all given nodes.
 def check_ssh(server_ip, port=22):
     try:
         test_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -31,7 +31,7 @@ def check_ssh(server_ip, port=22):
         test_socket.close()
     return True
 
-# Turn command line arguments to list of nodes, then test connections to nodes.
+# Turn command line arguments into list of nodes, then test connections to nodes.
 def check_node_input (arguments) :
     if arguments is None:
         raise ValueError('No nodes specified.')
@@ -43,25 +43,23 @@ def check_node_input (arguments) :
         raise ValueError('Not enough nodes.')
     return nodes[0], nodes[1:]
 
-# Split input file into different parts
+# Load input file, split into different shards, then save shards locally.
 def splitInput (filename, splits) :
     path = os.getcwd()
     sequence = np.load(os.path.join(path, filename))
-
-    # Save splits
     for i, split in enumerate(np.split(sequence,splits)) :
         np.save(f"temp/shard{i}", split)
     return True
 
-def createTempDir (dirName) :
-    # Create temp directory, empty if exists
+# Create temporary directory, empty if exists.
+def createDir (dirName) :
     if os.path.exists(dirName):
         shutil.rmtree(dirName)
     os.makedirs(dirName)
     return dirName
 
+# Remove temporary directory
 def deleteTempDir (dirName) :
-    # Remove temp dir
     if os.path.exists(dirName):
         shutil.rmtree(dirName)
     return True
@@ -76,18 +74,18 @@ def copyFiles (host, file, return_local = True) : # Delete `delete' after we are
     ssh.connect(hostname=host, port=22)
     sftp = ssh.open_sftp()
     
-    
+    # Folders
     folder_remote = '/local/ddps2202/'
     folder_local = '/home/ddps2202/DDPS2/temp/'
     
+    # Create remote directory if it doesn't yet exist.
     try:
         sftp.chdir(folder_remote) 
-    # Create directory if it doesn't yet exist
     except:
         sftp.mkdir(folder_remote) 
         sftp.chdir(folder_remote)
 
-    # Upload file.
+    # Upload file (local -> remote).
     file_remote = folder_remote + file
     file_local = folder_local + file
     sftp.put(file_local,file_remote)
@@ -95,14 +93,19 @@ def copyFiles (host, file, return_local = True) : # Delete `delete' after we are
     # Close connections
     sftp.close()
     ssh.close()
+
+    # Return either local file location or remote file location.
     if (return_local) :
         return file_local, host
     else :
         return file_remote, host
 
+# Removes temporary files and folders on remote locations.
 def removeTempRemote (hosts) :
+
     # Loop over hosts
     for host in hosts :
+
         # Create client and connect.
         ssh = paramiko.SSHClient()
         ssh.set_missing_host_key_policy(
@@ -110,12 +113,11 @@ def removeTempRemote (hosts) :
         ssh.connect(hostname=host, port=22)
         sftp = ssh.open_sftp()
         
-        # Test if remote_path exists, then empty and remove folder.
+        # Test if remote_path exists, if so then empty, then remove folder.
         folder_remote = '/local/ddps2202/'
         try:
             sftp.chdir(folder_remote) 
             filesInRemoteArtifacts = sftp.listdir(path=folder_remote)
-            # Empty temp directory beforehand,
             for file in filesInRemoteArtifacts:
                 sftp.remove(folder_remote+file)
             sftp.rmdir(folder_remote)
@@ -125,7 +127,6 @@ def removeTempRemote (hosts) :
         # Close connections
         sftp.close()
         ssh.close()
-
     return True
 
 # Get command line arguments
@@ -139,7 +140,10 @@ if (args.copies > len(workers)) :
     args.copies = len(workers)
 
 # Create temporary directory locally on frontend.
-tempDir = createTempDir('temp')
+tempDir = createDir('temp')
+
+# Create output directory locally on frontend.
+tempDir = createDir('output')
 
 # Split input data and store locally on frontend.
 file_splits = splitInput (args.input, args.splits)
@@ -191,19 +195,22 @@ location4, host = copyFiles (master, 'worker_dict.pickle')
 # Fork process
 pid = os.fork()
 
-# The parent process (master node)
+# Start master node
 if pid > 0 :
     process = subprocess.Popen(f"ssh {master} python3 ~/DDPS2/master.py {location1} {location2} {location3} {location4}", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, bufsize=1)
     stdout, stder = process.communicate() # Blocking
     print("Stdout:",stdout.decode('ASCII'))
     print("Stderr:",stder.decode('ASCII'))
-    
+
+    # (Sync) Wait for child processes to finish.
     os.wait()
+
     # Clean up all temporary files (locally and remote) after we are done.
     deleteTempDir (tempDir)
     removeTempRemote (workers)
     removeTempRemote ([master])
-# The created child process (worker nodes)
+
+# Start worker nodes
 else :
     for worker in workers:
         pid = os.fork()
