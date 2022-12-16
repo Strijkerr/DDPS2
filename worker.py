@@ -38,7 +38,10 @@ def reduce () :
     folderName = '/local/ddps2202/'
     for file in os.listdir(folderName) :
         if file.endswith(".pickle"):
-            print(os.path.exists(folderName + file))
+            #print(os.path.exists(folderName + file))
+            with open(folderName + file, "rb") as input_file:
+                sequence = pickle.load(folderName + file)
+                print(len(sequence))
             #TODO: whatever comes after is not working
             #sequence = pickle.load(folderName + file)
             #count = collections.Counter(sequence)

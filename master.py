@@ -149,6 +149,7 @@ def server_program(client_count):
     server_socket.close()
     print("Master.py exit")
 
+# Update dictionaries 
 def taskComplete (task, worker, result_location, dictionary) :
     worker_dict[worker] = None
     dictionary[task]['status'] = 'done'
