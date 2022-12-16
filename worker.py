@@ -37,10 +37,10 @@ def reduce () :
     folderName = '/local/ddps2202/'
     for file in os.listdir(folderName) :
         if file.endswith(".pickle"):
-            #print(file)
+            print(file)
             #print(folderName)
-            sequence = pickle.load(folderName + file)
-            print(len(sequence))
+            # sequence = pickle.load(folderName + file)
+            # print(len(sequence))
             # total_dict+=sequence
     # return total_dict
     # with open(f'/local/ddps2202/{filename}.pickle', 'wb') as outputfile:
