@@ -6,6 +6,7 @@ import collections
 import sys
 import pickle
 import json
+import paramiko
 
 def mapper (location) :
     file =  np.load(location)
@@ -15,9 +16,20 @@ def mapper (location) :
         pickle.dump(count, outputfile)
     return f'/local/ddps2202/{filename}.pickle'
 
-def shuffle (task, workers, locations) :
-    #TODO
-    pass
+def shuffle (host, file) :
+    # Create client and connect.
+    ssh = paramiko.SSHClient()
+    ssh.set_missing_host_key_policy(
+                paramiko.AutoAddPolicy())
+    ssh.connect(hostname=host, port=22)
+    sftp = ssh.open_sftp()
+
+    # Upload file.
+    sftp.put(file,file)
+
+    # Close connections
+    sftp.close()
+    ssh.close()
 
 def reduce () :
     #TODO
@@ -66,13 +78,7 @@ def client_program(master, worker):
                         break
                     locations = json.loads(str(msg))
                     for loc in locations.keys() :
-                        print(loc)
-                        print(locations[loc])
-                    #     file = loc[0].split('/')[-1]
-                    #     folder = loc[0].rsplit('/', 1)[0] + '/'
-                    #     print(file, folder)
-                    #     print(loc[1])
-                        # copyFiles(file, )
+                        shuffle(locations[loc],loc)
                     break # Remove later
                     # TODO:Shuffle
                     # TODO:Reduce
