@@ -137,8 +137,9 @@ def printOutput () :
         with open(folderName + file, "rb") as input_file:
             count = pickle.load(input_file)
             total_dict+=count
-    print('#############################################################\n')
-    print(f"Final output: {total_dict}")
+    print('#############################################################')
+    print("Final output:\n")
+    print(total_dict)
     print('\n#############################################################')
 
 # Get command line arguments.
@@ -212,7 +213,7 @@ if pid > 0 :
     process = subprocess.Popen(f"ssh {master} python3 ~/DDPS2/master.py {location1} {location2} {location3} {location4}", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, bufsize=1)
     stdout, stder = process.communicate() # Blocking
     print("Stdout:",stdout.decode('ASCII'))
-    print("Stderr:",stder.decode('ASCII'))
+    # print("Stderr:",stder.decode('ASCII')) Debugging
 
     # (Sync) Wait for child processes to finish.
     os.wait()
@@ -230,6 +231,7 @@ else :
     for worker in workers:
         pid = os.fork()
         if pid:
-            process = subprocess.Popen(f"ssh {worker} python3 ~/DDPS2/worker.py {master} {worker}", shell=True, stdout=sys.stdout, stderr=sys.stderr)
+            #process = subprocess.Popen(f"ssh {worker} python3 ~/DDPS2/worker.py {master} {worker}", shell=True, stdout=sys.stdout, stderr=sys.stderr) # debugging
+            process = subprocess.Popen(f"ssh {worker} python3 ~/DDPS2/worker.py {master} {worker}", shell=True)
         else:
             os._exit(0)
