@@ -37,12 +37,10 @@ def reduce () :
     folderName = '/local/ddps2202/'
     for file in os.listdir(folderName) :
         if file.endswith(".pickle"):
-            print(file)
-            #TODO somehow foldername cant be printed? Look at this tomorrow
-            print(folderName)
-            # sequence = pickle.load(folderName + file)
-            # print(len(sequence))
-            # total_dict+=sequence
+            sequence = pickle.load(folderName + file)
+            count = collections.Counter(sequence)
+            total_dict+=count
+    print(total_dict)
     # return total_dict
     # with open(f'/local/ddps2202/{filename}.pickle', 'wb') as outputfile:
     #     pickle.dump(count, outputfile)
