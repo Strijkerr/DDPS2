@@ -10,6 +10,7 @@ import json
 import pickle
 import sys
 import warnings
+from cryptography.utils import CryptographyDeprecationWarning
 
 # Parsing command line arguments.
 def command_line_arguments () :
@@ -139,6 +140,9 @@ def printOutput () :
             count = pickle.load(input_file)
             total_dict+=count
     print(f"Final output:\n {total_dict}")
+
+# Filter warning this warning: "CryptographyDeprecationWarning: Python 3.6 is no longer supported by the Python core team."
+warnings.filterwarnings("ignore", category=CryptographyDeprecationWarning)
 
 # Get command line arguments.
 args = command_line_arguments()

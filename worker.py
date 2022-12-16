@@ -10,6 +10,7 @@ import paramiko
 import os
 import os.path
 import warnings
+from cryptography.utils import CryptographyDeprecationWarning
 
 # Mapping stage: load file, count digits, then save intermediate results locally.
 def mapper (location) :
@@ -129,7 +130,7 @@ def client_program(master, worker):
     print(f"{worker} exits.") 
 
 # Filter warning this warning: "CryptographyDeprecationWarning: Python 3.6 is no longer supported by the Python core team."
-warnings.filterwarnings(action='ignore',module='.*paramiko.*')
+warnings.filterwarnings("ignore", category=CryptographyDeprecationWarning)
 
 # Start client.
 client_program(sys.argv[1], sys.argv[2])
