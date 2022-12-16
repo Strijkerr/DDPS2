@@ -11,13 +11,13 @@ import os
 import os.path
 
 # Mapping stage: load file, count digits, then save intermediate results locally.
-def mapper (location) :
+def mapper (location, index) :
     file =  np.load(location)
     count = collections.Counter(file)
     filename = location.split('/')[-1].split('.')[0]
-    with open(f'/local/ddps2202/{filename}.pickle', 'wb') as outputfile:
+    with open(f'/local/ddps2202/{filename}_{index}.pickle', 'wb') as outputfile:
         pickle.dump(count, outputfile)
-    return f'/local/ddps2202/{filename}.pickle'
+    return f'/local/ddps2202/{filename}_{index}.pickle'
 
 # Shuffle stage: connect to storages with intermediate results, then move results to local storage.
 def shuffle (host, file) :
@@ -88,8 +88,7 @@ def client_program(master, worker):
                     # Get result of mapping operation and send result location to master node.
                     shard_location = json.loads(str(msg))
                     index = shard_location['partition']
-                    print(shard_location)
-                    reply = mapper(shard_location['location'])
+                    reply = mapper(shard_location['location'],index)
                     client_socket.send(reply.encode())
             
             # Shuffle and reduce stage loop.
