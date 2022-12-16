@@ -192,5 +192,6 @@ map_task_dict = returnDict(sys.argv[2])
 reduce_task_dict = returnDict(sys.argv[3])
 worker_dict = returnDict(sys.argv[4])
 print(reduce_task_dict)
+print(map_task_dict)
 # Start master node server.
 server_program(len(worker_dict))
