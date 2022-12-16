@@ -81,7 +81,6 @@ def client_program(master, worker):
                         if (locations[loc] != worker) :
                             shuffle(locations[loc],loc)
                     break # Remove later
-                    # TODO:Shuffle
                     # TODO:Reduce
                     # TODO:Send message back with result location
             
