@@ -126,7 +126,9 @@ def client_program(master, worker):
 
             # If can't connect yet, wait 5 seconds and try again.
             time.sleep(5)
-            continue      
+            continue     
+    
+    print("Client.py exit") 
 
+# Start client.
 client_program(sys.argv[1], sys.argv[2])
-print("Client.py exit")
