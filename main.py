@@ -48,7 +48,7 @@ def check_node_input (arguments) :
 def splitInput (filename, splits) :
     path = os.getcwd()
     sequence = np.load(os.path.join(path, filename))
-    for i, split in enumerate(np.split(sequence,splits)) :
+    for i, split in enumerate(np.array_split(sequence,splits)) :
         np.save(f"temp/shard{i}", split)
     return True
 
