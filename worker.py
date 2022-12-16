@@ -86,6 +86,7 @@ def client_program(master, worker):
                     if (msg == 'done') :
                         break
                     locations = json.loads(str(msg))
+                    print(locations)
                     index = locations['partition']
                     # Get result of mapping operation and send result location to master node.
                     reply = mapper(locations['locations'],index)
