@@ -112,11 +112,9 @@ def client_program(master, worker):
                         if (locations['locations'][loc] != worker) :
                             shuffle(locations['locations'][loc],loc)
                     
-                    # Reduce results
+                    # Reduce results, and send result location to master.
                     reply = reduce(index)
-                    print(reply)
-                    #client_socket.send(reply.encode())
-                    break # Remove later
+                    client_socket.send(reply.encode())
             
             # Exit client.
             client_socket.close()
