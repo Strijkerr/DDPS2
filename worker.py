@@ -6,7 +6,6 @@ import collections
 import sys
 import pickle
 import json
-from main import copyFiles
 
 def mapper (location) :
     file =  np.load(location)
