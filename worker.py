@@ -106,6 +106,7 @@ def client_program(master, worker):
                     # Get dictionary with intermediate result locations.
                     locations = json.loads(str(msg))
                     index = locations['partition']
+                    print(index)
                     for loc in locations['locations'].keys() :
 
                         # If intermediate results are also on the reduce worker, do not download.
