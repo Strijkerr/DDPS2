@@ -40,7 +40,8 @@ def reduce () :
             sequence = pickle.load(folderName + file)
             count = collections.Counter(sequence)
             total_dict+=count
-    print(total_dict)
+    return
+    #print(total_dict)
     # return total_dict
     # with open(f'/local/ddps2202/{filename}.pickle', 'wb') as outputfile:
     #     pickle.dump(count, outputfile)
