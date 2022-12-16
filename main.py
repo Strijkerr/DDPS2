@@ -9,6 +9,7 @@ import collections
 import json
 import pickle
 import sys
+import time
 
 # Parsing command line arguments.
 def command_line_arguments () :
@@ -143,6 +144,9 @@ def printOutput () :
     print(total_dict)
     print('\n#############################################################')
 
+# Measure time.
+start = time.time()
+
 # Get command line arguments.
 args = command_line_arguments()
 
@@ -228,6 +232,9 @@ if pid > 0 :
 
     # Print final output
     printOutput()
+
+    end = time.time()
+    print(f"Elapsed time (s): {end-start}")
 
 # Start worker nodes.
 else :
