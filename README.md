@@ -20,9 +20,13 @@ python3 main.py --nodes node115,node116,node117 -- input sequence.npy --partitio
 3. The following arguments can be modified:
 
 List of nodes,  e.g.: --nodes node102,node103,node104
+
 Input file name, e.g.: --input sequence.npy
+
 Number of partitions, e.g.: --partitions 1
+
 Input file splits, e.g.: --splits 5
+
 Copies, e.g.: --copies 1
 
 Tip!:
