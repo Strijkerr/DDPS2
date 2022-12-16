@@ -4,6 +4,7 @@ import pickle
 import threading
 from _thread import *
 import time
+import json
 
 def checkMapTaskComplete () :
     for task in map_task_dict.keys() :
@@ -20,28 +21,32 @@ def checkReduceTaskComplete () :
 def findFreeMapTask (worker) :
     for task in map_task_dict.keys() :
         if (map_task_dict[task]['status'] == None) :
-            for i in shard_dict[task].keys() :
-                if (shard_dict[task][i]['host'] == worker) :
+            for copy in shard_dict[task].keys() :
+                if (shard_dict[task][copy]['host'] == worker) :
                     map_task_dict[task]['status'] = 'in-progress'
                     map_task_dict[task]['worker'] = worker
                     worker_dict[worker] = 'busy'
-                    return task, shard_dict[task][i]['location']
+                    return task, shard_dict[task][copy]['location']
     # False if all map tasks have a status of not None (in-progress or done)
     # Also false if worker does not have any available map task data locally.
     return False, False
 
-# def findFreeReduceTask () :
-#     for task in map_task_dict.keys() :
-#         if (map_task_dict[task]['status'] == None) :
-#             for i in shard_dict[task].keys() :
-#                 if (shard_dict[task][i]['host'] == worker) :
-#                     map_task_dict[task]['status'] = 'in-progress'
-#                     map_task_dict[task]['worker'] = worker
-#                     worker_dict[worker] = 'busy'
-#                     return task, shard_dict[task][i]['location']
-#     # False if all map tasks have a status of not None (in-progress or done)
-#     # Also false if worker does not have any available map task data locally.
-#     return False, False
+def findFreeReduceTask (worker) :
+    for task in reduce_task_dict.keys() :
+        if (reduce_task_dict[task]['status'] == None) :
+            reduce_task_dict[task]['status'] = 'in-progress'
+            reduce_task_dict[task]['worker'] = worker
+            worker_dict[worker] = 'busy'
+            return task, reduce_task_dict[task]['index']
+    # False if all reduce tasks have a status of not None (in-progress or done)
+    return False, False
+
+def getMapResultLocations (index) :
+    locations = []
+    for task in map_task_dict.keys() :
+        if (map_task_dict[task]['partition'] == index) :
+            locations.append(map_task_dict[task]['result_location'])
+    return locations
 
 def on_new_client(conn):
     worker = ''
@@ -86,10 +91,28 @@ def on_new_client(conn):
     while not checkMapTaskComplete() :
         time.sleep(1)
 
-    # # Reduce task loop
-    # while not checkReduceTaskComplete() :
-    #     task, tasklocation = findFreeMapTask(worker)
-
+    # Reduce task loop
+    while not checkReduceTaskComplete() :
+        task, index = findFreeReduceTask(worker)
+        if not task :
+            print(f"Exit: {worker} thread.")
+            try : 
+                conn.send('done'.encode())
+            except Exception as e:
+                    print(f"[!] Error: {e}")
+            break
+        # Get mapper result locations with index
+        locations = getMapResultLocations(index)
+        locations = json.dump(locations)
+         # Send reduce task
+        try:
+            conn.send(locations.encode())
+        except Exception as e:
+            print(f"[!] Error: {e}")
+        else:
+            print(f"Master.py {worker} task: {task}")
+        break # delete later
+        
     # While loop for reduce tasks.
     conn.close()
 

@@ -6,6 +6,7 @@ import collections
 import sys
 import pickle
 import os.path
+import json
 
 def returnDict (filename) :
     infile = open(filename,'rb')
@@ -48,7 +49,7 @@ def client_program(master, worker):
                 client_socket.send(worker.encode())
             except Exception as e:
                     print(f"[!] Error: {e}")
-            # Main while loop
+            # Map task
             while True:
                 # Get task
                 try:
@@ -61,6 +62,22 @@ def client_program(master, worker):
                     # Get result of mapping operation and send result location to master node.
                     reply = mapper(msg)
                     client_socket.send(reply.encode())
+            # Reduce task
+            while True:
+                # Get task
+                try:
+                    msg = client_socket.recv(1024).decode()
+                except Exception as e:
+                    print(f"[!] Error: {e}")
+                else:
+                    if (msg == 'done') :
+                        break
+                    locations = json.load(msg)
+                    print(locations)
+                    break
+                    # Shuffle
+                    # Reduce
+            
             client_socket.close()
             break
         except :
