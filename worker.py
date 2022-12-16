@@ -72,7 +72,7 @@ def client_program(master, worker):
                 else:
                     if (msg == 'done') :
                         break
-                    locations = json.load(str(msg))
+                    locations = json.loads(str(msg))
                     print(locations)
                     break
                     # Shuffle
