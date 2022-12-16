@@ -45,10 +45,10 @@ def reduce (index) :
             with open(folderName + file, "rb") as input_file:
                 count = pickle.load(input_file)
                 total_dict+=count
-    print(total_dict)
-    with open(f'/home/ddps2202/DDPS2/output/reduce_output_{index}.pickle', 'wb') as outputfile:
+    fileName = f'/home/ddps2202/DDPS2/output/reduce_output_{index}.pickle'
+    with open(fileName, 'wb') as outputfile:
         pickle.dump(total_dict, outputfile)
-    return f'/home/ddps2202/DDPS2/output/reduce_output_{index}.pickle'
+    return fileName
 
 # Client.
 def client_program(master, worker):
