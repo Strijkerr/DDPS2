@@ -19,7 +19,7 @@ def mapper (location) :
         pickle.dump(count, outputfile)
     return f'/local/ddps2202/{filename}.pickle'
 
-# Shuffle stage: connect to storages with intermediate results, then move results to local.
+# Shuffle stage: connect to storages with intermediate results, then move results to local storage.
 def shuffle (host, file) :
 
     # Create client and connect.
@@ -32,7 +32,7 @@ def shuffle (host, file) :
     # Upload file.
     sftp.get(file,file)
 
-    # Close connections
+    # Close connections.
     sftp.close()
     ssh.close()
 
@@ -51,7 +51,7 @@ def reduce () :
     #     pickle.dump(count, outputfile)
     # return f'/local/ddps2202/{filename}.pickle'
 
-# Client: 
+# Client.
 def client_program(master, worker):
 
     # Setup connection to master node.
@@ -59,14 +59,14 @@ def client_program(master, worker):
     port = 56609
     client_socket = socket.socket()
 
-    # Main loop
+    # Main client loop.
     while True :
 
-        # Try to connect to master node, if not possible, wait 5 seconds and try again.
+        # Try to connect to master node, if fails, wait 5 seconds and try again.
         try :
             client_socket.connect((host, port))
 
-            # Send worker identity to master node.
+            # Send worker's identity to master node.
             try : 
                 client_socket.send(worker.encode())
             except Exception as e:
@@ -111,16 +111,19 @@ def client_program(master, worker):
                         # If intermediate results are also on the reduce worker, do not download.
                         if (locations[loc] != worker) :
                             shuffle(locations[loc],loc)
+                    
+                    # Reduce results
                     reduce()
                     # reply = reduce()
                     # print(reply)
                     #client_socket.send(reply.encode())
                     break # Remove later
             
-            # Exit client
+            # Exit client.
             client_socket.close()
             break
         except :
+
             # If can't connect yet, wait 5 seconds and try again.
             time.sleep(5)
             continue      
