@@ -8,6 +8,7 @@ import pickle
 import json
 import paramiko
 import os
+import os.path
 
 def mapper (location) :
     file =  np.load(location)
@@ -37,7 +38,7 @@ def reduce () :
     folderName = '/local/ddps2202/'
     for file in os.listdir(folderName) :
         if file.endswith(".pickle"):
-            print(file)
+            print(os.path.exists(folderName + file))
             #TODO: whatever comes after is not working
             #sequence = pickle.load(folderName + file)
             #count = collections.Counter(sequence)
