@@ -64,7 +64,6 @@ def client_program(master, worker):
                     client_socket.send(reply.encode())
             # Reduce task
             while True:
-                # Get task
                 try:
                     msg = client_socket.recv(1024).decode()
                 except Exception as e:
