@@ -103,7 +103,7 @@ def on_new_client(conn):
             break
         # Get mapper result locations with index
         locations = getMapResultLocations(index)
-        locations = json.dump(locations)
+        locations = json.dumps(locations)
          # Send reduce task
         try:
             conn.send(locations.encode())
