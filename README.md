@@ -19,15 +19,24 @@ python3 main.py --nodes node115,node116,node117 -- input sequence.npy --partitio
 
 3. The following arguments can be modified:
 
-List of nodes,  e.g.: --nodes node102,node103,node104
+List of nodes. The first node in the sequence will become the master node, the rest will become workers.  e.g.: 
+```console
+--nodes node102,node103,node104
+```
+Input file name. Must exist in the working directory. Default is: 'sequence.npy'. 
+```console
+--input sequence.npy
+```
+Number of partitions. Specifies the number of reduce tasks, and reduce task results. Does not effect final output, as it will aggregate over all reduce task results in case of multiple, e.g.: 
 
-Input file name, e.g.: --input sequence.npy
-
-Number of partitions, e.g.: --partitions 1
-
+```console
+--partitions 1
+```
 Input file splits, e.g.: --splits 5
 
 Copies, e.g.: --copies 1
+
+4. This project makes use of the following ports: 22, 56609. These were chosen somewhat trivially.
 
 Tip!:
 If you activate the script too frequently, you can get a: "[Errno 98] Address already in use" error.
