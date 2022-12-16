@@ -76,8 +76,8 @@ def client_program(master, worker):
                 else:
                     if (msg == 'done') :
                         break
-                    locations = json.loads(str(msg))
-                    print(locations)
+                    #locations = json.loads(str(msg))
+                    #print(locations)
                     #for loc in locations.keys() :
                         #print(locations[loc],loc)
                         # if (locations[loc] != worker) :
