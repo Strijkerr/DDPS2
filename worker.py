@@ -5,15 +5,7 @@ import numpy as np
 import collections
 import sys
 import pickle
-import os.path
 import json
-import paramiko
-
-def returnDict (filename) :
-    infile = open(filename,'rb')
-    dictionary = pickle.load(infile)
-    infile.close()
-    return dictionary
 
 def mapper (location) :
     file =  np.load(location)
