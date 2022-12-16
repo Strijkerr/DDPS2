@@ -140,9 +140,6 @@ def printOutput () :
             total_dict+=count
     print(f"Final output:\n {total_dict}")
 
-# Filter warning this warning: "CryptographyDeprecationWarning: Python 3.6 is no longer supported by the Python core team."
-warnings.filterwarnings(action='ignore',module='.*paramiko.*')
-
 # Get command line arguments.
 args = command_line_arguments()
 
