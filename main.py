@@ -129,6 +129,16 @@ def removeTempRemote (hosts) :
         ssh.close()
     return True
 
+# Prints final output
+def printOutput () :
+    total_dict = collections.Counter()
+    folderName = '/home/ddps2202/DDPS2/output/'
+    for file in os.listdir(folderName) :
+        with open(folderName + file, "rb") as input_file:
+            count = pickle.load(input_file)
+            total_dict+=count
+    print(f"Final output:\n {total_dict}")
+
 # Get command line arguments.
 args = command_line_arguments()
 
@@ -209,6 +219,9 @@ if pid > 0 :
     deleteTempDir (tempDir)
     removeTempRemote (workers)
     removeTempRemote ([master])
+
+    # Print final output
+    printOutput()
 
 # Start worker nodes.
 else :
