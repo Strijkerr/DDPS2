@@ -186,7 +186,6 @@ def server_program(client_count):
     # Exit server program.
     server_socket.close()
     print("\nServer exits.")
-    print('#############################################################')
 
 
 # Get dictionaries with information about shard locations, mapping tasks, reduce tasks and workers.
