@@ -6,17 +6,17 @@ from _thread import *
 import time
 import json
 
-def checkMapTaskComplete () :
-    for task in map_task_dict.keys() :
-        if not (map_task_dict[task]['status'] == 'done') :
+def checkTaskComplete (dictionary) :
+    for task in dictionary.keys() :
+        if not (dictionary[task]['status'] == 'done') :
             return False
     return True
 
-def checkReduceTaskComplete () :
-    for task in reduce_task_dict.keys() :
-        if not (reduce_task_dict[task]['status'] == 'done') :
-            return False
-    return True
+# def checkReduceTaskComplete () :
+#     for task in reduce_task_dict.keys() :
+#         if not (reduce_task_dict[task]['status'] == 'done') :
+#             return False
+#     return True
 
 def findFreeMapTask (worker) :
     for task in map_task_dict.keys() :
@@ -58,7 +58,7 @@ def on_new_client(conn):
         print(f"[!] Error: {e}")
 
     # Main while loop
-    while not checkMapTaskComplete() :
+    while not checkTaskComplete (map_task_dict) :
         task, tasklocation = findFreeMapTask(worker)
         if not task :
             print(f"Exit: {worker} thread.")
@@ -88,11 +88,11 @@ def on_new_client(conn):
         print(f"[!] Error: {e}")
     
     # Lazy approach to sync threads
-    while not checkMapTaskComplete() :
+    while not checkTaskComplete (map_task_dict) :
         time.sleep(1)
 
     # Reduce task loop
-    while not checkReduceTaskComplete() :
+    while not checkTaskComplete (reduce_task_dict) :
         task, index = findFreeReduceTask(worker)
         if not task :
             print(f"Exit: {worker} thread.")
