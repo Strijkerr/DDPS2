@@ -40,7 +40,7 @@ def reduce () :
         if file.endswith(".pickle"):
             #print(os.path.exists(folderName + file))
             with open(folderName + file, "rb") as input_file:
-                count = pickle.load(folderName + file)
+                count = pickle.load(input_file)
                 print(count)
             #TODO: whatever comes after is not working
             #sequence = pickle.load(folderName + file)
