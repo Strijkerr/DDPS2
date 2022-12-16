@@ -24,8 +24,8 @@ def shuffle (host, file) :
     ssh.connect(hostname=host, port=22)
     sftp = ssh.open_sftp()
 
-    # Upload file.
-    sftp.put(file,file)
+    # # Upload file.
+    # sftp.put(file,file)
 
     # Close connections
     sftp.close()
@@ -79,8 +79,7 @@ def client_program(master, worker):
                     locations = json.loads(str(msg))
                     for loc in locations.keys() :
                         if (locations[loc] != worker) :
-                            pass
-                            #shuffle(locations[loc],loc)
+                            shuffle(locations[loc],loc)
                     break # Remove later
                     # TODO:Shuffle
                     # TODO:Reduce
