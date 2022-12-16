@@ -37,10 +37,11 @@ def reduce () :
     folderName = '/local/ddps2202/'
     for file in os.listdir(folderName) :
         if file.endswith(".pickle"):
-            sequence = pickle.load(folderName + file)
+            print(file)
+            #sequence = pickle.load(folderName + file)
             #count = collections.Counter(sequence)
             # total_dict+=count
-    return 'test'
+    # return 'test'
     #print(total_dict)
     # return total_dict
     # with open(f'/local/ddps2202/{filename}.pickle', 'wb') as outputfile:
@@ -87,8 +88,9 @@ def client_program(master, worker):
                     for loc in locations.keys() :
                         if (locations[loc] != worker) :
                             shuffle(locations[loc],loc)
-                    reply = reduce()
-                    print(reply)
+                    reduce()
+                    # reply = reduce()
+                    # print(reply)
                     #client_socket.send(reply.encode())
                     break # Remove later
             
