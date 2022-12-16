@@ -143,7 +143,7 @@ if (args.copies > len(workers)) :
 tempDir = createDir('temp')
 
 # Create output directory locally on frontend.
-tempDir = createDir('output')
+createDir('output')
 
 # Split input data and store locally on frontend.
 file_splits = splitInput (args.input, args.splits)
