@@ -72,8 +72,8 @@ def client_program(master, worker):
                 else:
                     if (msg == 'done') :
                         break
-                    locations = json.load(msg)
-                    print(locations)
+                    # locations = json.load(msg)
+                    # print(locations)
                     break
                     # Shuffle
                     # Reduce
