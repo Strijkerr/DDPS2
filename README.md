@@ -44,4 +44,5 @@ Number of input split copies. Specifies how many duplicate shards shall be made.
 --copies 1
 ```
 4. This project makes use of the following ports: 22, 56609. These ports were chosen somewhat trivially and be changed accordingly. The final result will be outputted to stdout. The (partial) results will be stored in the 'output' folder in the working directory as well.
-5. Tip!: If you activate the script too frequently, you can get a: "[Errno 98] Address already in use" error. In that case, just wait a little bit (~10s) before running the script again.
+
+Tip!: If you activate the script too frequently, you can get a: "[Errno 98] Address already in use" error. In that case, just wait a little bit (~10s) before running the script again.
