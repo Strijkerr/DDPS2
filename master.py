@@ -12,15 +12,11 @@ def checkTaskComplete (dictionary) :
             return False
     return True
 
-# def checkReduceTaskComplete () :
-#     for task in reduce_task_dict.keys() :
-#         if not (reduce_task_dict[task]['status'] == 'done') :
-#             return False
-#     return True
-
 def findFreeMapTask (worker) :
     for task in map_task_dict.keys() :
         if (map_task_dict[task]['status'] == None) :
+
+            # Find task which has the input stored locally on the worker.
             for copy in shard_dict[task].keys() :
                 if (shard_dict[task][copy]['host'] == worker) :
                     map_task_dict[task]['status'] = 'in-progress'
