@@ -160,6 +160,9 @@ def on_new_client(conn):
 # Server program which creates a server socket, then it creates a thread for each connected client (worker).
 def server_program(client_count):
 
+    print('#############################################################')
+    print('Server output log:\n')
+
     # Create server socket
     host = socket.gethostname()
     port = 56609
@@ -183,6 +186,8 @@ def server_program(client_count):
     # Exit server program.
     server_socket.close()
     print("Server exits.")
+    print('#############################################################')
+
 
 # Get dictionaries with information about shard locations, mapping tasks, reduce tasks and workers.
 shard_dict = returnDict(sys.argv[1])

@@ -9,7 +9,6 @@ import json
 import paramiko
 import os
 import os.path
-import warnings
 
 # Mapping stage: load file, count digits, then save intermediate results locally.
 def mapper (location) :
@@ -127,9 +126,6 @@ def client_program(master, worker):
             continue     
     
     print(f"{worker} exits.") 
-
-# Filter warning this warning: "CryptographyDeprecationWarning: Python 3.6 is no longer supported by the Python core team."
-warnings.filterwarnings(action='ignore',message='Python 3.6 is no longer supported')
 
 # Start client.
 client_program(sys.argv[1], sys.argv[2])
