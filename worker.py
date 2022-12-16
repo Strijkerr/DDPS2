@@ -38,7 +38,8 @@ def reduce () :
     for file in os.listdir(folderName) :
         if file.endswith(".pickle"):
             print(file)
-            #print(folderName)
+            #TODO somehow foldername cant be printed? Look at this tomorrow
+            print("testt")
             # sequence = pickle.load(folderName + file)
             # print(len(sequence))
             # total_dict+=sequence
