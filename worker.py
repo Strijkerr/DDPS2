@@ -24,9 +24,8 @@ def shuffle (host, file) :
     ssh.connect(hostname=host, port=22)
     sftp = ssh.open_sftp()
 
-    print(file)
-    # # Upload file.
-    # sftp.put(file,file)
+    # Upload file.
+    sftp.get(file,file)
 
     # Close connections
     sftp.close()
