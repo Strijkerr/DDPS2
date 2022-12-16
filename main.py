@@ -67,7 +67,7 @@ def deleteTempDir (dirName) :
     return True
 
 # Copy shards from front-end to local storage of each node.
-def copyFiles (host, file, return_local = True, folder_remote = '/local/ddps2202/', folder_local = '/home/ddps2202/DDPS2/temp/') : # Delete `delete' after we are done debugging.
+def copyFiles (host, file, return_local = True) : # Delete `delete' after we are done debugging.
 
     # Create client and connect.
     ssh = paramiko.SSHClient()
@@ -75,7 +75,9 @@ def copyFiles (host, file, return_local = True, folder_remote = '/local/ddps2202
                 paramiko.AutoAddPolicy())
     ssh.connect(hostname=host, port=22)
     sftp = ssh.open_sftp()
-    
+ 
+    folder_remote = '/local/ddps2202/'
+    folder_local = '/home/ddps2202/DDPS2/temp/'
     # Test if remote_path exists.
     try:
         sftp.chdir(folder_remote) 
