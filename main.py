@@ -213,7 +213,7 @@ if pid > 0 :
     process = subprocess.Popen(f"ssh {master} python3 ~/DDPS2/master.py {location1} {location2} {location3} {location4}", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, bufsize=1)
     stdout, stder = process.communicate() # Blocking
     print("Stdout:",stdout.decode('ASCII'))
-    # print("Stderr:",stder.decode('ASCII')) Debugging
+    print("Stderr:",stder.decode('ASCII'))
 
     # (Sync) Wait for child processes to finish.
     os.wait()
@@ -231,7 +231,7 @@ else :
     for worker in workers:
         pid = os.fork()
         if pid:
-            #process = subprocess.Popen(f"ssh {worker} python3 ~/DDPS2/worker.py {master} {worker}", shell=True, stdout=sys.stdout, stderr=sys.stderr) # debugging
+            #process = subprocess.Popen(f"ssh {worker} python3 ~/DDPS2/worker.py {master} {worker}", shell=True, stdout=sys.stdout, stderr=sys.stderr) # debugging client side
             process = subprocess.Popen(f"ssh {worker} python3 ~/DDPS2/worker.py {master} {worker}", shell=True)
         else:
             os._exit(0)
