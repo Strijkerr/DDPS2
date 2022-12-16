@@ -38,7 +38,7 @@ def findFreeMapTask (worker) :
 
     # False if all map tasks have a status of not None (in-progress or done)
     # Also false if worker does not have any available map task data locally.
-    return False, False
+    return False, False, False
 
 # Find a free reduce task, based on `first come first serve` principle, update statuses in dictionaries after.
 def findFreeReduceTask (worker) :
