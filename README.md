@@ -1,6 +1,6 @@
 # DDPS2
 
-This repository was made for assignment 2 of the course: Distributed Data Processing Systems at Leiden University, LIACS.
+This repository was made for Assignment 2 of the course: Distributed Data Processing Systems at Leiden University, LIACS.
 The project involves a toy distributed system that simulates MapReduce for a simple task: given a sequence of digits, count the occurence per digit in the sequence. It is made to work with the DAS-V cluster (https://www.cs.vu.nl/das5/).
 
 1. Before you can run the script. You must generate a sequence of digits by running create_data.py first. Arguments below are default values.
