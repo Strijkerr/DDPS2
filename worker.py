@@ -38,7 +38,7 @@ def reduce () :
     for file in os.listdir(folderName) :
         if file.endswith(".pickle"):
             sequence = pickle.load(folderName + file)
-            count = collections.Counter(sequence)
+            #count = collections.Counter(sequence)
             # total_dict+=count
     return 'test'
     #print(total_dict)
