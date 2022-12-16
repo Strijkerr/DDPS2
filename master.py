@@ -160,7 +160,7 @@ def on_new_client(conn):
 # Server program which creates a server socket, then it creates a thread for each connected client (worker).
 def server_program(client_count):
 
-    print('#############################################################')
+    print('\n#############################################################')
     print('Server output log:\n')
 
     # Create server socket
@@ -185,7 +185,7 @@ def server_program(client_count):
 
     # Exit server program.
     server_socket.close()
-    print("Server exits.")
+    print("\nServer exits.")
     print('#############################################################')
 
 
