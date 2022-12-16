@@ -36,9 +36,8 @@ def reduce () :
     total_dict = collections.Counter()
     folderName = '/local/ddps2202/'
     for file in os.listdir(folderName) :
-        print(file)
-    #     if file.endswith(".pickle"):
-    #         print(file)
+        if file.endswith(".pickle"):
+            print(file)
             # sequence = pickle.load(folderName + file)
             # total_dict+=sequence
     # return total_dict
