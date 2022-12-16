@@ -11,13 +11,13 @@ import os
 import os.path
 
 # Mapping stage: load file, count digits, then save intermediate results locally.
-def mapper (location) :
+def mapper (location,index) :
     file =  np.load(location)
     count = collections.Counter(file)
     filename = location.split('/')[-1].split('.')[0]
-    with open(f'/local/ddps2202/{filename}.pickle', 'wb') as outputfile:
+    with open(f'/local/ddps2202/{filename}_{index}.pickle', 'wb') as outputfile:
         pickle.dump(count, outputfile)
-    return f'/local/ddps2202/{filename}.pickle'
+    return f'/local/ddps2202/{filename}_{index}.pickle'
 
 # Shuffle stage: connect to storages with intermediate results, then move results to local storage.
 def shuffle (host, file) :
@@ -41,7 +41,8 @@ def reduce (index) :
     total_dict = collections.Counter()
     folderName = '/local/ddps2202/'
     for file in os.listdir(folderName) :
-        if file.endswith(".pickle"):
+        if file.endswith("{index}.pickle"):
+            print(index,file)
             with open(folderName + file, "rb") as input_file:
                 count = pickle.load(input_file)
                 total_dict+=count
@@ -84,9 +85,11 @@ def client_program(master, worker):
                     # Exit mapping stage if master node sends 'done' signal.
                     if (msg == 'done') :
                         break
-                    
+                    locations = json.loads(str(msg))
+                    print(locations)
+                    index = locations['partition']
                     # Get result of mapping operation and send result location to master node.
-                    reply = mapper(msg)
+                    reply = mapper(locations['locations'],index)
                     client_socket.send(reply.encode())
             
             # Shuffle and reduce stage loop.
