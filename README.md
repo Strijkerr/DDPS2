@@ -5,7 +5,7 @@ The project involves a toy distributed system that simulates MapReduce for a sim
 
 1. Before you can run the script. You must generate a sequence of digits by running create_data.py first.
 
-Example (arguments are default values):
+E.g.: (arguments are default values):
 
 ```console
 python3 create_data.py --seed 0 --filename sequence --sequence_length 1000000
@@ -13,7 +13,9 @@ python3 create_data.py --seed 0 --filename sequence --sequence_length 1000000
 
 The sequence is stored as 'sequence.npy'
 
-2. You can then run the main script from the command line by e.g.,: 
+2. You can then run main.py script from the command line.
+
+E.g.,: 
 
 ```console
 python3 main.py --nodes node115,node116,node117 -- input sequence.npy --partitions 2 --splits 5 --copies 3
@@ -29,16 +31,27 @@ Input file name. Must exist in the working directory. Default is: 'sequence.npy'
 ```console
 --input sequence.npy
 ```
-Number of partitions. Specifies the number of reduce tasks, and reduce task results. Does not effect final output, as it will aggregate over all reduce task results in case of multiple, e.g.: 
+Number of partitions. Specifies the number of reduce tasks, and reduce task results. Does not effect final output, as the script will aggregate over all reduce task results in case of multiple. Default is: 1.
+
+E.g.:
 
 ```console
 --partitions 1
 ```
-Input file splits, e.g.: --splits 5
+Input file splits. Specifies into how many shards the input ('sequence.npy') shall be split. Splits = number of map tasks.  Default is: 5.
 
-Copies, e.g.: --copies 1
+E.g.: 
+```console
+--splits 5
+```
 
-4. This project makes use of the following ports: 22, 56609. These were chosen somewhat trivially.
+Number of input split copies. Specifies how many duplicate shards shall be made. This is implemented for fault-tolerance, you want multiple copies per input shard. A value of 1 means, no copies will be made. Default is: 2. 
+
+E.g.: 
+```console
+--copies 1
+```
+4. This project makes use of the following ports: 22, 56609. These ports were chosen somewhat trivially and be changed accordingly.
 
 Tip!:
 If you activate the script too frequently, you can get a: "[Errno 98] Address already in use" error.
