@@ -41,11 +41,8 @@ def reduce () :
             #print(os.path.exists(folderName + file))
             with open(folderName + file, "rb") as input_file:
                 count = pickle.load(input_file)
-                print(count)
-            #TODO: whatever comes after is not working
-            #sequence = pickle.load(folderName + file)
-            #count = collections.Counter(sequence)
-            # total_dict+=count
+                total_dict+=count
+    print(total_dict)
     # return 'test'
     #print(total_dict)
     # return total_dict
