@@ -1,6 +1,5 @@
 # DDPS2
-In case you get a port already in use error. E.g., port 56609.
-1) "Find daemons that use ports:" lsof -i:56609
-2) "E.g., pid = 1110"
-3) Kill 1110
-4) "Port is free again."
+If you activate the script too frequently, you can get a: "[Errno 98] Address already in use" error.
+In that case, just wait a little bit (~10s) before running the script again.
+
+You can run the script from the command line by: python3 main.py --nodes node115,node116,node117 --partitions 2 --copies 3

@@ -14,8 +14,8 @@ import time
 # Parsing command line arguments.
 def command_line_arguments () :
     argparser = argparse.ArgumentParser()
-    argparser.add_argument("--nodes", default= 'node102,node103,node104', type=str, help="E.g., node102,node103,node104") # Remove default afterwards
-    argparser.add_argument("--input", default= 'sequence.npy', type=str, help="E.g., sequence.npy") # Remove default afterwards
+    argparser.add_argument("--nodes", type=str, help="E.g., node102,node103,node104")
+    argparser.add_argument("--input", default= 'sequence.npy', type=str, help="E.g., sequence.npy")
     argparser.add_argument("--partitions", default= '1', type=int, help="E.g., 2")
     argparser.add_argument("--splits", default= '5', type=int, help="E.g., 5")
     argparser.add_argument("--copies", default= '2', type=int, help="E.g., 2")
