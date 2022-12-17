@@ -6,10 +6,10 @@ import collections
 import sys
 import pickle
 import json
+import os
 sys.stderr = open(os.devnull, "w")
 import paramiko
 sys.stderr = sys.__stderr__
-import os
 import os.path
 
 # Mapping stage: load file, count digits, then save intermediate results locally.
