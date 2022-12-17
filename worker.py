@@ -30,7 +30,7 @@ def shuffle (host, file) :
                 paramiko.AutoAddPolicy())
     ssh.connect(hostname=host, port=22)
     sftp = ssh.open_sftp()
-    print(file)
+
     # Upload file.
     sftp.get(file,file)
 
