@@ -7,5 +7,4 @@ for s in sequences :
     for x in f:
         total+=float(x)
         count+=1
-        print(x)
-    print("Final average:",total/count)
+    print(f"Final average {s}:",total/count)
