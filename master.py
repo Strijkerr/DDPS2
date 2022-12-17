@@ -103,7 +103,6 @@ def on_new_client(conn):
         else :
             print(f"Mapping task completed by {worker}")
             taskComplete (task, worker, msg, map_task_dict)
-        break
     # Send 'done' signal, this indicates that all map tasks are completed.
     try:
         conn.send('done'.encode())
