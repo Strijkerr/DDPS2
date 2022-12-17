@@ -72,6 +72,7 @@ def client_program(master, worker):
                 client_socket.send(worker.encode())
             except Exception as e:
                     print(f"[!] Error: {e}")
+            print(f'Connected: {worker}')
 
             # Mapping stage loop.
             while True:
