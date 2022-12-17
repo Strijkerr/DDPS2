@@ -6,7 +6,7 @@ The project involves a toy distributed system that simulates MapReduce for a sim
 1. Before you can run the script. You must generate a sequence of digits by running create_data.py first. Arguments below are default values.
 
 ```console
-python3 create_data.py --seed 0 --filename sequence --sequence_length 1000000
+python3 create_data.py --seed 0 --filename sequence --sequence_length 1000000 --measure_performance True
 ```
 
 The sequence is stored as 'sequence.npy'
