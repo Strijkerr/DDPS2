@@ -8,4 +8,4 @@ for s in sequences :
         total+=float(x)
         count+=1
         print(x)
-    print("Final average:",total/len(count))
+    print("Final average:",total/count)
