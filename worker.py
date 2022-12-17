@@ -7,7 +7,7 @@ import sys
 import pickle
 import json
 import os
-sys.stderr = open(os.devnull, "w")
+sys.stderr = open(os.devnull, "w") # To remove paramiko warning
 import paramiko
 sys.stderr = sys.__stderr__
 import os.path
@@ -129,6 +129,5 @@ def client_program(master, worker):
             continue     
 
 # Start client.
-time.sleep(5)
 print(sys.argv[2])
 client_program(sys.argv[1], sys.argv[2])
