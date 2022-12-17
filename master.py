@@ -103,6 +103,7 @@ def on_new_client(conn):
         else :
             print(f"Mapping task completed by {worker}")
             taskComplete (task, worker, msg, map_task_dict)
+
     # Send 'done' signal, this indicates that all map tasks are completed.
     try:
         conn.send('done'.encode())
@@ -172,7 +173,7 @@ def server_program(client_count):
     threads = []
 
     # Create connections until all workers have connected. Create thread for each client.
-    while True and len(threads)-1 != client_count:
+    while True and len(threads) != client_count:
         conn, address = server_socket.accept()
         t = threading.Thread(target=on_new_client, args=(conn,))
         #t.daemon = True # If thread is daemon is can still run if main thread has ended. A non-daemon task blocks the main thread from ending.
