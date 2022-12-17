@@ -1,17 +1,11 @@
 #!/bin/sh
 nodes=${1}
 read -ra node_list <<< "$nodes"; unset IFS
-echo $node_list
-# master=${node_list[0]}
-# worker=${node_list[@]:1}
-# echo "master is "$master
-# echo "worker is "$worker
 
-# counter=0
-# > Times/ddps_100000000.txt
-# while [ $counter -le 9 ]
-# do
-# python3 create_data.py --seed $counter --sequence_length 100000000
-# python3 main.py --nodes node115,node116,node117 -- input sequence.npy --partitions 1 --splits 5 --copies 1
-# ((counter++))
-# done
+counter=0
+while [ $counter -le 9 ]
+do
+python3 create_data.py --seed $counter --sequence_length 100000000 --measure_performance False > /dev/null
+python3 main.py --nodes $node_list -- input sequence.npy --partitions 1 --splits 5 --copies 1 | grep "time" | cut -d ":" -f 2 | cut -d " " -f 2
+((counter++))
+done
