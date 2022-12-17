@@ -8,7 +8,6 @@ import json
 
 # Load dictionary from file into variable, and return.
 def returnDict (filename) :
-    print(filename)
     infile = open(filename,'rb')
     dictionary = pickle.load(infile)
     infile.close()
@@ -124,7 +123,7 @@ def on_new_client(conn):
             except Exception as e:
                 print(f"[!] Error: {e}")
             break
-        print(worker, 3)
+
         # Get mapping task result locations based on the partition index.
         locations = getMapResultLocations(index)
         locations = json.dumps(locations)

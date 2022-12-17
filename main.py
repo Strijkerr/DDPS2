@@ -188,7 +188,6 @@ print("(Complete) Split data has been distributed over cluster.")
 with open(tempDir + '/shard_dict.pickle', 'wb') as handle:
     pickle.dump(json.loads(json.dumps(dictionary)), handle, protocol=pickle.HIGHEST_PROTOCOL)
 location1, host = copyFiles (master, 'shard_dict.pickle')
-print(location1)
 
 # Create dictionary with map tasks to send to master later.
 map_task_dict = dict.fromkeys(dictionary.keys(),None)
@@ -220,11 +219,11 @@ pid = os.fork()
 # Start master node.
 if pid > 0 :
     process = subprocess.Popen(f"ssh {master} python3 ~/DDPS2/master.py {location1} {location2} {location3} {location4}", shell=True, stdout=sys.stdout, stderr=sys.stderr, bufsize=1)
-    #stdout, stder = process.communicate() # Blocking
+    stdout, stder = process.communicate() # Blocking
     print('\n#############################################################')
-    #print("Stdout:",stdout.decode('ASCII'))
+    print("Stdout:",stdout.decode('ASCII'))
     print('#############################################################')
-    #print("Stderr:",stder.decode('ASCII'))
+    print("Stderr:",stder.decode('ASCII'))
 
     # (Sync) Wait for child processes to finish.
     os.wait()
