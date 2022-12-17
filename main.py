@@ -4,6 +4,8 @@ import argparse
 import socket
 import subprocess
 import shutil
+import warnings
+warnings.filterwarnings("ignore", category=DeprecationWarning)
 import paramiko
 import collections
 import json

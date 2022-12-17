@@ -6,6 +6,8 @@ import collections
 import sys
 import pickle
 import json
+import warnings
+warnings.filterwarnings("ignore", category=DeprecationWarning)
 import paramiko
 import os
 import os.path
