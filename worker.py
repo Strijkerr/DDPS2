@@ -87,9 +87,9 @@ def client_program(master, worker):
                     # Exit mapping stage if master node sends 'done' signal.
                     if (msg == 'done') :
                         break
-                    
                     # Get result of mapping operation and send result location to master node.
                     shard_location = json.loads(str(msg))
+                    print(shard_location)
                     index = shard_location['partition']
                     reply = mapper(shard_location['location'],index)
                     client_socket.send(reply.encode())
