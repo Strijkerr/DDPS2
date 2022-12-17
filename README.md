@@ -38,7 +38,7 @@ Input file splits. Specifies into how many shards the input ('sequence.npy') sha
 --splits 5
 ```
 
-Number of input split copies. Specifies how many duplicate shards shall be made. This was implemented to support fault-tolerance, however fault-tolerance ended up not being implemented. A value of 1 means, no copies will be made. Default is: 2. E.g.:
+Number of input split copies. Specifies how many duplicate shards shall be made. This was implemented to support fault-tolerance, however fault-tolerance ended up not being implemented. A value of 1 means, no copies will be made. Default is: 1. E.g.:
 
 ```console
 --copies 1
