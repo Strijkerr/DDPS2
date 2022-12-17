@@ -109,7 +109,7 @@ def client_program(master, worker):
 
                     # Get dictionary with intermediate result locations.
                     locations = json.loads(str(msg))
-                    print(f"Reduce task: {worker}",shard_location)
+                    print(f"Reduce task: {worker}",locations)
                     index = locations['partition']
                     for loc in locations['locations'].keys() :
 
