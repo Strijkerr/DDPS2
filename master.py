@@ -188,7 +188,6 @@ def server_program(client_count):
     print("\nServer exits.")
 
 # Get dictionaries with information about shard locations, mapping tasks, reduce tasks and workers.
-print(sys.argv[1])
 shard_dict = returnDict(sys.argv[1])
 map_task_dict = returnDict(sys.argv[2])
 reduce_task_dict = returnDict(sys.argv[3])

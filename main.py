@@ -215,24 +215,26 @@ with open(tempDir + '/worker_dict.pickle', 'wb') as handle:
 location4, host = copyFiles (master, 'worker_dict.pickle')
 
 print("(Complete) Dictionaries copied to master node.")
-print(master)
+
 # Fork process.
 pid = os.fork()
 
 # Start master node.
 if pid > 0 :
     process = subprocess.Popen(f"ssh {master} python3 ~/DDPS2/master.py {location1} {location2} {location3} {location4}", shell=True, stdout=sys.stdout, stderr=sys.stderr, bufsize=1)
-    #stdout, stder = process.communicate() # Blocking
-    print('\n#############################################################')
-    #print("Stdout:",stdout.decode('ASCII'))
-    print('#############################################################')
-    #print("Stderr:",stder.decode('ASCII'))
+    process.wait()
+    # process = subprocess.Popen(f"ssh {master} python3 ~/DDPS2/master.py {location1} {location2} {location3} {location4}", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, bufsize=1)
+    # stdout, stder = process.communicate() # Blocking
+    # print('\n#############################################################')
+    # print("Stdout:",stdout.decode('ASCII'))
+    # print('#############################################################')
+    # print("Stderr:",stder.decode('ASCII'))
 
     # (Sync) Wait for child processes to finish.
     os.wait()
 
     # Clean up all temporary files (locally and remote) after we are done.
-    #deleteTempDir (tempDir)
+    deleteTempDir (tempDir)
     removeTempRemote (workers)
     removeTempRemote ([master])
 
