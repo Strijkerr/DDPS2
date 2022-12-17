@@ -1,6 +1,6 @@
 #!/bin/sh
-nodes=${1}
-print(nodes)
+#nodes=${1}
+print(${1})
 
 # counter=0
 # > Times/ddps_100000000.txt
