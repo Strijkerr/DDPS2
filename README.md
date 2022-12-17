@@ -14,7 +14,7 @@ The sequence is stored as 'sequence.npy'
 2. You can then run main.py script from the command line. E.g.:
 
 ```console
-python3 main.py --nodes node115,node116,node117 -- input sequence.npy --partitions 1 --splits 5 --copies 2
+python3 main.py --nodes node115,node116,node117 --input sequence.npy --partitions 1 --splits 5 --copies 2
 ```
 
 3. The following arguments can be modified:
