@@ -89,7 +89,7 @@ def client_program(master, worker):
                         break
                     # Get result of mapping operation and send result location to master node.
                     shard_location = json.loads(str(msg))
-                    print(shard_location)
+                    print({worker},shard_location)
                     index = shard_location['partition']
                     reply = mapper(shard_location['location'],index)
                     client_socket.send(reply.encode())
@@ -110,6 +110,7 @@ def client_program(master, worker):
 
                     # Get dictionary with intermediate result locations.
                     locations = json.loads(str(msg))
+                    print({worker},locations)
                     index = locations['partition']
                     for loc in locations['locations'].keys() :
 
@@ -131,4 +132,5 @@ def client_program(master, worker):
             continue     
 
 # Start client.
+print(sys.argv[2])
 client_program(sys.argv[1], sys.argv[2])
