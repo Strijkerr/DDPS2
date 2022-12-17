@@ -19,7 +19,7 @@ python3 main.py --nodes node115,node116,node117 --input sequence.npy --partition
 
 3. The following arguments can be modified:
 
-List of nodes. The first node in the sequence will become the master node, the rest will become workers. E.g.:
+List of nodes. The first node in the sequence will become the master node, the rest will become workers. Minimum is two nodes, maximum is 6/7 because of a bug. E.g.:
 ```console
 --nodes node102,node103,node104
 ```
@@ -38,7 +38,7 @@ Input file splits. Specifies into how many shards the input ('sequence.npy') sha
 --splits 5
 ```
 
-Number of input split copies. Specifies how many duplicate shards shall be made. This is implemented for fault-tolerance, you want multiple copies per input shard. A value of 1 means, no copies will be made. Default is: 2. E.g.:
+Number of input split copies. Specifies how many duplicate shards shall be made. This was implemented to support fault-tolerance, however fault-tolerance ended up not being implemented. A value of 1 means, no copies will be made. Default is: 2. E.g.:
 
 ```console
 --copies 1
