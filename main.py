@@ -5,9 +5,9 @@ import socket
 import subprocess
 import shutil
 import sys
-#sys.stderr = open(os.devnull, "w") # To remove paramiko warning
+sys.stderr = open(os.devnull, "w") # To remove paramiko warning
 import paramiko
-#sys.stderr = sys.__stderr__
+sys.stderr = sys.__stderr__
 import collections
 import json
 import pickle
@@ -247,8 +247,8 @@ else :
     for worker in workers:
         pid = os.fork()
         if pid:
-            print(f"Starting subprocess for: {worker}")
-            process = subprocess.Popen(f"ssh {worker} python3 ~/DDPS2/worker.py {master} {worker}", shell=True, stdout=sys.stdout, stderr=sys.stderr) # debugging client side
-            #process = subprocess.Popen(f"ssh {worker} python3 ~/DDPS2/worker.py {master} {worker}", shell=True)
+            #print(f"Starting subprocess for: {worker}")
+            #process = subprocess.Popen(f"ssh {worker} python3 ~/DDPS2/worker.py {master} {worker}", shell=True, stdout=sys.stdout, stderr=sys.stderr) # debugging client side
+            process = subprocess.Popen(f"ssh {worker} python3 ~/DDPS2/worker.py {master} {worker}", shell=True)
         else:
             os._exit(0)
