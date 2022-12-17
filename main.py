@@ -249,7 +249,7 @@ else :
     for worker in workers:
         pid = os.fork()
         if pid:
-            #process = subprocess.Popen(f"ssh {worker} python3 ~/DDPS2/worker.py {master} {worker}", shell=True, stdout=sys.stdout, stderr=sys.stderr) # debugging client side
-            process = subprocess.Popen(f"ssh {worker} python3 ~/DDPS2/worker.py {master} {worker}", shell=True)
+            process = subprocess.Popen(f"ssh {worker} python3 ~/DDPS2/worker.py {master} {worker}", shell=True, stdout=sys.stdout, stderr=sys.stderr) # debugging client side
+            #process = subprocess.Popen(f"ssh {worker} python3 ~/DDPS2/worker.py {master} {worker}", shell=True)
         else:
             os._exit(0)
