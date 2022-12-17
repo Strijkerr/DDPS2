@@ -4,13 +4,13 @@ import argparse
 import socket
 import subprocess
 import shutil
-import warnings
-warnings.filterwarnings("ignore", category=DeprecationWarning)
+import sys
+sys.stderr = open(os.devnull, "w")
 import paramiko
+sys.stderr = sys.__stderr__
 import collections
 import json
 import pickle
-import sys
 import time
 
 # Parsing command line arguments.

@@ -6,9 +6,9 @@ import collections
 import sys
 import pickle
 import json
-import warnings
-warnings.filterwarnings("ignore", category=DeprecationWarning)
+sys.stderr = open(os.devnull, "w")
 import paramiko
+sys.stderr = sys.__stderr__
 import os
 import os.path
 
