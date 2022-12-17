@@ -1,10 +1,6 @@
 #!/bin/sh
 nodes=${1}
-IFS=',' read -ra node_list <<< "$nodes"; unset IFS
-master=${node_list[0]}
-worker=${node_list[@]:1}
-echo "master is "$master
-echo "worker is "$worker
+print(nodes)
 
 # counter=0
 # > Times/ddps_100000000.txt
