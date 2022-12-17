@@ -94,6 +94,7 @@ def on_new_client(conn):
             print(f"[!] Error: {e}")
         else:
             print(f"Mapping task sent to {worker}")
+            start = time.time()
 
         # Get mapping task result location from worker. Update statuses in dictionaries after.
         try : 
@@ -101,7 +102,8 @@ def on_new_client(conn):
         except Exception as e:
             print(f"[!] Error: {e}")
         else :
-            print(f"Mapping task completed by {worker}")
+            end = time.time()
+            print(f"Mapping task completed by {worker} ({end-start}s)")
             taskComplete (task, worker, msg, map_task_dict)
 
     # Send 'done' signal, this indicates that all map tasks are completed.
@@ -135,6 +137,7 @@ def on_new_client(conn):
             print(f"[!] Error: {e}")
         else:
             print(f"Reduce task sent to {worker}")
+            start = time.time()
         
         # Get task response
         try : 
@@ -142,7 +145,8 @@ def on_new_client(conn):
         except Exception as e:
             print(f"[!] Error: {e}")
         else :
-            print(f"Reduce completed by {worker}")
+            end = time.time()
+            print(f"Reduce completed by {worker} ({end-start}s)")
             taskComplete (task, worker, msg, reduce_task_dict)
         
     # Send 'done' signal, this indicates that all reduce tasks are completed.
