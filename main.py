@@ -224,7 +224,6 @@ pid = os.fork()
 # Start master node.
 if pid > 0 :
     process = subprocess.Popen(f"ssh {master} python3 ~/DDPS2/master.py {location1} {location2} {location3} {location4}", shell=True, stdout=sys.stdout, stderr=sys.stderr, bufsize=1)
-    time.sleep(5)
     process.wait()
     # process = subprocess.Popen(f"ssh {master} python3 ~/DDPS2/master.py {location1} {location2} {location3} {location4}", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, bufsize=1)
     # stdout, stder = process.communicate() # Blocking
