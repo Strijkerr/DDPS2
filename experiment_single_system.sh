@@ -1,6 +1,5 @@
 #!/bin/sh
 counter=0
-length = 1000000
 > Times/single_system_1000000.txt
 > Times/single_system_10000000.txt
 > Times/single_system_100000000.txt
