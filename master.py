@@ -81,6 +81,7 @@ def on_new_client(conn):
 
     # Mapping stage loop.
     while not checkTaskComplete (map_task_dict) :
+        print(worker)
         task, tasklocation = findFreeMapTask(worker)
         if not task :
             break
