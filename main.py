@@ -125,7 +125,8 @@ def removeTempRemote (hosts) :
                 sftp.remove(folder_remote+file)
             sftp.rmdir(folder_remote)
         except:
-            print(f"Folder: {folder_remote} doesn't exist on host: {host}.")
+            pass # Happens when there are more workers than splits. A map shard is never sent to a the worker, thus the directory did not exists.
+            #print(f"Folder: {folder_remote} doesn't exist on host: {host}.")
         
         # Close connections
         sftp.close()
