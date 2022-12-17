@@ -247,7 +247,7 @@ else :
     for worker in workers:
         pid = os.fork()
         if pid:
-            print(worker)
+            print(f"Starting subprocess for: {worker}")
             try :
                 process = subprocess.Popen(f"ssh {worker} python3 ~/DDPS2/worker.py {master} {worker}", shell=True, stdout=sys.stdout, stderr=sys.stderr) # debugging client side
             except Exception as e:
