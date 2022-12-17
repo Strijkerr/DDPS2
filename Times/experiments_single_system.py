@@ -1,7 +1,7 @@
 sequences = [100000, 1000000, 10000000, 100000000]
 
 for s in sequences :
-    f = open(f"single_system_{s}.txt", "r")
+    f = open(f"Times/single_system_{s}.txt", "r")
     total = 0
     count = 0
     for x in f:
