@@ -81,11 +81,11 @@ def on_new_client(conn):
 
     # Mapping stage loop.
     while not checkTaskComplete (map_task_dict) :
-        print(worker)
+        print(worker, 1)
         task, tasklocation = findFreeMapTask(worker)
         if not task :
             break
-        
+        print(worker, 2)
         # Turn to json
         tasklocation = json.dumps(tasklocation)
 
@@ -96,7 +96,7 @@ def on_new_client(conn):
             print(f"[!] Error: {e}")
         else:
             print(f"Mapping task sent to {worker}")
-        
+        print(worker, 3)
         # Get mapping task result location from worker. Update statuses in dictionaries after.
         try : 
             msg = conn.recv(1024).decode()
