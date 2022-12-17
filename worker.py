@@ -129,5 +129,5 @@ def client_program(master, worker):
             continue     
 
 # Start client.
-#print(f"Starting client for: {sys.argv[2]}")
+print(f"Starting client for: {sys.argv[2]}")
 client_program(sys.argv[1], sys.argv[2])
