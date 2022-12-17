@@ -59,7 +59,7 @@ def client_program(master, worker):
     host = master
     port = 56609
     client_socket = socket.socket()
-    client_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+
     # Main client loop.
     while True :
 
