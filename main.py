@@ -201,6 +201,7 @@ location2, host = copyFiles (master, 'map_task_dict.pickle')
 # Create dictionary with reduce tasks to send to master later.
 reduce_task_dict = {}
 for p in range(args.partitions) :
+    print(p)
     reduce_task_dict[f"Reduce{p}"] = {'status': None, 'worker': None, 'result_location': None, 'index' : p}
 with open(tempDir + '/reduce_task_dict.pickle', 'wb') as handle:
     pickle.dump(json.loads(json.dumps(reduce_task_dict)), handle, protocol=pickle.HIGHEST_PROTOCOL)
