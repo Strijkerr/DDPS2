@@ -72,7 +72,6 @@ def client_program(master, worker):
                 client_socket.send(worker.encode())
             except Exception as e:
                     print(f"[!] Error: {e}")
-            print(f'Connected: {worker}')
 
             # Mapping stage loop.
             while True:
@@ -89,7 +88,7 @@ def client_program(master, worker):
                         break
                     # Get result of mapping operation and send result location to master node.
                     shard_location = json.loads(str(msg))
-                    print({worker},shard_location)
+                    print(f"Map task: {worker}",shard_location)
                     index = shard_location['partition']
                     reply = mapper(shard_location['location'],index)
                     client_socket.send(reply.encode())
@@ -110,7 +109,7 @@ def client_program(master, worker):
 
                     # Get dictionary with intermediate result locations.
                     locations = json.loads(str(msg))
-                    print({worker},locations)
+                    print(f"Reduce task: {worker}",shard_location)
                     index = locations['partition']
                     for loc in locations['locations'].keys() :
 
