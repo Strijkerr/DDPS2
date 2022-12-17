@@ -81,11 +81,9 @@ def on_new_client(conn):
 
     # Mapping stage loop.
     while not checkTaskComplete (map_task_dict) :
-        print(worker, 1)
         task, tasklocation = findFreeMapTask(worker)
         if not task :
             break
-        print(worker, 2)
         # Turn to json
         tasklocation = json.dumps(tasklocation)
 
@@ -111,7 +109,6 @@ def on_new_client(conn):
         conn.send('done'.encode())
     except Exception as e:
         print(f"[!] Error: {e}")
-    print(worker, 3)
     # Lazy approach to sync threads.
     while not checkTaskComplete (map_task_dict) :
         time.sleep(1)
@@ -119,7 +116,6 @@ def on_new_client(conn):
     # Reduce task loop.
     while not checkTaskComplete (reduce_task_dict) :
         task, index = findFreeReduceTask(worker)
-        print(worker, 4)
         # Exit if no free reduce tasks.
         if not task :
             try : 
@@ -127,7 +123,7 @@ def on_new_client(conn):
             except Exception as e:
                 print(f"[!] Error: {e}")
             break
-
+        print(worker, 3)
         # Get mapping task result locations based on the partition index.
         locations = getMapResultLocations(index)
         locations = json.dumps(locations)
