@@ -194,7 +194,6 @@ location1, host = copyFiles (master, 'shard_dict.pickle')
 map_task_dict = dict.fromkeys(dictionary.keys(),None)
 for index, task in enumerate(map_task_dict.keys()) :
     map_task_dict[task] = {'status': None, 'worker': None, 'result_location': None, 'partition' : (index % args.partitions)}
-print(json.loads(json.dumps(map_task_dict)))
 with open(tempDir + '/map_task_dict.pickle', 'wb') as handle:
     pickle.dump(json.loads(json.dumps(map_task_dict)), handle, protocol=pickle.HIGHEST_PROTOCOL)
 location2, host = copyFiles (master, 'map_task_dict.pickle')
@@ -203,7 +202,6 @@ location2, host = copyFiles (master, 'map_task_dict.pickle')
 reduce_task_dict = {}
 for p in range(args.partitions) :
     reduce_task_dict[f"Reduce{p}"] = {'status': None, 'worker': None, 'result_location': None, 'index' : p}
-print(json.loads(json.dumps(reduce_task_dict)))
 with open(tempDir + '/reduce_task_dict.pickle', 'wb') as handle:
     pickle.dump(json.loads(json.dumps(reduce_task_dict)), handle, protocol=pickle.HIGHEST_PROTOCOL)
 location3, host = copyFiles (master, 'reduce_task_dict.pickle')
