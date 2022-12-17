@@ -214,6 +214,8 @@ with open(tempDir + '/worker_dict.pickle', 'wb') as handle:
     pickle.dump(json.loads(json.dumps(worker_dict)), handle, protocol=pickle.HIGHEST_PROTOCOL)
 location4, host = copyFiles (master, 'worker_dict.pickle')
 
+print("(Complete) Dictionaries copied to master node.")
+
 # Fork process.
 pid = os.fork()
 
