@@ -6,7 +6,7 @@ counter=0
 while [ $counter -le 9 ]
 do
 python3 create_data.py --seed $counter --sequence_length 10000000 --measure_performance False > /dev/null
-python3 main.py --nodes $node_list --input sequence.npy --partitions 1 --splits 5 --copies 1 #| grep -s "time" | cut -d ":" -f 2 | cut -d " " -f 2 &>> Times/ddps_partitions_1_splits_5_copies_1.txt
+python3 main.py --nodes $node_list --input sequence.npy --partitions 1 --splits 5 --copies 1 | grep -s "time" | cut -d ":" -f 2 | cut -d " " -f 2 &>> Times/ddps_partitions_1_splits_5_copies_1.txt
 ((counter++))
 done
 

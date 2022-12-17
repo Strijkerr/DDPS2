@@ -170,7 +170,7 @@ def server_program(client_count):
     host = socket.gethostname()
     port = 56609
     server_socket = socket.socket()
-    server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1) # The SO_REUSEADDR flag tells the kernel to reuse a local socket in TIME_WAIT state, without waiting for its natural timeout to expire.
     server_socket.bind((host, port)) 
     server_socket.listen(client_count)
     threads = []
