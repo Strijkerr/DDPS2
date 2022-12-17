@@ -1,4 +1,4 @@
-sequences = [1000000, 10000000, 100000000]
+sequences = [100000, 1000000, 10000000, 100000000]
 
 for s in sequences :
     f = open(f"single_system_{s}.txt", "r")
