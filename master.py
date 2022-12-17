@@ -96,7 +96,7 @@ def on_new_client(conn):
             print(f"[!] Error: {e}")
         else:
             print(f"Mapping task sent to {worker}")
-        print(worker, 3)
+
         # Get mapping task result location from worker. Update statuses in dictionaries after.
         try : 
             msg = conn.recv(1024).decode()
@@ -111,7 +111,7 @@ def on_new_client(conn):
         conn.send('done'.encode())
     except Exception as e:
         print(f"[!] Error: {e}")
-    
+    print(worker, 3)
     # Lazy approach to sync threads.
     while not checkTaskComplete (map_task_dict) :
         time.sleep(1)
@@ -119,7 +119,7 @@ def on_new_client(conn):
     # Reduce task loop.
     while not checkTaskComplete (reduce_task_dict) :
         task, index = findFreeReduceTask(worker)
-
+        print(worker, 4)
         # Exit if no free reduce tasks.
         if not task :
             try : 
