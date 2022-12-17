@@ -188,6 +188,7 @@ print("(Complete) Split data has been distributed over cluster.")
 with open(tempDir + '/shard_dict.pickle', 'wb') as handle:
     pickle.dump(json.loads(json.dumps(dictionary)), handle, protocol=pickle.HIGHEST_PROTOCOL)
 location1, host = copyFiles (master, 'shard_dict.pickle')
+print(location1)
 
 # Create dictionary with map tasks to send to master later.
 map_task_dict = dict.fromkeys(dictionary.keys(),None)

@@ -8,6 +8,7 @@ import json
 
 # Load dictionary from file into variable, and return.
 def returnDict (filename) :
+    print(filename)
     infile = open(filename,'rb')
     dictionary = pickle.load(infile)
     infile.close()
